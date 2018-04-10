@@ -1,5 +1,6 @@
 var utils = require('./utils')
 var webpack = require('webpack')
+var path = require("path")
 var config = require('../config')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
@@ -30,6 +31,18 @@ module.exports = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true
     }),
-    new FriendlyErrorsPlugin()
-  ]
+    new FriendlyErrorsPlugin(),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Popper: ['popper.js', 'default']
+    })
+  ],
+  resolve: {
+    modules: [
+      path.join(__dirname, "js/helpers"),
+      "node_modules"
+    ]
+  }
 })

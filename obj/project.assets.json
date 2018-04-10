@@ -12540,11 +12540,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/chandlerwatson/Projects/Vue/Vue.csproj",
+      "projectUniqueName": "/Users/chandlerwatson/Projects/CardGame/Vue.csproj",
       "projectName": "Vue",
-      "projectPath": "/Users/chandlerwatson/Projects/Vue/Vue.csproj",
+      "projectPath": "/Users/chandlerwatson/Projects/CardGame/Vue.csproj",
       "packagesPath": "/Users/chandlerwatson/.nuget/packages/",
-      "outputPath": "/Users/chandlerwatson/Projects/Vue/obj/",
+      "outputPath": "/Users/chandlerwatson/Projects/CardGame/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -12572,18 +12572,18 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Microsoft.NETCore.App": {
-            "target": "Package",
-            "version": "2.0.0",
-            "autoReferenced": true
-          },
           "Microsoft.AspNetCore.All": {
             "target": "Package",
-            "version": "2.0.0"
+            "version": "[2.0.0, )"
           },
           "Microsoft.AspNetCore.SpaServices": {
             "target": "Package",
-            "version": "2.0.0"
+            "version": "[2.0.0, )"
+          },
+          "Microsoft.NETCore.App": {
+            "target": "Package",
+            "version": "[2.0.0, )",
+            "autoReferenced": true
           }
         },
         "imports": [

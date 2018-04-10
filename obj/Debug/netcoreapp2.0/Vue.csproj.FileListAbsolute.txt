@@ -8,3 +8,13 @@
 /Users/chandlerwatson/Projects/Vue/obj/Debug/netcoreapp2.0/Vue.AssemblyInfo.cs
 /Users/chandlerwatson/Projects/Vue/obj/Debug/netcoreapp2.0/Vue.dll
 /Users/chandlerwatson/Projects/Vue/obj/Debug/netcoreapp2.0/Vue.pdb
+/Users/chandlerwatson/Projects/CardGame/bin/Debug/netcoreapp2.0/Vue.deps.json
+/Users/chandlerwatson/Projects/CardGame/bin/Debug/netcoreapp2.0/Vue.runtimeconfig.json
+/Users/chandlerwatson/Projects/CardGame/bin/Debug/netcoreapp2.0/Vue.runtimeconfig.dev.json
+/Users/chandlerwatson/Projects/CardGame/bin/Debug/netcoreapp2.0/Vue.dll
+/Users/chandlerwatson/Projects/CardGame/bin/Debug/netcoreapp2.0/Vue.pdb
+/Users/chandlerwatson/Projects/CardGame/obj/Debug/netcoreapp2.0/Vue.csproj.CoreCompileInputs.cache
+/Users/chandlerwatson/Projects/CardGame/obj/Debug/netcoreapp2.0/Vue.AssemblyInfoInputs.cache
+/Users/chandlerwatson/Projects/CardGame/obj/Debug/netcoreapp2.0/Vue.AssemblyInfo.cs
+/Users/chandlerwatson/Projects/CardGame/obj/Debug/netcoreapp2.0/Vue.dll
+/Users/chandlerwatson/Projects/CardGame/obj/Debug/netcoreapp2.0/Vue.pdb
