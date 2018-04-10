@@ -14,13 +14,13 @@ namespace Vue.Domain
             var actions = new List<CardAction>();
             foreach (var card in allCards)
             {
-                if (card.RoundsSincePlayed > 0)
+                if (card.RoundsPlayed > 0)
                 {
                     var friendlyCards = allCards.Where(x => x.User == card.User).ToList();
                     var enemyCards = allCards.Except(friendlyCards).ToList();
                     card.ApplyMove(enemyCards, friendlyCards, actions);
                 }
-                card.RoundsSincePlayed++;
+                card.RoundsPlayed++;
             }
             RemoveDeadCards(user);
             RemoveDeadCards(enemy);

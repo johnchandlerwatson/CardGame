@@ -19,5 +19,6 @@
 <style>
     html, body {
         height: 100vh;
+        overflow-y:hidden;
     }
 </style>

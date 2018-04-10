@@ -12,7 +12,8 @@ namespace Vue.Domain
             new AssassinCard(),
             new ArcherCard(),
             new KnightCard(),
-            new HealerCard()
+            new HealerCard(),
+            new TrollCard()
         };
 
         public static Card GetRandomCard()

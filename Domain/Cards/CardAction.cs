@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Vue.Domain;
 using Vue.Domain.Cards;
 using System.Linq;
+using System;
 
 namespace Vue.Domain
 {
@@ -43,7 +44,7 @@ namespace Vue.Domain
             var hasHealing = !string.IsNullOrEmpty(healing);
             if (hasDamage || hasHealing)
             {
-                return $"{actor} {(hasDamage ? damage : string.Empty)} {(hasDamage && hasHealing ? "and" : string.Empty)} {(hasHealing ? healing : string.Empty)}"; 
+                return $"{actor} {(hasDamage ? damage : string.Empty)} {(hasDamage && hasHealing ? "and" : string.Empty)} {(hasHealing ? healing : string.Empty)} {Environment.NewLine}"; 
             }
             return string.Empty;
         }

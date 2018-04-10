@@ -184,6 +184,7 @@
     {
         font-size: .8em;
         padding: 12px;
+        white-space: pre-line;
     }
 
     .scrollable {

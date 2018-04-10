@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Vue.Domain.Cards
 {
@@ -17,13 +18,14 @@ namespace Vue.Domain.Cards
         public abstract string Name { get; }
         public abstract Row Row { get; }
         public abstract Row Targets { get; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public abstract Rarity Rarity { get; }
         public abstract int Speed { get; }
         public abstract int Damage { get; }
         public abstract int Healing { get; }
         public abstract int MaxHealth { get; }
         public int Health { get; set; }
-        public int RoundsSincePlayed { get; set; } = 0;
+        public int RoundsPlayed { get; set; } = 0;
         public bool IsDead => Health <= 0;
 
         public abstract void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<CardAction> actions);
