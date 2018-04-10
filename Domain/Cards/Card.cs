@@ -23,7 +23,8 @@ namespace Vue.Domain.Cards
         public abstract int Healing { get; }
         public abstract int MaxHealth { get; }
         public int Health { get; set; }
-        public bool IsDead => Health < 0;
+        public int RoundsSincePlayed { get; set; } = 0;
+        public bool IsDead => Health <= 0;
 
         public abstract void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<CardAction> actions);
 

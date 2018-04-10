@@ -79,8 +79,6 @@
       this.$http
           .get('/api/Game/' + username)
           .then((res) => {
-            debugger
-            console.log(res.body)
             this.model = res.body
           })
           .catch((ex) => console.log(ex))
@@ -91,8 +89,6 @@
         var enemyCards = this.$data.model.EndOfTurnModel.EnemyPlayedCards
         var allyCards = this.$data.model.EndOfTurnModel.UserPlayedCards
         var payload = { Selection: selection, EnemyPlayedCards: enemyCards, UserPlayedCards: allyCards }
-        console.log(JSON.stringify(payload))
-        debugger
         this.$http.post('/api/Game/', JSON.stringify(payload)).then((response) => {
           this.$data.model = response.body
         }, (response) => {
@@ -193,5 +189,7 @@
     .scrollable {
         height: 100%;
         overflow-y: auto;
+        top: 50px;
+        position: absolute;
     }
 </style>

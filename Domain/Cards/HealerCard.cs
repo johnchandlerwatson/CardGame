@@ -9,7 +9,7 @@ namespace Vue.Domain.Cards
         public override Row Row => Row.Back;
         public override Row Targets => Row.Front;
         public override Rarity Rarity => Rarity.Rare;
-        public override int MaxHealth => 3;
+        public override int MaxHealth => 6;
         public override int Damage => 1;
         public override int Healing => 3;
         public override int Speed => 3;

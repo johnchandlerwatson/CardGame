@@ -12,7 +12,7 @@ namespace Vue.Domain.Cards
         public override int Damage => 4;
         public override int Healing => 0;
         public override int Speed => 2;
-        public override int MaxHealth => 10;
+        public override int MaxHealth => 15;
 
         public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<CardAction> actions)
         {
@@ -20,11 +20,9 @@ namespace Vue.Domain.Cards
 
             if (targetedCards.Any())
             {
-                foreach (var enemy in targetedCards)
-                {
-                    enemy.Health = enemy.Health - Damage;
-                }
-                actions.Add(new CardAction(this, targetedCards, null));
+                var highestHealth = targetedCards.OrderByDescending(x => x.Health).First();
+                highestHealth.Health = highestHealth.Health - Damage;
+                actions.Add(new CardAction(this, new List<Card> { highestHealth }, null));
             }
         }
     }
