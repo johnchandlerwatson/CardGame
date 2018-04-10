@@ -13,6 +13,7 @@ namespace Vue.Domain.Cards
         public override int Damage => 1;
         public override int Healing => 3;
         public override int Speed => 3;
+        public override string Description => "Heals front row allies and attacks all front row enemies";
 
         public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<CardAction> actions)
         {

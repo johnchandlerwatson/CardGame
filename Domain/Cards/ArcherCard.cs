@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,10 +10,11 @@ namespace Vue.Domain.Cards
         public override Row Row => Row.Back;
         public override Row Targets => Row.Back;
         public override Rarity Rarity => Rarity.Uncommon;
-        public override int Damage => 2;
+        public override int Damage => 3;
         public override int Healing => 0;
         public override int Speed => 4;
         public override int MaxHealth => 6;
+        public override string Description => "Attacks random card in back row";
 
         public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<CardAction> actions)
         {
@@ -20,7 +22,9 @@ namespace Vue.Domain.Cards
 
             if (cardsToAttack.Any())
             {
-                var first = cardsToAttack.First();
+                var rand = new Random();
+                var index = rand.Next(cardsToAttack.Count);                
+                var first = cardsToAttack[index];
                 first.Health = first.Health - Damage;            
                 actions.Add(new CardAction(this, new List<Card> { first }, null));
             }

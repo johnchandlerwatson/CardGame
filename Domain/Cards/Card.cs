@@ -23,6 +23,7 @@ namespace Vue.Domain.Cards
         public abstract int Speed { get; }
         public abstract int Damage { get; }
         public abstract int Healing { get; }
+        public abstract string Description { get; }
         public abstract int MaxHealth { get; }
         public int Health { get; set; }
         public int RoundsPlayed { get; set; } = 0;
