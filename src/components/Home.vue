@@ -6,7 +6,6 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <p>testing bootstrap</p>
             <button v-on:click="showModal" class="btn btn-lg btn-success">Play!</button>
           </div>
         </div>

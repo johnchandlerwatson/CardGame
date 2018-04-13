@@ -77,7 +77,7 @@
     created () {
       var username = $('#username').val()
       this.$http
-          .get('/api/Game/' + username)
+          .get('/api/Game/' + username + '/' + 'Human') // todo fix this
           .then((res) => {
             this.model = res.body
           })
