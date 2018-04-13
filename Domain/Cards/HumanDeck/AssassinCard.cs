@@ -10,7 +10,7 @@ namespace Vue.Domain.Cards
         public override Row Targets => Row.Front;
         public override Rarity Rarity => Rarity.Uncommon;
         public override int Speed => 5;
-        public override int Damage => 5;
+        public override int Damage { get; set; } = 5;
         public override int Healing => 0;
         public override int MaxHealth => 10;
         public override string Description => "Attacks lowest health card in front row";

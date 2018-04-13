@@ -12,13 +12,25 @@ namespace Vue.Domain
             var allCards = user.Played.Union(enemy.Played);
             var sortedCards = allCards.OrderByDescending(x => x.Speed).ToList();
             var actions = new List<CardAction>();
-            foreach (var card in allCards)
+
+            var userCardList = user.Played.ToList();
+            var enemyCardList = enemy.Played.ToList();
+
+            foreach (var card in sortedCards)
             {
                 if (card.RoundsPlayed > 0)
                 {
-                    var friendlyCards = allCards.Where(x => x.User == card.User).ToList();
-                    var enemyCards = allCards.Except(friendlyCards).ToList();
-                    card.ApplyMove(enemyCards, friendlyCards, actions);
+                    if (card.User == user)
+                    {
+                        card.ApplyMove(enemyCardList, userCardList, actions);
+                    }
+                    else
+                    {
+                        card.ApplyMove(userCardList, enemyCardList, actions);
+                    }
+                    
+                    user.Played = userCardList;
+                    enemy.Played = enemyCardList;
                 }
                 card.RoundsPlayed++;
             }

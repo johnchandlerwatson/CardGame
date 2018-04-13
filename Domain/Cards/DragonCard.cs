@@ -10,7 +10,7 @@ namespace Vue.Domain.Cards
         public override Row Targets => Row.Both;
         public override Rarity Rarity => Rarity.Epic;
         public override int Speed => 1;
-        public override int Damage => 4;
+        public override int Damage { get; set; } = 4;
         public override int Healing => 0;
         public override int MaxHealth => 25;
         public override string Description => "Attacks all cards every 3 turns";

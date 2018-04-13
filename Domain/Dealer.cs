@@ -13,33 +13,84 @@ namespace Vue.Domain
             new ArcherCard(),
             new KnightCard(),
             new HealerCard(),
+            new CannonCard(),
+            new EmperorCard(),
             new TrollCard(),
             new DragonCard()
         };
 
-        public static Card GetRandomCard()
+        private static Card GetRandomCard()
         {
             var rand = new Random();
             var index = rand.Next(AllCards.Count);
             return AllCards[index];
         }
 
-        public static List<Card> GetRandomHand()
+        public static Card GetRandomCard(List<Card> cardsPlayed)
         {
-            var cards = new List<Card>();
+            var randomCard = GetRandomCard();
+            Card cardToAdd = null;
+            
+            while (cardToAdd == null)
+            {
+                cardToAdd = AddCardIfAllowed(cardsPlayed, randomCard);
+            }
+            return cardToAdd;
+        }
+
+        public static List<Card> GetRandomHand(List<Card> cardsPlayed = null)
+        {
+            var hand = new List<Card>();
             for (var i = 0; i < 3; i++)
             {
+                Card cardToAdd = null;
                 var randomCard = GetRandomCard();
-                if (!cards.Any(x => x.Name == randomCard.Name))
+                if (!hand.Any(x => x.Name == randomCard.Name))
                 {
-                    cards.Add(randomCard);
+                    cardToAdd = AddCardIfAllowed(hand, randomCard, cardsPlayed);
+                }
+
+                if (cardToAdd == null)
+                {
+                    i = i - 1; //try again
                 }
                 else 
                 {
-                    i = i-1;
+                    hand.Add(cardToAdd);
                 }
             }
-            return cards;
+            return hand;
+        }
+
+        private static Card AddCardIfAllowed(List<Card> hand, Card randomCard, List<Card> cardsPlayed = null)
+        {
+            if (cardsPlayed != null && cardsPlayed.Any())
+            {
+                return AddCardIfDuplicatesAllowed(cardsPlayed, hand, randomCard);
+            }
+            else 
+            {
+                return randomCard;
+            }
+        }
+
+        private static Card AddCardIfDuplicatesAllowed(List<Card> cardsPlayed, List<Card> hand, Card randomCard)
+        {
+            if (cardsPlayed.Any(x => x.Name == randomCard.Name))
+            {
+                if (randomCard.CanHaveDuplicates)
+                {
+                    return randomCard;
+                }
+                else 
+                {
+                    return null;
+                }
+            }
+            else 
+            {
+                return randomCard;
+            }
         }
     }
 }

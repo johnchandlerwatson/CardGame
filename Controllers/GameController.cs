@@ -18,10 +18,10 @@ namespace Vue.Controllers
         public ContentResult Index(string username)
         {
             var user = new User(username);
-            user.AddHandCards(Dealer.GetRandomHand());
+            user.AddHandCards();
 
             var bot = new User("bot");
-            bot.AddHandCards(Dealer.GetRandomHand());
+            bot.AddHandCards();
 
             var model = new MoveModel
             {
@@ -40,12 +40,12 @@ namespace Vue.Controllers
             var user = new User("username");
             user.AddPlayedCards(model.UserPlayedCards);
             user.AddPlayedCard(Dealer.AllCards.First(x => x.Name == model.Selection));
-            user.AddHandCards(Dealer.GetRandomHand());
+            user.AddHandCards();
 
             var bot = new User("bot");
             bot.AddPlayedCards(model.EnemyPlayedCards);
-            bot.AddPlayedCard(Dealer.GetRandomCard());
-            bot.AddHandCards(Dealer.GetRandomHand());
+            bot.AddPlayedCard(Dealer.GetRandomCard(model.EnemyPlayedCards));
+            bot.AddHandCards();
 
             var gameEngine = new GameEngine();
             var results = gameEngine.ExecuteMove(user, bot);

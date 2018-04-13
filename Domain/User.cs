@@ -42,9 +42,9 @@ namespace Vue.Domain
             Played.AddRange(cards);
         }
 
-        public void AddHandCards(List<Card> cards)
+        public void AddHandCards()
         {
-            if (cards == null) return;
+            var cards = Dealer.GetRandomHand(Played);
             foreach (var card in cards)
             {
                 card.User = this;

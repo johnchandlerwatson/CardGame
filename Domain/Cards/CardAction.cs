@@ -18,6 +18,12 @@ namespace Vue.Domain
             Damage = actorCard.Damage;
             Healing = actorCard.Healing;
         }
+
+        public CardAction(string actionOverride)
+        {
+            ActionOverride = actionOverride;
+        }
+        
         public User Target { get; }
         public User Actor { get; }
         public List<Card> DamagedCards { get; }
@@ -25,9 +31,15 @@ namespace Vue.Domain
         public Card ActorCard { get; }
         public int Damage { get; }
         public int Healing { get; }
+        public string ActionOverride { get; }
 
         public string ActionDescription()
         {
+            if (!string.IsNullOrEmpty(ActionOverride))
+            {
+                return ActionOverride;
+            }
+            
             var actor = $"{Actor.Username}'s {ActorCard.Name} card";
             var damage = string.Empty;
             if (DamagedCards != null && DamagedCards.Any())
