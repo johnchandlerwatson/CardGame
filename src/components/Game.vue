@@ -128,6 +128,8 @@
     .flex-row {
         display: flex; 
         flex-direction: row;
+        justify-content: center;
+        overflow: hidden; 
     }
 
     .centered {
