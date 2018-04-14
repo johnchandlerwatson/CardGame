@@ -14,18 +14,10 @@ namespace Vue.Domain
         }
         public string Username { get; }
         public string CurrentDeck { get; set; }
-        public List<Card> AvailableCards { get; } = new List<Card>();
         public List<Card> Played { get; set; } = new List<Card>();
         public List<Card> PlayedFront => Played.Where(x => x.Row == Row.Front).ToList();
         public List<Card> PlayedBack => Played.Where(x => x.Row == Row.Back).ToList();
         public List<Card> Hand { get; set; } = new List<Card>();
-
-        public void AddAvailableCard(Card card)
-        {
-            if (card == null) return;
-            card.User = this.BasicUser();
-            AvailableCards.Add(card);
-        }
 
         public void AddPlayedCard(Card card)
         {

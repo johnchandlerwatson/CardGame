@@ -106,6 +106,7 @@
         display: grid;
         grid-template-columns: 85% 15%;
         height: 100%;
+        overflow-x: hidden;
     }
 
     .even-rows-container {
@@ -176,7 +177,7 @@
         display: grid;
         grid-template-rows: 5% 85% 10%;
         height: 100%;
-        background-color: white;
+        background-color: white;  
     }
 
     .actions-summary
@@ -184,6 +185,9 @@
         font-size: .8em;
         padding: 12px;
         white-space: pre-line;
+        width: 15%;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
     }
 
     .scrollable {

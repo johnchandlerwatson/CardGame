@@ -31,11 +31,12 @@ namespace Vue.Domain
                     
                     user.Played = userCardList;
                     enemy.Played = enemyCardList;
+
+                    RemoveDeadCards(user);
+                    RemoveDeadCards(enemy);
                 }
                 card.RoundsPlayed++;
             }
-            RemoveDeadCards(user);
-            RemoveDeadCards(enemy);
             
             return new MoveModel
             {
