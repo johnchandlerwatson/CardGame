@@ -13,3 +13,6 @@ obj/
 *.ntvs*
 *.njsproj
 *.sln
+
+package-lock.json
+app.js
