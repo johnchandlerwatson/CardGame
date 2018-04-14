@@ -12,3 +12,7 @@
 ```
     npm install vue-cli --global
 ```
+* aspnet-webpack (local to project)
+```
+    npm i aspnet-webpack
+```
