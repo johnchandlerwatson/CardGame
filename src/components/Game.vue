@@ -9,7 +9,7 @@
             <div id="enemy-champ-section" class="centered champ-section">
                 Enemy Champ Section
             </div>
-            <div id="battlefield" style="height: 50%" class="even-rows-container">
+            <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
                 <div id="enemy-side" class="even-rows-container" style="background-color: rgb(236, 204, 204);">
                     <div id="enemy-side-back" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Enemy.PlayedBack" v-bind:key="enemy.Id">
@@ -38,17 +38,17 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </drop>
             <div id="ally-champ-section" class="centered champ-section">
                 Ally Champ Section
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section">
-                <div class="card ally-card" v-for="ally in model.User.Hand" @click="selectCard(ally.Name)" v-bind:key="ally.Id">
+                <drag class="drag card ally-card" v-for="ally in model.User.Hand" :transfer-data="{ CardName: ally.Name }" v-bind:key="ally.Id">
                     <span>{{ally.Name}}</span><br>
                     <span>Health: {{ally.Health}}</span><br>
                     <span>Damage: {{ally.Damage}}</span><br>
                     <span>Rarity: {{ally.Rarity}}</span><br>
-                </div>               
+                </drag>               
                 <input type="text" id="card-selected" hidden>
             </div>
         </div>
@@ -61,10 +61,12 @@
 
 <script>
   import $ from 'jquery'
+  import { Drag, Drop } from 'vue-drag-drop'
 
   export default {
     name: 'game',
     props: ['helloModel'],
+    components: { Drag, Drop },
     data () {
       return {
         model: null
@@ -91,6 +93,9 @@
         }, (response) => {
           console.log('there was an error getting the move response')
         })
+      },
+      handleDrop: function (data) {
+        this.selectCard(data.CardName)
       }
     }
   }
