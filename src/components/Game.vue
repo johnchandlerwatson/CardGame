@@ -64,11 +64,6 @@
 
   export default {
     name: 'game',
-    props: {
-      'username': {
-        type: String
-      }
-    },
     data () {
       return {
         model: null

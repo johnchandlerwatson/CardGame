@@ -16,6 +16,7 @@ namespace Vue.Domain.Cards
         public User User { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         public abstract string Name { get; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public abstract Row Row { get; }
         public abstract Row Targets { get; }
         [JsonConverter(typeof(StringEnumConverter))]
