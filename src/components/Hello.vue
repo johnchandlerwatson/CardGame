@@ -1,18 +1,19 @@
 <template>
-    <component v-bind:deckName="helloModel.deckName" v-model="helloModel" :is="helloModel.componentName" transition="fade" transition-mode="out-in"></component>
+    <component v-bind:helloModel="helloModel" v-model="helloModel" :is="helloModel.componentName" transition="fade" transition-mode="out-in"></component>
 </template>
 
 <script>
     import game from './Game.vue'
     import home from './Home.vue'
     import decks from './DeckSelection.vue'
+    import champs from './ChampSelection.vue'
 
     export default {
       name: 'hello',
-      components: { game, home, decks },
+      components: { game, home, decks, champs },
       data () {
         return {
-          helloModel: { componentName: 'home' }
+          helloModel: { componentName: 'home', deckName: '', champName: '' }
         }
       }
     }

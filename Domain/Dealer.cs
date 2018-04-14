@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Vue.Domain.Cards;
+using Vue.Domain.Champions;
 
 namespace Vue.Domain
 {
@@ -12,6 +13,11 @@ namespace Vue.Domain
             new HumanDeck(),
             new DaveDeck(),
             new JoshDeck()
+        };
+
+        public static List<Champion> AllChamps => new List<Champion>
+        {
+            new DaveTheUnmerciful()
         };
 
         public static IDeck RandomDeck()

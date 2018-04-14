@@ -14,8 +14,8 @@ namespace Vue.Controllers
     [Route("api/[controller]")]
     public class GameController : Controller
     {
-        [HttpGet("{username}/{deck}")]
-        public ContentResult Index(string username, string deck)
+        [HttpGet("{username}/{deck}/{champ}")]
+        public ContentResult Index(string username, string deck, string champ)
         {
             var user = new User(username, deck);
             user.ResetHandCards();

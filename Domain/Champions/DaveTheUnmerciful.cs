@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Vue.Domain.Champions
 {
-    public class DaveThePowerful : Champion
+    public class DaveTheUnmerciful : Champion
     {
         public override string Name => "Dave the Unmerciful";
         public override int MaxHealth => 50;

@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="button-section">
-                <button class="btn btn-success" v-on:click="goToArena(deckModel.selectedDeck.name)">Heck Yeah!</button>
+                <button class="btn btn-success" v-on:click="goToChamp(deckModel.selectedDeck.name)">Heck Yeah!</button>
                 <button class="btn btn-secondary" v-on:click="closeModal()">Nah</button>
             </div>
         </div>
@@ -43,9 +43,9 @@
           this.deckModel.isModalVisible = false
         }
       },
-      goToArena: function (deckName) {
+      goToChamp: function (deckName) {
         this.$emit('input', deckName)
-        this.$emit('goToArena')
+        this.$emit('goToChamp')
       }
     }
   }

@@ -64,7 +64,7 @@
 
   export default {
     name: 'game',
-    props: ['deckName'],
+    props: ['helloModel'],
     data () {
       return {
         model: null
@@ -74,7 +74,7 @@
       var username = $('#username').val()
       debugger
       this.$http
-          .get('/api/Game/' + username + '/' + this.deckName) // todo fix this
+          .get('/api/Game/' + username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName)
           .then((res) => {
             this.model = res.body
           })

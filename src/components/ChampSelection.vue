@@ -1,34 +1,27 @@
-<template id="decks">
+<template id="champs">
   <div class="container">
-      <h1>Select your deck!</h1>
-      <div v-if="model != null" class="decks-container">
-          <div class="deck" v-on:click="openDeck(deck)" v-for="deck in model.decks" v-bind:key="deck.id">
-            <p>{{deck.name}}</p>
+      <h1>Select your champion!</h1>
+      <div v-if="model != null" class="champs-container">
+          <div class="champion" v-on:click="goToArena(champ.name)" v-for="champ in model.champs" v-bind:key="champ.id">
+            <img class="champ-img" src="./../assets/dave.png">
+            <p>{{champ.name}}</p>
           </div>
       </div>
-    <deck v-bind:deckModel="deckModel" v-on:goToChamp="goToChamp()" v-model="deckName"></deck>
   </div>
 </template>
 
 <script>
-  import deck from './Deck.vue'
-
   export default {
-    name: 'decks',
-    components: { deck },
+    name: 'champs',
+    props: ['helloModel'],
     data () {
       return {
-        model: null,
-        deckModel: {
-          selectedDeck: null,
-          isModalVisible: false
-        },
-        deckName: ''
+        model: null
       }
     },
     created () {
       this.$http
-          .get('/api/Selection/Decks')
+          .get('/api/Selection/Champs')
           .then((res) => {
             console.log(res)
             this.model = res.body
@@ -36,14 +29,8 @@
           .catch((ex) => console.log(ex))
     },
     methods: {
-      openDeck: function (deck) {
-        this.deckModel = {
-          selectedDeck: deck,
-          isModalVisible: true
-        }
-      },
-      goToChamp: function () {
-        this.$emit('input', { componentName: 'champs', deckName: this.deckName })
+      goToArena: function (champName) {
+        this.$emit('input', { componentName: 'game', deckName: this.helloModel.deckName, champName: champName })
       }
     }
   }
@@ -51,13 +38,18 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .decks-container {
+    .champs-container {
         display: flex;
         flex-direction: row;
         margin-top: 50px;
     }
 
-    .deck {
+    .champ-img {
+        margin-left: 20px;
+        width: 80px;
+    }
+
+    .champion {
         padding: 10px;
         background-color: rgb(105, 100, 100);
         border-radius: 5px;
