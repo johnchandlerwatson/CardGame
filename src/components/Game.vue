@@ -13,28 +13,24 @@
                 <div id="enemy-side" class="even-rows-container">
                     <div id="enemy-side-back" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Enemy.PlayedBack" v-bind:key="enemy.Id">
-                            <span>{{enemy.Name}}</span><br>
-                            <span>Health: {{enemy.Health}}</span><br>
+                            <playedCard v-bind:card="enemy"></playedCard>
                         </div>                       
                     </div>
                     <div id="enemy-side-front" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Enemy.PlayedFront" v-bind:key="enemy.Id">
-                            <span>{{enemy.Name}}</span><br>
-                            <span>Health: {{enemy.Health}}</span><br>
+                            <playedCard v-bind:card="enemy"></playedCard>
                         </div>
                     </div>
                 </div>
                 <div id="ally-side" class="even-rows-container" style="border-top: #655539 dashed;">
                     <div id="ally-side-front" class="flex-row">
                         <div class="played-card" v-for="ally in model.User.PlayedFront" v-bind:key="ally.Id">
-                            <span>{{ally.Name}}</span><br>
-                            <span>Health: {{ally.Health}}</span><br>
+                            <playedCard v-bind:card="ally"></playedCard>
                         </div>
                     </div>
                     <div id="ally-side-back" class="flex-row">
                         <div class="played-card" v-for="ally in model.User.PlayedBack" v-bind:key="ally.Id">
-                            <span>{{ally.Name}}</span><br>
-                            <span>Health: {{ally.Health}}</span><br>
+                            <playedCard v-bind:card="ally"></playedCard>
                         </div>
                     </div>
                 </div>
@@ -62,11 +58,12 @@
 <script>
   import $ from 'jquery'
   import { Drag, Drop } from 'vue-drag-drop'
+  import playedCard from './PlayedCard.vue'
 
   export default {
     name: 'game',
     props: ['helloModel'],
-    components: { Drag, Drop },
+    components: { Drag, Drop, playedCard },
     data () {
       return {
         model: null
@@ -74,7 +71,6 @@
     },
     created () {
       var username = $('#username').val()
-      debugger
       this.$http
           .get('/api/Game/' + username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName)
           .then((res) => {
@@ -132,13 +128,6 @@
         overflow: hidden; 
     }
 
-    .centered {
-        display: grid;
-        align-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
     .champ-section {
         height: 10%; 
         background-color: #948da0;
@@ -156,16 +145,6 @@
         font-size: .6em;
         width: 50px;
         height: 50px;
-    }
-
-    .played-card {
-        background: linear-gradient(to right, #6b5d5d , #504d4d);
-        color: #f3eeee;
-        margin: 10px;
-        border-radius: 4px;
-        padding: 10px;
-        width: 125px;
-        font-size: .8em;
     }
 
     .card {
