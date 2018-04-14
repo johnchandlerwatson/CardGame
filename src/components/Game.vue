@@ -10,7 +10,7 @@
                 Enemy Champ Section
             </div>
             <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
-                <div id="enemy-side" class="even-rows-container" style="background-color: rgb(236, 204, 204);">
+                <div id="enemy-side" class="even-rows-container">
                     <div id="enemy-side-back" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Enemy.PlayedBack" v-bind:key="enemy.Id">
                             <span>{{enemy.Name}}</span><br>
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="ally-side" class="even-rows-container" style="background-color: rgb(203, 233, 203);">
+                <div id="ally-side" class="even-rows-container" style="border-top: #655539 dashed;">
                     <div id="ally-side-front" class="flex-row">
                         <div class="played-card" v-for="ally in model.User.PlayedFront" v-bind:key="ally.Id">
                             <span>{{ally.Name}}</span><br>
@@ -122,7 +122,7 @@
     .hand-section {
         display: flex; 
         flex-direction: row;
-        background-color: rgb(204, 204, 228)
+        background-color: rgb(156, 156, 162);
     }
 
     .flex-row {
@@ -139,7 +139,8 @@
 
     .champ-section {
         height: 10%; 
-        background-color: rgb(255, 245, 190)
+        background-color: #948da0;
+        border: #514863 solid;
     }
 
     .ally-card {
@@ -156,7 +157,8 @@
     }
 
     .played-card {
-        background: #b9a5a5;
+        background: linear-gradient(to right, #6b5d5d , #504d4d);
+        color: #f3eeee;
         margin: 10px;
         border-radius: 4px;
         padding: 10px;
@@ -166,7 +168,8 @@
 
     .card {
         padding: 10px;
-        background-color: #af9e9e;
+        background: linear-gradient(to right, #6b5d5d , #504d4d);
+        color: #f3eeee;
         margin: 10px;
         border-radius: 10px;
     }
@@ -200,5 +203,9 @@
         overflow-y: auto;
         top: 50px;
         position: absolute;
+    }
+
+    #battlefield {
+        background: radial-gradient(#ffe6b9 60%, #ab9469 105%);
     }
 </style>
