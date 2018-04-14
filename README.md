@@ -12,6 +12,10 @@
 ```
     npm install vue-cli --global
 ```
+* vue-drag-drop
+```
+    npm install --save vue-drag-drop
+```
 * aspnet-webpack (local to project)
 ```
     npm i aspnet-webpack
