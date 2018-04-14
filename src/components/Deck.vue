@@ -31,9 +31,17 @@
   export default {
     name: 'deck',
     props: ['deckModel'],
+    created () {
+      document.addEventListener('keyup', this.closeOnEscape)
+    },
     methods: {
       closeModal: function () {
         this.deckModel.isModalVisible = false
+      },
+      closeOnEscape: function (e) {
+        if (e.keyCode === 27) {
+          this.deckModel.isModalVisible = false
+        }
       },
       goToArena: function (deckName) {
         this.$emit('input', deckName)
