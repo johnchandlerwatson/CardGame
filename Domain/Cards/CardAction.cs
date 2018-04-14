@@ -24,8 +24,8 @@ namespace Vue.Domain
             ActionOverride = actionOverride;
         }
         
-        public User Target { get; }
-        public User Actor { get; }
+        public BasicUser Target { get; }
+        public BasicUser Actor { get; }
         public List<Card> DamagedCards { get; }
         public List<Card> HealedCards { get; }
         public Card ActorCard { get; }

@@ -14,8 +14,8 @@ namespace Vue.Models
         public string MoveSummary => string.Join(Environment.NewLine, Actions.Select(x => x.ActionDescription()));
         public EndOfTurnModel EndOfTurnModel => new EndOfTurnModel 
         {
-            UserPlayedCards = User.Played,
-            EnemyPlayedCards = User.Played,
+            User = User,
+            Enemy = Enemy,
         };
     }
 }

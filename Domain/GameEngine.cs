@@ -20,7 +20,7 @@ namespace Vue.Domain
             {
                 if (card.RoundsPlayed > 0)
                 {
-                    if (card.User == user)
+                    if (card.User.Username == user.Username)
                     {
                         card.ApplyMove(enemyCardList, userCardList, actions);
                     }

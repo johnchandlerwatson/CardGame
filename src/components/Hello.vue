@@ -1,5 +1,5 @@
 <template>
-    <component v-model="currentView" :is="currentView" transition="fade" transition-mode="out-in"></component>
+    <component v-bind:deckName="helloModel.deckName" v-model="helloModel" :is="helloModel.componentName" transition="fade" transition-mode="out-in"></component>
 </template>
 
 <script>
@@ -12,7 +12,7 @@
       components: { game, home, decks },
       data () {
         return {
-          currentView: 'home'
+          helloModel: { componentName: 'home' }
         }
       }
     }

@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="button-section">
-                <button class="btn btn-success" v-on:click="goToArena()">Heck Yeah!</button>
+                <button class="btn btn-success" v-on:click="goToArena(deckModel.selectedDeck.name)">Heck Yeah!</button>
                 <button class="btn btn-secondary" v-on:click="closeModal()">Nah</button>
             </div>
         </div>
@@ -35,7 +35,8 @@
       closeModal: function () {
         this.deckModel.isModalVisible = false
       },
-      goToArena: function () {
+      goToArena: function (deckName) {
+        this.$emit('input', deckName)
         this.$emit('goToArena')
       }
     }
@@ -63,6 +64,9 @@
         padding: 10px;
         display: grid;
         grid-template-rows: 95% 5%;
+        transition: opacity .25s ease-in-out;
+        -moz-transition: opacity .25s ease-in-out;
+        -webkit-transition: opacity .25s ease-in-out;
     }
 
     .modal-backdrop {

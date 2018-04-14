@@ -18,10 +18,10 @@ namespace Vue.Controllers
         public ContentResult Index(string username, string deck)
         {
             var user = new User(username, deck);
-            user.AddHandCards(user);
+            user.ResetHandCards();
 
             var bot = new User("bot", Dealer.RandomDeck().Name);
-            bot.AddHandCards(user);
+            bot.ResetHandCards();
 
             var model = new MoveModel
             {
@@ -37,15 +37,13 @@ namespace Vue.Controllers
             var json = jObject.ToString(Formatting.None);
             var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
             var model = JsonConvert.DeserializeObject<EndOfTurnModel>(json, settings);
-            var user = new User("username", "Human"); //todo: fix this
-            user.AddPlayedCards(model.UserPlayedCards);
+            var user = model.User;
             user.AddPlayedCard(Dealer.DeckCards(user.CurrentDeck).First(x => x.Name == model.Selection));
-            user.AddHandCards(user);
+            user.ResetHandCards();
 
-            var bot = new User("bot", "Human"); //todo: fix this
-            bot.AddPlayedCards(model.EnemyPlayedCards);
+            var bot = model.Enemy;
             bot.AddPlayedCard(Dealer.GetRandomCard(bot));
-            bot.AddHandCards(bot);
+            bot.ResetHandCards();
 
             var gameEngine = new GameEngine();
             var results = gameEngine.ExecuteMove(user, bot);

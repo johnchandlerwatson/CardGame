@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Vue.Domain.Cards;
 using System.Linq;
+using Vue.Utility;
 
 namespace Vue.Domain
 {
@@ -22,35 +23,31 @@ namespace Vue.Domain
         public void AddAvailableCard(Card card)
         {
             if (card == null) return;
-            card.User = this;
+            card.User = this.BasicUser();
             AvailableCards.Add(card);
         }
 
         public void AddPlayedCard(Card card)
         {
             if (card == null) return;
-            card.User = this;
+            card.User = this.BasicUser();
             Played.Add(card);
         }
 
-        public void AddPlayedCards(List<Card> cards)
+        public void ResetHandCards()
         {
-            if (cards == null) return;
+            Hand = new List<Card>();
+            var cards = Dealer.GetRandomHand(this);
             foreach (var card in cards)
             {
-                card.User = this;
-            }
-            Played.AddRange(cards);
-        }
-
-        public void AddHandCards(User user)
-        {
-            var cards = Dealer.GetRandomHand(user);
-            foreach (var card in cards)
-            {
-                card.User = this;
+                card.User = this.BasicUser();
             }
             Hand.AddRange(cards);
         }
+    }
+
+    public class BasicUser
+    {
+        public string Username { get; set; }
     }
 }

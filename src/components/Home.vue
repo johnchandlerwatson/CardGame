@@ -60,7 +60,7 @@
       },
       goToSelection: function () {
         $('#play-modal').modal('hide')
-        this.$emit('input', 'decks')
+        this.$emit('input', { componentName: 'decks' })
       }
     }
   }

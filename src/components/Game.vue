@@ -64,6 +64,7 @@
 
   export default {
     name: 'game',
+    props: ['deckName'],
     data () {
       return {
         model: null
@@ -71,8 +72,9 @@
     },
     created () {
       var username = $('#username').val()
+      debugger
       this.$http
-          .get('/api/Game/' + username + '/' + 'Human') // todo fix this
+          .get('/api/Game/' + username + '/' + this.deckName) // todo fix this
           .then((res) => {
             this.model = res.body
           })
@@ -81,9 +83,9 @@
     methods: {
       selectCard: function (selection) {
         event.preventDefault()
-        var enemyCards = this.$data.model.EndOfTurnModel.EnemyPlayedCards
-        var allyCards = this.$data.model.EndOfTurnModel.UserPlayedCards
-        var payload = { Selection: selection, EnemyPlayedCards: enemyCards, UserPlayedCards: allyCards }
+        var enemy = this.$data.model.EndOfTurnModel.Enemy
+        var user = this.$data.model.EndOfTurnModel.User
+        var payload = { Selection: selection, Enemy: enemy, User: user }
         this.$http.post('/api/Game/', JSON.stringify(payload)).then((response) => {
           this.$data.model = response.body
         }, (response) => {
@@ -152,6 +154,8 @@
         margin: 10px;
         border-radius: 4px;
         padding: 10px;
+        width: 125px;
+        font-size: .8em;
     }
 
     .card {

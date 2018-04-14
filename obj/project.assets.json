@@ -12534,23 +12534,23 @@
     ]
   },
   "packageFolders": {
-    "/Users/austinwhitesell/.nuget/packages/": {},
+    "/Users/chandlerwatson/.nuget/packages/": {},
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/austinwhitesell/projects/CardGame/Vue.csproj",
+      "projectUniqueName": "/Users/chandlerwatson/Projects/CardGame/Vue.csproj",
       "projectName": "Vue",
-      "projectPath": "/Users/austinwhitesell/projects/CardGame/Vue.csproj",
-      "packagesPath": "/Users/austinwhitesell/.nuget/packages/",
-      "outputPath": "/Users/austinwhitesell/projects/CardGame/obj/",
+      "projectPath": "/Users/chandlerwatson/Projects/CardGame/Vue.csproj",
+      "packagesPath": "/Users/chandlerwatson/.nuget/packages/",
+      "outputPath": "/Users/chandlerwatson/Projects/CardGame/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/austinwhitesell/.nuget/NuGet/NuGet.Config"
+        "/Users/chandlerwatson/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"

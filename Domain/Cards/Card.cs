@@ -12,8 +12,7 @@ namespace Vue.Domain.Cards
         {
             Health = MaxHealth;
         }
-        [JsonIgnore]
-        public User User { get; set; }
+        public BasicUser User { get; set; }
         public Guid Id { get; set; } = Guid.NewGuid();
         public abstract string Name { get; }
         [JsonConverter(typeof(StringEnumConverter))]

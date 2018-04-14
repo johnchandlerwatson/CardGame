@@ -9,7 +9,9 @@ namespace Vue.Domain
     {
         public static List<IDeck> AllDecks => new List<IDeck>
         {
-            new HumanDeck()
+            new HumanDeck(),
+            new DaveDeck(),
+            new JoshDeck()
         };
 
         public static IDeck RandomDeck()

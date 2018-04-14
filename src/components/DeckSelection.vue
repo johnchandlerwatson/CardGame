@@ -6,7 +6,7 @@
             <p>{{deck.name}}</p>
           </div>
       </div>
-      <deck v-bind:deckModel="deckModel" v-on:goToArena="goToArena()"></deck>
+    <deck v-bind:deckModel="deckModel" v-on:goToArena="goToArena()" v-model="deckName"></deck>
   </div>
 </template>
 
@@ -22,7 +22,8 @@
         deckModel: {
           selectedDeck: null,
           isModalVisible: false
-        }
+        },
+        deckName: ''
       }
     },
     created () {
@@ -42,7 +43,7 @@
         }
       },
       goToArena: function () {
-        this.$emit('input', 'game')
+        this.$emit('input', { componentName: 'game', deckName: this.deckName })
       }
     }
   }
@@ -69,5 +70,6 @@
         color: white;
         font-size: 1.5em;
         cursor: pointer;
+        margin-left: 20px;
     }
 </style>
