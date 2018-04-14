@@ -16,7 +16,7 @@ namespace Vue.Domain.Cards
         public override int MaxHealth => 6;
         public override string Description => "Attacks random card in back row";
 
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<CardAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
         {
             var cardsToAttack = TargetedCards(enemyCards);
 
@@ -26,7 +26,7 @@ namespace Vue.Domain.Cards
                 var index = rand.Next(cardsToAttack.Count);                
                 var first = cardsToAttack[index];
                 first.Health = first.Health - Damage;            
-                actions.Add(new CardAction(this, new List<Card> { first }, null));
+                actions.Add(new GameAction(this, new List<Card> { first }, null));
             }
         }
     }

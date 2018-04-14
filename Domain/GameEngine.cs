@@ -11,7 +11,7 @@ namespace Vue.Domain
         {
             var allCards = user.Played.Union(enemy.Played);
             var sortedCards = allCards.OrderByDescending(x => x.Speed).ToList();
-            var actions = new List<CardAction>();
+            var actions = new List<GameAction>();
 
             var userCardList = user.Played.ToList();
             var enemyCardList = enemy.Played.ToList();

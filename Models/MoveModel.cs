@@ -10,7 +10,7 @@ namespace Vue.Models
     {
         public User User { get; set; }
         public User Enemy { get; set; }
-        public List<CardAction> Actions { get; set; } = new List<CardAction>();
+        public List<GameAction> Actions { get; set; } = new List<GameAction>();
         public string MoveSummary => string.Join(Environment.NewLine, Actions.Select(x => x.ActionDescription()));
         public EndOfTurnModel EndOfTurnModel => new EndOfTurnModel 
         {

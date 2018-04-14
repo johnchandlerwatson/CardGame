@@ -15,7 +15,7 @@ namespace Vue.Domain.Cards
         public override int MaxHealth => 20;
         public override string Description => "Attacks two enemies in the front row";
 
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<CardAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
         {
             var targetedCards = TargetedCards(enemyCards);
 
@@ -26,7 +26,7 @@ namespace Vue.Domain.Cards
                 {
                     enemy.Health = enemy.Health - Damage;
                 }
-                actions.Add(new CardAction(this, twoCards, null));
+                actions.Add(new GameAction(this, twoCards, null));
             }
         }
     }

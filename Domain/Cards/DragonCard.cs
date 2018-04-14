@@ -15,7 +15,7 @@ namespace Vue.Domain.Cards
         public override int MaxHealth => 25;
         public override string Description => "Attacks all cards every 3 turns";
 
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<CardAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
         {
             var targetCards = TargetedCards(enemyCards);
             var shouldAttack = targetCards.Any() && ((RoundsPlayed + 2) % 3 == 0);
@@ -25,7 +25,7 @@ namespace Vue.Domain.Cards
                 {
                     enemy.Health = enemy.Health - Damage;
                 }
-                actions.Add(new CardAction(this, targetCards, null));
+                actions.Add(new GameAction(this, targetCards, null));
             }
         }
     }

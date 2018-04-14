@@ -15,7 +15,7 @@ namespace Vue.Domain.Cards
         public override int Healing => 0;
         public override string Description => "Increases the damage of all played cards by 3 when played and spawns a random human card every 2 moves";
         public override int MaxHealth => 20;
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<CardAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
         {
             var actionOverride = string.Empty;
             if (RoundsPlayed == 1)
@@ -37,7 +37,7 @@ namespace Vue.Domain.Cards
 
             if (!string.IsNullOrEmpty(actionOverride))
             {
-                actions.Add(new CardAction(actionOverride));
+                actions.Add(new GameAction(actionOverride));
             }
         }
 
