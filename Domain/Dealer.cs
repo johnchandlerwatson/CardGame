@@ -7,47 +7,50 @@ namespace Vue.Domain
 {
     public static class Dealer 
     {
-        public static List<Card> AllCards => new List<Card>
+        public static List<IDeck> AllDecks => new List<IDeck>
         {
-            new AssassinCard(),
-            new ArcherCard(),
-            new KnightCard(),
-            new HealerCard(),
-            new CannonCard(),
-            new EmperorCard(),
-            new TrollCard(),
-            new DragonCard()
+            new HumanDeck()
         };
 
-        private static Card GetRandomCard()
+        public static IDeck RandomDeck()
         {
             var rand = new Random();
-            var index = rand.Next(AllCards.Count);
-            return AllCards[index];
+            var index = rand.Next(AllDecks.Count);
+            return AllDecks[index];
         }
 
-        public static Card GetRandomCard(List<Card> cardsPlayed)
+        public static List<Card> DeckCards(string deckName) => AllDecks.First(x => x.Name == deckName).Cards;
+
+        private static Card GetRandomCard(string deck)
         {
-            var randomCard = GetRandomCard();
+            var rand = new Random();
+            var deckCards = DeckCards(deck);
+            var index = rand.Next(deckCards.Count);
+            return deckCards[index];
+        }
+
+        public static Card GetRandomCard(User user)
+        {
+            var randomCard = GetRandomCard(user.CurrentDeck);
             Card cardToAdd = null;
             
             while (cardToAdd == null)
             {
-                cardToAdd = AddCardIfAllowed(cardsPlayed, randomCard);
+                cardToAdd = AddCardIfAllowed(user.Played, randomCard);
             }
             return cardToAdd;
         }
 
-        public static List<Card> GetRandomHand(List<Card> cardsPlayed = null)
+        public static List<Card> GetRandomHand(User user)
         {
             var hand = new List<Card>();
             for (var i = 0; i < 3; i++)
             {
                 Card cardToAdd = null;
-                var randomCard = GetRandomCard();
+                var randomCard = GetRandomCard(user.CurrentDeck);
                 if (!hand.Any(x => x.Name == randomCard.Name))
                 {
-                    cardToAdd = AddCardIfAllowed(hand, randomCard, cardsPlayed);
+                    cardToAdd = AddCardIfAllowed(hand, randomCard, user.Played);
                 }
 
                 if (cardToAdd == null)

@@ -14,14 +14,14 @@ namespace Vue.Controllers
     [Route("api/[controller]")]
     public class GameController : Controller
     {
-        [HttpGet("{username}")]
-        public ContentResult Index(string username)
+        [HttpGet("{username}/{deck}")]
+        public ContentResult Index(string username, string deck)
         {
-            var user = new User(username);
-            user.AddHandCards();
+            var user = new User(username, deck);
+            user.AddHandCards(user);
 
-            var bot = new User("bot");
-            bot.AddHandCards();
+            var bot = new User("bot", Dealer.RandomDeck().Name);
+            bot.AddHandCards(user);
 
             var model = new MoveModel
             {
@@ -37,15 +37,15 @@ namespace Vue.Controllers
             var json = jObject.ToString(Formatting.None);
             var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
             var model = JsonConvert.DeserializeObject<EndOfTurnModel>(json, settings);
-            var user = new User("username");
+            var user = new User("username", "Human"); //todo: fix this
             user.AddPlayedCards(model.UserPlayedCards);
-            user.AddPlayedCard(Dealer.AllCards.First(x => x.Name == model.Selection));
-            user.AddHandCards();
+            user.AddPlayedCard(Dealer.DeckCards(user.CurrentDeck).First(x => x.Name == model.Selection));
+            user.AddHandCards(user);
 
-            var bot = new User("bot");
+            var bot = new User("bot", "Human"); //todo: fix this
             bot.AddPlayedCards(model.EnemyPlayedCards);
-            bot.AddPlayedCard(Dealer.GetRandomCard(model.EnemyPlayedCards));
-            bot.AddHandCards();
+            bot.AddPlayedCard(Dealer.GetRandomCard(bot));
+            bot.AddHandCards(bot);
 
             var gameEngine = new GameEngine();
             var results = gameEngine.ExecuteMove(user, bot);

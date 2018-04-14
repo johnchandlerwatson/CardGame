@@ -6,12 +6,13 @@ namespace Vue.Domain
 {
     public class User 
     {
-        public User(string username)
+        public User(string username, string deck)
         {
             Username = username;
+            CurrentDeck = deck;
         }
         public string Username { get; }
-
+        public string CurrentDeck { get; set; }
         public List<Card> AvailableCards { get; } = new List<Card>();
         public List<Card> Played { get; set; } = new List<Card>();
         public List<Card> PlayedFront => Played.Where(x => x.Row == Row.Front).ToList();
@@ -42,9 +43,9 @@ namespace Vue.Domain
             Played.AddRange(cards);
         }
 
-        public void AddHandCards()
+        public void AddHandCards(User user)
         {
-            var cards = Dealer.GetRandomHand(Played);
+            var cards = Dealer.GetRandomHand(user);
             foreach (var card in cards)
             {
                 card.User = this;

@@ -5,10 +5,11 @@
 <script>
     import game from './Game.vue'
     import home from './Home.vue'
+    import decks from './DeckSelection.vue'
 
     export default {
       name: 'hello',
-      components: { game, home },
+      components: { game, home, decks },
       data () {
         return {
           currentView: 'home'

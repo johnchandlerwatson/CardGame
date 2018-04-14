@@ -6,7 +6,6 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <p>testing bootstrap</p>
             <button v-on:click="showModal" class="btn btn-lg btn-success">Play!</button>
           </div>
         </div>
@@ -26,7 +25,7 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" v-on:click="goToArena()" class="btn btn-primary">PLAY!</button>
+              <button type="button" v-on:click="goToSelection()" class="btn btn-primary">PLAY!</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Nah</button>
             </div>
           </div>
@@ -59,9 +58,9 @@
       showModal: function (event) {
         $('#play-modal').modal('show')
       },
-      goToArena: function () {
+      goToSelection: function () {
         $('#play-modal').modal('hide')
-        this.$emit('input', 'game')
+        this.$emit('input', 'decks')
       }
     }
   }
