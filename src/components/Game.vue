@@ -2,7 +2,7 @@
     <div v-if="model != null" class="arena">
         <div id="card-table">
             <div id="enemy-cards" style="height: 10%;" class="hand-section">
-                <div class="card enemy-card" v-for="enemy in model.Enemy.Hand" v-bind:key="enemy.Id">
+                <div class="card enemy-card" v-for="enemy in model.Enemy.Hand" :key="enemy.Id">
                     <p>Enemy Card</p>
                 </div>               
             </div>
@@ -12,25 +12,25 @@
             <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
                 <div id="enemy-side" class="even-rows-container">
                     <div id="enemy-side-back" class="flex-row">
-                        <div class="played-card" v-for="enemy in model.Enemy.PlayedBack" v-bind:key="enemy.Id">
-                            <playedCard v-bind:card="enemy"></playedCard>
+                        <div class="played-card" v-for="enemy in model.Enemy.PlayedBack" :key="enemy.Id">
+                            <playedCard :card="enemy" :isEnemy="true"></playedCard>
                         </div>                       
                     </div>
                     <div id="enemy-side-front" class="flex-row">
-                        <div class="played-card" v-for="enemy in model.Enemy.PlayedFront" v-bind:key="enemy.Id">
-                            <playedCard v-bind:card="enemy"></playedCard>
+                        <div class="played-card" v-for="enemy in model.Enemy.PlayedFront" :key="enemy.Id">
+                            <playedCard :card="enemy" :isEnemy="true"></playedCard>
                         </div>
                     </div>
                 </div>
                 <div id="ally-side" class="even-rows-container" style="border-top: #655539 dashed;">
                     <div id="ally-side-front" class="flex-row">
-                        <div class="played-card" v-for="ally in model.User.PlayedFront" v-bind:key="ally.Id">
-                            <playedCard v-bind:card="ally"></playedCard>
+                        <div class="played-card" v-for="ally in model.User.PlayedFront" :key="ally.Id">
+                            <playedCard :card="ally" :isEnemy="false"></playedCard>
                         </div>
                     </div>
                     <div id="ally-side-back" class="flex-row">
-                        <div class="played-card" v-for="ally in model.User.PlayedBack" v-bind:key="ally.Id">
-                            <playedCard v-bind:card="ally"></playedCard>
+                        <div class="played-card" v-for="ally in model.User.PlayedBack" :key="ally.Id">
+                            <playedCard :card="ally" :isEnemy="false"></playedCard>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                 Ally Champ Section
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section">
-                <drag class="drag card ally-card" v-for="ally in model.User.Hand" :transfer-data="{ CardName: ally.Name }" v-bind:key="ally.Id">
+                <drag class="drag card ally-card" v-for="ally in model.User.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
                     <span>{{ally.Name}}</span><br>
                     <span>Health: {{ally.Health}}</span><br>
                     <span>Damage: {{ally.Damage}}</span><br>
@@ -143,8 +143,6 @@
 
     .enemy-card {
         font-size: .6em;
-        width: 50px;
-        height: 50px;
     }
 
     .card {
