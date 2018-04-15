@@ -18,7 +18,7 @@
         shouldAttackEnemy: !this.isEnemy
       }
     },
-    created: function () { //removing class so we add back and animate again
+    created: function () { // removing class so we add back and animate again
       var self = this
       setTimeout(function () {
         self.shouldAttackAlly = false
