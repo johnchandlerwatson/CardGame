@@ -9,6 +9,7 @@ namespace Vue.Domain
     {
         public MoveModel ExecuteMove(User user, User enemy)
         {
+            //test
             var allCards = user.Played.Union(enemy.Played);
             var sortedCards = allCards.OrderByDescending(x => x.Speed).ToList();
             var actions = new List<GameAction>();
