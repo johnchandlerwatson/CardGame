@@ -23,4 +23,11 @@
         height: 100vh;
         overflow-y:hidden;
     }
+
+    .centered {
+        display: grid;
+        align-content: center;
+        align-items: center;
+        text-align: center;
+    }
 </style>

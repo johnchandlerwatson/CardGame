@@ -1,30 +1,32 @@
 <template id="deck">
-    <div v-if="deckModel.selectedDeck != null" v-show="deckModel.isModalVisible" class="modal-backdrop">
-        <button type="button" class="close deck-close" @click="closeModal()">x</button>
-        <div class="deck-modal">
-            <div class="deck-container">
-                <div class="card" v-for="card in deckModel.selectedDeck.cards" v-bind:key="card.id">
-                    <div class="card-header"> 
-                        <p>{{card.name}}</p>
-                    </div>
-                    <div class="card-stats">
-                        <p>Rarity: {{card.rarity}}</p>
-                        <p>Max Health: {{card.maxHealth}}</p>
-                        <p>Damage: {{card.damage}}</p>
-                        <p>Speed: {{card.speed}}</p>
-                        <p>Row: {{card.row}}</p>
-                    </div>
-                    <div class="card-description">
-                        <p>{{card.description}}</p>
+    <transition name="fade">
+        <div v-if="deckModel.selectedDeck != null" v-show="deckModel.isModalVisible" class="modal-backdrop">
+            <button type="button" class="close deck-close" @click="closeModal()">x</button>
+            <div class="deck-modal">
+                <div class="deck-container">
+                    <div class="card" v-for="card in deckModel.selectedDeck.cards" v-bind:key="card.id">
+                        <div class="card-header"> 
+                            <p>{{card.name}}</p>
+                        </div>
+                        <div class="card-stats">
+                            <p>Rarity: {{card.rarity}}</p>
+                            <p>Max Health: {{card.maxHealth}}</p>
+                            <p>Damage: {{card.damage}}</p>
+                            <p>Speed: {{card.speed}}</p>
+                            <p>Row: {{card.row}}</p>
+                        </div>
+                        <div class="card-description">
+                            <p>{{card.description}}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="button-section">
-                <button class="btn btn-success" v-on:click="goToChamp(deckModel.selectedDeck.name)">Heck Yeah!</button>
-                <button class="btn btn-secondary" v-on:click="closeModal()">Nah</button>
+                <div class="button-section">
+                    <button class="btn btn-success" v-on:click="goToChamp(deckModel.selectedDeck.name)">Heck Yeah!</button>
+                    <button class="btn btn-secondary" v-on:click="closeModal()">Nah</button>
+                </div>
             </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
@@ -138,5 +140,13 @@
         position: fixed;
         width: 5%;
         font-size: 3.5em;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity 0.25s ease-out;
+    }
+
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
     }
 </style>

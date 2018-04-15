@@ -10,31 +10,27 @@
                 Enemy Champ Section
             </div>
             <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
-                <div id="enemy-side" class="even-rows-container" style="background-color: rgb(236, 204, 204);">
+                <div id="enemy-side" class="even-rows-container">
                     <div id="enemy-side-back" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Enemy.PlayedBack" v-bind:key="enemy.Id">
-                            <span>{{enemy.Name}}</span><br>
-                            <span>Health: {{enemy.Health}}</span><br>
+                            <playedCard v-bind:card="enemy"></playedCard>
                         </div>                       
                     </div>
                     <div id="enemy-side-front" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Enemy.PlayedFront" v-bind:key="enemy.Id">
-                            <span>{{enemy.Name}}</span><br>
-                            <span>Health: {{enemy.Health}}</span><br>
+                            <playedCard v-bind:card="enemy"></playedCard>
                         </div>
                     </div>
                 </div>
-                <div id="ally-side" class="even-rows-container" style="background-color: rgb(203, 233, 203);">
+                <div id="ally-side" class="even-rows-container" style="border-top: #655539 dashed;">
                     <div id="ally-side-front" class="flex-row">
                         <div class="played-card" v-for="ally in model.User.PlayedFront" v-bind:key="ally.Id">
-                            <span>{{ally.Name}}</span><br>
-                            <span>Health: {{ally.Health}}</span><br>
+                            <playedCard v-bind:card="ally"></playedCard>
                         </div>
                     </div>
                     <div id="ally-side-back" class="flex-row">
                         <div class="played-card" v-for="ally in model.User.PlayedBack" v-bind:key="ally.Id">
-                            <span>{{ally.Name}}</span><br>
-                            <span>Health: {{ally.Health}}</span><br>
+                            <playedCard v-bind:card="ally"></playedCard>
                         </div>
                     </div>
                 </div>
@@ -62,11 +58,12 @@
 <script>
   import $ from 'jquery'
   import { Drag, Drop } from 'vue-drag-drop'
+  import playedCard from './PlayedCard.vue'
 
   export default {
     name: 'game',
     props: ['helloModel'],
-    components: { Drag, Drop },
+    components: { Drag, Drop, playedCard },
     data () {
       return {
         model: null
@@ -74,7 +71,6 @@
     },
     created () {
       var username = $('#username').val()
-      debugger
       this.$http
           .get('/api/Game/' + username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName)
           .then((res) => {
@@ -122,24 +118,20 @@
     .hand-section {
         display: flex; 
         flex-direction: row;
-        background-color: rgb(204, 204, 228)
+        background-color: rgb(156, 156, 162);
     }
 
     .flex-row {
         display: flex; 
         flex-direction: row;
-    }
-
-    .centered {
-        display: grid;
-        align-content: center;
-        align-items: center;
-        text-align: center;
+        justify-content: center;
+        overflow: hidden; 
     }
 
     .champ-section {
         height: 10%; 
-        background-color: rgb(255, 245, 190)
+        background-color: #948da0;
+        border: #514863 solid;
     }
 
     .ally-card {
@@ -155,18 +147,10 @@
         height: 50px;
     }
 
-    .played-card {
-        background: #b9a5a5;
-        margin: 10px;
-        border-radius: 4px;
-        padding: 10px;
-        width: 125px;
-        font-size: .8em;
-    }
-
     .card {
         padding: 10px;
-        background-color: #af9e9e;
+        background: linear-gradient(to right, #6b5d5d , #504d4d);
+        color: #f3eeee;
         margin: 10px;
         border-radius: 10px;
     }
@@ -200,5 +184,9 @@
         overflow-y: auto;
         top: 50px;
         position: absolute;
+    }
+
+    #battlefield {
+        background: radial-gradient(#ffe6b9 60%, #ab9469 105%);
     }
 </style>
