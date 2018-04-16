@@ -3,7 +3,7 @@
       <h1>Select your deck!</h1>
       <div v-if="model != null" class="decks-container">
           <div class="deck" v-on:click="openDeck(deck)" v-for="deck in model.decks" v-bind:key="deck.id">
-            <p>{{deck.name}}</p>
+            <h4>{{deck.name}}</h4>
           </div>
       </div>
     <deck v-bind:deckModel="deckModel" v-on:goToChamp="goToChamp()" v-model="deckName"></deck>

@@ -1,8 +1,10 @@
 <template id="home">
-  <div id="app">
+  <div id="app" class="container">
     <img src="./../assets/logo.png">
     <div class="hello">
-      <h1>{{ msg }}</h1>
+      <h2>Welcome to</h2>
+      <h1 style="font-size: 6em;">THE VOID</h1>
+      <p>{{ msg }}</p>
       <div class="container">
         <div class="row">
           <div class="col-sm-12">

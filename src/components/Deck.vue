@@ -5,15 +5,30 @@
             <div class="deck-modal">
                 <div class="deck-container">
                     <div class="card" v-for="card in deckModel.selectedDeck.cards" v-bind:key="card.id">
-                        <div class="card-header"> 
-                            <p>{{card.name}}</p>
+                        <div class="centered"> 
+                            <h4 style="margin: 5px;">{{card.name}}</h4>
                         </div>
                         <div class="card-stats">
-                            <p>Rarity: {{card.rarity}}</p>
-                            <p>Max Health: {{card.maxHealth}}</p>
-                            <p>Damage: {{card.damage}}</p>
-                            <p>Speed: {{card.speed}}</p>
-                            <p>Row: {{card.row}}</p>
+                            <div class="card-stat">
+                                <p class="stat-label">Rarity:</p>
+                                <p class="stat">{{card.rarity}}</p>
+                            </div>
+                            <div class="card-stat">
+                                <p class="stat-label">Max Health:</p>
+                                <p class="stat">{{card.maxHealth}}</p>
+                            </div>
+                            <div class="card-stat">
+                                <p class="stat-label">Damage:</p>
+                                <p class="stat">{{card.damage}}</p>
+                            </div>
+                            <div class="card-stat">
+                                <p class="stat-label">Speed:</p>
+                                <p class="stat">{{card.speed}}</p>
+                            </div>
+                            <div class="card-stat">
+                                <p class="stat-label">Row:</p>
+                                <p class="stat">{{card.row}}</p>
+                            </div>
                         </div>
                         <div class="card-description">
                             <p>{{card.description}}</p>
@@ -101,15 +116,6 @@
         margin-bottom: 10px;
     }
 
-    .card-header {
-        font-weight: bold;
-        font-size: 1.2em;
-    }
-
-        .card-header > p {
-            margin: 0;
-        }
-
     .card-stats {
         font-size: .8em;
         border-top: #928e8e;
@@ -117,15 +123,30 @@
         padding-top: 3px;
     }
 
-        .card-stats > p {
+    .card-stat {
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+        .card-stat > p {
             margin-bottom: 2px; 
         }
+
+    .stat-label {
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    .stat {
+        text-align: center;
+    }
 
     .card-description {
         font-size: .8em;
         margin-top: 4px;
         border-top: #928e8e;
         border-top-style: double;
+        text-align: center;
+        font-size: .7em;
     }
 
     .button-section {
