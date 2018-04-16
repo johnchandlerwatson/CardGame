@@ -1,6 +1,7 @@
 <template id="home">
   <div id="app" class="container">
     <img src="./../assets/logo.png">
+    <img class="gif" src="./../assets/trippy.gif">
     <div class="hello">
       <h2>Welcome to</h2>
       <h1 style="font-size: 6em;">THE VOID</h1>
@@ -81,5 +82,15 @@
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+  }
+
+  .gif {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: -1;
+    left: 0;
+    opacity: .15;
   }
 </style>
