@@ -1,6 +1,15 @@
-require('./check-versions')()
+// var express = require('express');
+// var path = require('path');
+// var serveStatic = require('serve-static');
+// app = express();
+// app.use(serveStatic(__dirname + "/wwwroot"));
+// console.log(__dirname)
+// var port = process.env.PORT || 5000;
+// app.listen(port);
+// console.log('server started '+ port);
+require(__dirname +'/../build/check-versions')()
 
-var config = require('../config')
+var config = require(__dirname + '/../config')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
@@ -10,8 +19,7 @@ var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
-var webpackConfig = require('./webpack.dev.conf')
-var serveStatic = require('serve-static');
+var webpackConfig = require(__dirname + '/../build/webpack.dev.conf')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -62,8 +70,8 @@ app.use(hotMiddleware)
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
-app.use(staticPath, express.static('./static'))
-//app.use(serveStatic(path.join(__dirname + "/wwwroot")));
+app.use(staticPath, express.static('./wwwroot/static'))
+//app.use(serveStatic(__dirname + "/wwwroot"));
 
 var uri = 'http://localhost:' + port
 
