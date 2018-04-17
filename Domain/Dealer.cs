@@ -20,6 +20,13 @@ namespace Vue.Domain
             new DaveTheUnmerciful()
         };
 
+        public static Champion RandomChamp()
+        {
+            var rand = new Random();
+            var index = rand.Next(AllChamps.Count);
+            return AllChamps[index];
+        }
+
         public static IDeck RandomDeck()
         {
             var rand = new Random();

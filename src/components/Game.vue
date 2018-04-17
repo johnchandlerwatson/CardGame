@@ -7,7 +7,9 @@
                 </div>               
             </div>
             <div id="enemy-champ-section" class="centered champ-section">
-                Enemy Champ Section
+                <div>
+                    <img class="champ" :src="getImage(model.Enemy.Champion.ChampImage)">
+                </div>
             </div>
             <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
                 <div id="enemy-side" class="even-rows-container">
@@ -36,7 +38,9 @@
                 </div>
             </drop>
             <div id="ally-champ-section" class="centered champ-section">
-                Ally Champ Section
+                <div>
+                    <img class="champ" :src="getImage(model.User.Champion.ChampImage)">
+                </div>
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section">
                 <drag class="drag card ally-card" v-for="ally in model.User.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
@@ -92,6 +96,10 @@
       },
       handleDrop: function (data) {
         this.selectCard(data.CardName)
+      },
+      getImage: function (picName) {
+        var images = require.context('../assets/', false, /\.png$/)
+        return images('./' + picName + '.png')
       }
     }
   }
@@ -132,6 +140,10 @@
         height: 10%; 
         background-color: #948da0;
         border: #514863 solid;
+    }
+
+    .champ {
+        width: 25px;
     }
 
     .ally-card {
