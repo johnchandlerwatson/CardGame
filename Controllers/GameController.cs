@@ -17,10 +17,10 @@ namespace Vue.Controllers
         [HttpGet("{username}/{deck}/{champ}")]
         public ContentResult Index(string username, string deck, string champ)
         {
-            var user = new User(username, deck);
+            var user = new User(username, deck, Dealer.AllChamps.First(x => x.Name == champ));
             user.ResetHandCards();
 
-            var bot = new User("bot", Dealer.RandomDeck().Name);
+            var bot = new User("bot", Dealer.RandomDeck().Name, Dealer.RandomChamp());
             bot.ResetHandCards();
 
             var model = new MoveModel

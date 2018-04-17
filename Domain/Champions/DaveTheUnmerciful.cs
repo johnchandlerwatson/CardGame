@@ -11,6 +11,7 @@ namespace Vue.Domain.Champions
         public override int Healing => 0;
         public override int Damage { get; set;} = 10;
         public override string Description => "The all powerful Dave!!!! All fear him. Bow down before him!";
+        public override string ChampImage => "dave";
 
         public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
         {

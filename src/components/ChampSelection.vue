@@ -3,7 +3,7 @@
       <h1>Select your champion!</h1>
       <div v-if="model != null" class="champs-container">
           <div class="champion" v-on:click="goToArena(champ.name)" v-for="champ in model.champs" v-bind:key="champ.id">
-            <img class="champ-img" src="./../assets/dave.png">
+            <img class="champ-img" :src="getImage(champ.champImage)">
             <p>{{champ.name}}</p>
           </div>
       </div>
@@ -31,6 +31,10 @@
     methods: {
       goToArena: function (champName) {
         this.$emit('input', { componentName: 'game', deckName: this.helloModel.deckName, champName: champName })
+      },
+      getImage: function (picName) {
+        var images = require.context('../assets/', false, /\.png$/)
+        return images('./' + picName + '.png')
       }
     }
   }
