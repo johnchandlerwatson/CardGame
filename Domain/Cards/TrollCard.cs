@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Vue.Domain.Champions;
 
 namespace Vue.Domain.Cards
 {
@@ -15,18 +16,20 @@ namespace Vue.Domain.Cards
         public override int MaxHealth => 20;
         public override string Description => "Attacks two enemies in the front row";
 
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, Champion enemyChamp, List<GameAction> actions)
         {
             var targetedCards = TargetedCards(enemyCards);
 
             if (targetedCards.Any())
             {
                 var twoCards = targetedCards.Take(2).ToList();
-                foreach (var enemy in twoCards)
-                {
-                    enemy.Health = enemy.Health - Damage;
-                }
-                actions.Add(new GameAction(this, twoCards, null));
+                var attackedCards = Attack(twoCards);
+                actions.Add(new GameAction(this, attackedCards, null));
+            }
+            else 
+            {
+                Attack(enemyChamp);
+                actions.Add(new GameAction(this, new List<Character>{enemyChamp}, null));
             }
         }
     }

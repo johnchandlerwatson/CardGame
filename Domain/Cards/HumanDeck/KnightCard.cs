@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Vue.Domain.Champions;
 
 namespace Vue.Domain.Cards
 {
@@ -15,15 +16,20 @@ namespace Vue.Domain.Cards
         public override int MaxHealth => 15;
         public override string Description => "Targets highest health in front row";
 
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, Champion enemyChamp, List<GameAction> actions)
         {
             var targetedCards = TargetedCards(enemyCards);
 
             if (targetedCards.Any())
             {
                 var highestHealth = targetedCards.OrderByDescending(x => x.Health).First();
-                highestHealth.Health = highestHealth.Health - Damage;
-                actions.Add(new GameAction(this, new List<Card> { highestHealth }, null));
+                Attack(highestHealth);
+                actions.Add(new GameAction(this, new List<Character> { highestHealth }, null));
+            }
+            else 
+            {
+                Attack(enemyChamp);
+                actions.Add(new GameAction(this, new List<Character>{ enemyChamp }, null));
             }
         }
     }

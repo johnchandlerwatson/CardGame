@@ -9,12 +9,12 @@ namespace Vue.Domain
 {
     public class GameAction
     {
-        public GameAction(Character actor, List<Card> damagedCards, List<Card> healedCards)
+        public GameAction(Character actor, List<Character> damagedCharacters, List<Character> healedCards)
         {
-            Target = damagedCards?.FirstOrDefault()?.User;
+            Target = damagedCharacters?.FirstOrDefault()?.User;
             ActorUser = actor.User;
-            DamagedCards = damagedCards;
-            HealedCards = healedCards;
+            DamagedCharacters = damagedCharacters;
+            HealedCharacters = healedCards;
             Actor = actor;
             Damage = actor.Damage;
             Healing = actor.Healing;
@@ -27,8 +27,8 @@ namespace Vue.Domain
         
         public BasicUser Target { get; }
         public BasicUser ActorUser { get; }
-        public List<Card> DamagedCards { get; }
-        public List<Card> HealedCards { get; }
+        public List<Character> DamagedCharacters { get; }
+        public List<Character> HealedCharacters { get; }
         public Character Actor { get; }
         public int Damage { get; }
         public int Healing { get; }
@@ -43,14 +43,14 @@ namespace Vue.Domain
             
             var actor = $"{ActorUser.Username}'s {Actor.Name}";
             var damage = string.Empty;
-            if (DamagedCards != null && DamagedCards.Any())
+            if (DamagedCharacters != null && DamagedCharacters.Any())
             {
-                damage = $"attacked {Target.Username}'s {string.Join(",", DamagedCards.Select(x => x.Name))} card(s) for {Actor.Damage} damage";
+                damage = $"attacked {Target.Username}'s {string.Join(",", DamagedCharacters.Select(x => x.Name))} for {Actor.Damage} damage";
             }
             var healing = string.Empty;
-            if (HealedCards != null && HealedCards.Any())
+            if (HealedCharacters != null && HealedCharacters.Any())
             {
-                healing = $"healed the {string.Join(",", HealedCards.Select(x => x.Name))} card(s) for {Actor.Healing} health";
+                healing = $"healed the {string.Join(",", HealedCharacters.Select(x => x.Name))} for {Actor.Healing} health";
             }
 
             var hasDamage = !string.IsNullOrEmpty(damage);

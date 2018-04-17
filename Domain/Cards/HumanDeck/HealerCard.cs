@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Vue.Domain.Champions;
 
 namespace Vue.Domain.Cards
 {
@@ -15,25 +16,30 @@ namespace Vue.Domain.Cards
         public override int Speed => 3;
         public override string Description => "Heals front row allies and attacks all front row enemies";
 
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, Champion enemyChamp, List<GameAction> actions)
         {
             var cardsToHeal = friendlyCards.Where(x => x.Row == Targets).ToList();
+            var healedCards = new List<Character>();
             foreach (var ally in cardsToHeal)
             {
-                var healthAfter = ally.Health + Healing;
-                healthAfter = healthAfter > ally.MaxHealth ? ally.MaxHealth : healthAfter;
-                ally.Health = healthAfter;
+                healedCards.Add(Heal(ally));
             }
 
             var cardsToDamage = TargetedCards(enemyCards);
-            foreach (var enemy in cardsToDamage)
+            var damagedCards = new List<Character>();
+            if (cardsToDamage.Any())
             {
-                enemy.Health = enemy.Health - Damage;
+                damagedCards = Attack(cardsToDamage);
+            }
+            else 
+            {
+                Attack(enemyChamp);
+                actions.Add(new GameAction(this, new List<Character>{enemyChamp}, null));
             }
 
             if (cardsToHeal.Any() || cardsToDamage.Any())
             {
-                actions.Add(new GameAction(this, cardsToDamage, cardsToHeal));
+                actions.Add(new GameAction(this, damagedCards, healedCards));
             }
         }
     }

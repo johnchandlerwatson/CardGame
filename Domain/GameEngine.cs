@@ -8,36 +8,17 @@ namespace Vue.Domain
     public class GameEngine
     {
         public MoveModel ExecuteMove(User user, User enemy)
-        {
-            //test
-            var allCards = user.Played.Union(enemy.Played);
-            var sortedCards = allCards.OrderByDescending(x => x.Speed).ToList();
+        {        
             var actions = new List<GameAction>();
-
             var userCardList = user.Played.ToList();
             var enemyCardList = enemy.Played.ToList();
 
-            foreach (var card in sortedCards)
-            {
-                if (card.RoundsPlayed > 0)
-                {
-                    if (card.User.Username == user.Username)
-                    {
-                        card.ApplyMove(enemyCardList, userCardList, actions);
-                    }
-                    else
-                    {
-                        card.ApplyMove(userCardList, enemyCardList, actions);
-                    }
-                    
-                    user.Played = userCardList;
-                    enemy.Played = enemyCardList;
+            ExecuteCardMoves(enemyCardList, userCardList, user, enemy, actions);
 
-                    RemoveDeadCards(user);
-                    RemoveDeadCards(enemy);
-                }
-                card.RoundsPlayed++;
-            }
+            user.Champion.ApplyMove(enemyCardList, userCardList, enemy.Champion, actions);
+            enemy.Champion.ApplyMove(userCardList, enemyCardList, user.Champion, actions);
+
+            RemoveDeadCards(user, enemy);
             
             return new MoveModel
             {
@@ -45,6 +26,36 @@ namespace Vue.Domain
                 Enemy = enemy,
                 Actions = actions
             };
+        }
+
+        private void ExecuteCardMoves(List<Card> enemyCardList, List<Card> userCardList, User user, User enemy, List<GameAction> actions)
+        {
+            var allCards = user.Played.Union(enemy.Played);
+            var sortedCards = allCards.OrderByDescending(x => x.Speed).ToList();
+            foreach (var card in sortedCards)
+            {
+                if (card.RoundsPlayed > 0)
+                {
+                    if (card.User.Username == user.Username)
+                    {
+                        card.ApplyMove(enemyCardList, userCardList, enemy.Champion, actions);
+                    }
+                    else
+                    {
+                        card.ApplyMove(userCardList, enemyCardList, user.Champion, actions);
+                    }
+                    
+                    user.Played = userCardList;
+                    enemy.Played = enemyCardList;
+                }
+                card.RoundsPlayed++;
+            }
+        }
+
+        private void RemoveDeadCards(User user, User enemy)
+        {
+            RemoveDeadCards(user);
+            RemoveDeadCards(enemy);
         }
 
         private void RemoveDeadCards(User user)

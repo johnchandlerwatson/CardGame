@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Vue.Domain.Champions;
 
 namespace Vue.Domain.Cards
 {
@@ -15,17 +16,22 @@ namespace Vue.Domain.Cards
         public override int MaxHealth => 25;
         public override string Description => "Attacks all cards every 3 turns";
 
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, Champion enemyChamp, List<GameAction> actions)
         {
             var targetCards = TargetedCards(enemyCards);
             var shouldAttack = targetCards.Any() && ((RoundsPlayed + 2) % 3 == 0);
             if (shouldAttack)
             {
-                foreach (var enemy in targetCards)
+                if (targetCards.Any())
                 {
-                    enemy.Health = enemy.Health - Damage;
+                    var attackedCards = Attack(targetCards);
+                    actions.Add(new GameAction(this, attackedCards, null));
                 }
-                actions.Add(new GameAction(this, targetCards, null));
+                else 
+                {
+                    Attack(enemyChamp);
+                    actions.Add(new GameAction(this, new List<Character>{enemyChamp}, null));
+                }
             }
         }
     }

@@ -23,6 +23,7 @@ namespace Vue.Domain.Cards
         
         public List<Card> TargetedCards(List<Card> enemyCards)
         {
+            enemyCards = enemyCards.Where(x => !x.IsDead).ToList();
             if (Targets == Row.Both) return enemyCards;
             var cardsToAttack = enemyCards.Where(x => x.Row == Targets).ToList();
             if (cardsToAttack.Any()) return cardsToAttack;

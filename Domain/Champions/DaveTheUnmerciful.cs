@@ -13,17 +13,13 @@ namespace Vue.Domain.Champions
         public override string Description => "The all powerful Dave!!!! All fear him. Bow down before him!";
         public override string ChampImage => "dave";
 
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, Champion enemyChamp, List<GameAction> actions)
         {
             if (friendlyCards.Count == 0)
             {
                 var targets = TargetedCards(enemyCards);
-                
-                foreach (var target in targets)
-                {
-                    target.Health = target.Health - Damage;
-                }
-                actions.Add(new GameAction(this, targets, null));
+                var attackedCards = Attack(targets);
+                actions.Add(new GameAction(this, attackedCards, null));
             }
         }
     }

@@ -12,6 +12,8 @@ namespace Vue.Domain
         {
             Username = username;
             CurrentDeck = deck;
+            
+            champion.User = this.BasicUser();
             Champion = champion;
         }
         public string Username { get; }

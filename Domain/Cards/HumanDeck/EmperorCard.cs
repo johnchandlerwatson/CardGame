@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Vue.Domain.Champions;
 
 namespace Vue.Domain.Cards
 {
@@ -15,7 +16,7 @@ namespace Vue.Domain.Cards
         public override int Healing => 0;
         public override string Description => "Increases the damage of all played cards by 3 when played and spawns a random human card every 2 moves";
         public override int MaxHealth => 20;
-        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, List<GameAction> actions)
+        public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, Champion enemyChampion, List<GameAction> actions)
         {
             var actionOverride = string.Empty;
             if (RoundsPlayed == 1)

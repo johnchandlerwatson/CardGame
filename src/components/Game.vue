@@ -9,6 +9,7 @@
             <div id="enemy-champ-section" class="centered champ-section">
                 <div>
                     <img class="champ" :src="getImage(model.Enemy.Champion.ChampImage)">
+                    <p>HLTH: {{model.Enemy.Champion.Health}}</p>
                 </div>
             </div>
             <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
@@ -40,6 +41,7 @@
             <div id="ally-champ-section" class="centered champ-section">
                 <div>
                     <img class="champ" :src="getImage(model.User.Champion.ChampImage)">
+                    <p>HLTH: {{model.User.Champion.Health}}</p>
                 </div>
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section">
