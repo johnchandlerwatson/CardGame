@@ -1,10 +1,11 @@
 {
-    "name": "blog",
+    "name": "cards",
     "version": "1.0.0",
     "description": "cards",
     "author": "",
     "private": true,
     "scripts": {
+      "start": "node server.js",
       "postinstall": "npm install express"
     }
 }

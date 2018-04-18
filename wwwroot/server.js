@@ -18,6 +18,7 @@ var opn = require('opn')
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
+var serveStatic = require('serve-static');
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require(__dirname + '/../build/webpack.dev.conf')
 
@@ -70,8 +71,8 @@ app.use(hotMiddleware)
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
-app.use(staticPath, express.static('./wwwroot/static'))
-//app.use(serveStatic(__dirname + "/wwwroot"));
+//app.use(staticPath, express.static('./wwwroot/static'))
+app.use(serveStatic(__dirname));
 
 var uri = 'http://localhost:' + port
 
