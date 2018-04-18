@@ -1,8 +1,8 @@
 {
-  "name": "vuewebpack",
+  "name": "thevoid",
   "version": "1.0.0",
-  "description": "testing out vue",
-  "author": "chandler",
+  "description": "game time",
+  "author": "the boys",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
