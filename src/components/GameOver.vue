@@ -1,8 +1,9 @@
 <template id="gameover">
     <transition name="fade">
-        <div v-show="showModal" class="modal-backdrop">
+        <div v-show="gameIsOver" class="modal-backdrop">
             <div class="basic-modal game-over-modal">
                 <div class="centered">
+                    <img class="gif" :src="getImage()">
                     <h1 style="font-size: 4em;">{{gameOverMessage}}</h1>
                 </div>   
             </div>
@@ -15,17 +16,23 @@
     name: 'gameover',
     props: ['model'],
     computed: {
-      showModal: function () {
-        var show = this.model.User.Champion.Health <= 0 || this.model.Enemy.Champion.Health <= 0
-        if (show) {
+      gameIsOver: function () {
+        var gameIsOver = this.lose || this.win
+        if (gameIsOver) {
           this.goHome()
         }
-        return show
+        return gameIsOver
+      },
+      win: function () {
+        return this.model.Enemy.Champion.Health <= 0
+      },
+      lose: function () {
+        return this.model.User.Champion.Health <= 0
       },
       gameOverMessage: function () {
-        if (this.model.Enemy.Champion.Health <= 0) {
+        if (this.win) {
           return 'YOU WIN!!!'
-        } else if (this.model.User.Champion.Health <= 0) {
+        } else if (this.lose) {
           return 'YOU SUCK!!!'
         } else {
           return 'GAME OVER!'
@@ -36,7 +43,12 @@
       goHome: async function () {
         setTimeout(() => {
           this.$router.go()
-        }, 2000)
+        }, 3000)
+      },
+      getImage: function () {
+        var picName = this.win ? 'balloons' : 'skull'
+        var images = require.context('../assets/', false, /\.gif$/)
+        return images('./' + picName + '.gif')
       }
     }
   }
@@ -47,5 +59,15 @@
     .game-over-modal {
         width: 70%;
         height: 40%;
+        max-width: 650px;
+    }
+
+    .gif {
+        z-index: -1;
+        opacity: .4;
+        position: absolute;
+        width: 100%;
+        height: 250%;
+        top: -210px;
     }
 </style>
