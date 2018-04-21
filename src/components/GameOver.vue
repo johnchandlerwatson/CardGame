@@ -5,6 +5,9 @@
                 <div class="centered">
                     <img class="gif" :src="getImage()">
                     <h1 style="font-size: 4em;">{{gameOverMessage}}</h1>
+                    <div class="row">
+                        <button v-on:click="returnHome" class="btn btn-lg btn-success">Return</button>
+                    </div>
                 </div>   
             </div>
         </div>
@@ -17,11 +20,7 @@
     props: ['model'],
     computed: {
       gameIsOver: function () {
-        var gameIsOver = this.lose || this.win
-        if (gameIsOver) {
-          this.goHome()
-        }
-        return gameIsOver
+        return this.lose || this.win
       },
       win: function () {
         return this.model.Enemy.Champion.Health <= 0
@@ -40,15 +39,13 @@
       }
     },
     methods: {
-      goHome: async function () {
-        setTimeout(() => {
-          this.$router.go()
-        }, 3000)
-      },
       getImage: function () {
         var picName = this.win ? 'balloons' : 'skull'
         var images = require.context('../assets/', false, /\.gif$/)
         return images('./' + picName + '.gif')
+      },
+      returnHome: function () {
+        this.$router.go()
       }
     }
   }
