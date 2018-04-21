@@ -58,6 +58,7 @@
             <h4 class="centered">Actions</h4>
             <p class="actions-summary scrollable">{{model.MoveSummary}}</p>
         </div>
+        <gameover :model="model"></gameover>
     </div>
 </template>
 
@@ -65,11 +66,12 @@
   import $ from 'jquery'
   import { Drag, Drop } from 'vue-drag-drop'
   import playedCard from './PlayedCard.vue'
+  import gameover from './GameOver.vue'
 
   export default {
     name: 'game',
     props: ['helloModel'],
-    components: { Drag, Drop, playedCard },
+    components: { Drag, Drop, playedCard, gameover },
     data () {
       return {
         model: null

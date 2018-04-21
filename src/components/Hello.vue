@@ -39,4 +39,40 @@
     p, span, button, label, div {
         font-family: 'Jua', sans-serif;
     }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity 0.25s ease-out;
+    }
+
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
+    }
+
+    .basic-modal {
+        box-shadow: 5px 5px 20px 0px;
+        overflow-x: auto;
+        position: fixed;
+        z-index: 3050;
+        overflow: hidden;
+        background: white;
+        border-radius: 10px;
+        padding: 10px;
+        display: grid;
+        grid-template-rows: 95% 5%;
+        transition: opacity .25s ease-in-out;
+        -moz-transition: opacity .25s ease-in-out;
+        -webkit-transition: opacity .25s ease-in-out;
+    }
+
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
