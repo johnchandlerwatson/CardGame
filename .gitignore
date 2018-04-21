@@ -14,4 +14,3 @@ obj/
 *.sln
 
 package-lock.json
-app.js
