@@ -23,7 +23,7 @@
               <form id="play-form">
                   <div class="form-field">
                       <label for="username">Username:</label>
-                      <input id="username" type="text" name="username">
+                      <input v-model="username" id="username" type="text" name="username">
                   </div>
               </form>
             </div>
@@ -45,7 +45,8 @@
     name: 'home',
     data () {
       return {
-        msg: ''
+        msg: '',
+        username: ''
       }
     },
     // Send a request to /api/home
@@ -63,7 +64,7 @@
       },
       goToSelection: function () {
         $('#play-modal').modal('hide')
-        this.$emit('input', { componentName: 'decks' })
+        this.$emit('input', { componentName: 'decks', username: this.username })
       }
     }
   }

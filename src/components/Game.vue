@@ -63,7 +63,6 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import { Drag, Drop } from 'vue-drag-drop'
   import playedCard from './PlayedCard.vue'
   import gameover from './GameOver.vue'
@@ -78,9 +77,8 @@
       }
     },
     created () {
-      var username = $('#username').val()
       this.$http
-          .get('/api/Game/' + username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName)
+          .get('/api/Game/' + this.helloModel.username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName)
           .then((res) => {
             this.model = res.body
           })

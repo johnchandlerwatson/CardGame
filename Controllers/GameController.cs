@@ -38,7 +38,9 @@ namespace Vue.Controllers
             var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
             var model = JsonConvert.DeserializeObject<EndOfTurnModel>(json, settings);
             var user = model.User;
-            user.AddPlayedCard(Dealer.DeckCards(user.CurrentDeck).First(x => x.Name == model.Selection));
+
+            var playedCard = user.Username == "grim" ? new GrimReaper() : Dealer.DeckCards(user.CurrentDeck).First(x => x.Name == model.Selection);
+            user.AddPlayedCard(playedCard);
             user.ResetHandCards();
 
             var bot = model.Enemy;

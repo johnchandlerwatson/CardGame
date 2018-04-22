@@ -13,7 +13,7 @@
       components: { game, home, decks, champs },
       data () {
         return {
-          helloModel: { componentName: 'home', deckName: '', champName: '' }
+          helloModel: { componentName: 'home', deckName: '', champName: '', username: '' }
         }
       }
     }
