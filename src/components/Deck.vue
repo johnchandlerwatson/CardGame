@@ -2,7 +2,7 @@
     <transition name="fade">
         <div v-if="deckModel.selectedDeck != null" v-show="deckModel.isModalVisible" class="modal-backdrop">
             <button type="button" class="close deck-close" @click="closeModal()">x</button>
-            <div class="deck-modal">
+            <div class="basic-modal full-screen-modal">
                 <div class="deck-container">
                     <div class="card" v-for="card in deckModel.selectedDeck.cards" v-bind:key="card.id">
                         <div class="centered"> 
@@ -70,40 +70,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .full-screen-modal {
+        width: 90%;
+        height: 98%;
+    }
+
     .deck-container {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-    }
-
-    .deck-modal {
-        box-shadow: 5px 5px 20px 0px;
-        overflow-x: auto;
-        position: fixed;
-        z-index: 3050;
-        overflow: hidden;
-        background: white;
-        width: 90%;
-        height: 98%;
-        border-radius: 10px;
-        padding: 10px;
-        display: grid;
-        grid-template-rows: 95% 5%;
-        transition: opacity .25s ease-in-out;
-        -moz-transition: opacity .25s ease-in-out;
-        -webkit-transition: opacity .25s ease-in-out;
-    }
-
-    .modal-backdrop {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: rgba(0, 0, 0, 0.3);
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .card {
@@ -161,13 +136,5 @@
         position: fixed;
         width: 5%;
         font-size: 3.5em;
-    }
-
-    .fade-enter-active, .fade-leave-active {
-      transition: opacity 0.25s ease-out;
-    }
-
-    .fade-enter, .fade-leave-to {
-      opacity: 0;
     }
 </style>
