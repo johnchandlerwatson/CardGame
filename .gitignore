@@ -14,3 +14,4 @@ obj/
 *.sln
 
 package-lock.json
+wwwroot/
