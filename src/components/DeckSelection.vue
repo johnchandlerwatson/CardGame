@@ -16,6 +16,7 @@
   export default {
     name: 'decks',
     components: { deck },
+    props: ['helloModel'],
     data () {
       return {
         model: null,
@@ -43,7 +44,7 @@
         }
       },
       goToChamp: function () {
-        this.$emit('input', { componentName: 'champs', deckName: this.deckName })
+        this.$emit('input', { componentName: 'champs', deckName: this.deckName, username: this.helloModel.username })
       }
     }
   }

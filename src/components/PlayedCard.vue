@@ -1,6 +1,6 @@
 <template>
     <div class="played-card" :class="{'attack-ally': shouldAttackAlly, 'attack-enemy': shouldAttackEnemy}">
-        <span class="centered">{{card.Name}}</span><br>
+        <span class="centered">{{card.Name}}</span>
         <div class="stats">
             <p>HLTH: {{card.Health}}</p>
             <p style="text-align: right;">DMG: {{card.Damage}}</p>
