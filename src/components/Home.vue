@@ -17,7 +17,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h2 class="modal-title">PLAY INFLUENCE!</h2>
+              <h2 class="modal-title">PLAY THE VOID!</h2>
             </div>
             <div class="modal-body">
               <form id="play-form">

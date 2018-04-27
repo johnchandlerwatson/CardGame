@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vue.Domain.Cards;
+using Vue.Domain.Champions;
 using Vue.Models;
 
 namespace Vue.Domain
@@ -14,9 +15,8 @@ namespace Vue.Domain
             var enemyCardList = enemy.Played.ToList();
 
             ExecuteCardMoves(enemyCardList, userCardList, user, enemy, actions);
-
-            user.Champion.ApplyMove(enemyCardList, userCardList, enemy.Champion, actions);
-            enemy.Champion.ApplyMove(userCardList, enemyCardList, user.Champion, actions);
+            ExecuteChampionMove(enemyCardList, userCardList, user.Champion, enemy.Champion, actions);
+            ExecuteChampionMove(userCardList, enemyCardList, enemy.Champion, user.Champion, actions);
 
             RemoveDeadCards(user, enemy);
             
@@ -26,6 +26,12 @@ namespace Vue.Domain
                 Enemy = enemy,
                 Actions = actions
             };
+        }
+
+        private void ExecuteChampionMove(List<Card> enemyCardList, List<Card> userCardList, Champion actorChampion, Champion enemyChampion, List<GameAction> actions)
+        {
+            actorChampion.ApplyMove(enemyCardList, userCardList, enemyChampion, actions);
+            actorChampion.RoundsPlayed++;
         }
 
         private void ExecuteCardMoves(List<Card> enemyCardList, List<Card> userCardList, User user, User enemy, List<GameAction> actions)
