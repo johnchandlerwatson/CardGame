@@ -20,3 +20,15 @@
 ```
     npm i aspnet-webpack
 ```
+
+
+
+## Deploy
+* dotnet publish -c Release
+* docker build -t cards ./bin/release/netcoreapp2.0/publish
+* docker tag cards registry.heroku.com/heart-of-the-cards/web
+* docker push registry.heroku.com/heart-of-the-cards/web
+
+(you might need to login)
+* heroku login
+* heroku container:login
