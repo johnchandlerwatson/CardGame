@@ -30,10 +30,16 @@
                         <div class="played-card" v-for="ally in model.User.PlayedFront" :key="ally.Id">
                             <playedCard :card="ally" :isEnemy="false"></playedCard>
                         </div>
+                        <div class="played-card">
+                            <div class="phantom-card" :class="{ displayed: dragging === 'Front' }"></div>
+                        </div>
                     </div>
                     <div id="ally-side-back" class="flex-row">
                         <div class="played-card" v-for="ally in model.User.PlayedBack" :key="ally.Id">
                             <playedCard :card="ally" :isEnemy="false"></playedCard>
+                        </div>
+                        <div class="played-card">
+                            <div class="phantom-card" :class="{ displayed: dragging === 'Back' }"></div>
                         </div>
                     </div>
                 </div>
@@ -45,11 +51,12 @@
                 </div>
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section">
-                <drag class="drag card ally-card" v-for="ally in model.User.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
+                <drag class="drag card ally-card" @dragstart="dragging = ally.Row" @dragend="dragging = null" v-for="ally in model.User.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
                     <span>{{ally.Name}}</span><br>
                     <span>Health: {{ally.Health}}</span><br>
                     <span>Damage: {{ally.Damage}}</span><br>
                     <span>Rarity: {{ally.Rarity}}</span><br>
+                    <span>Side: {{ally.Row}}</span><br>
                 </drag>               
                 <input type="text" id="card-selected" hidden>
             </div>
@@ -73,7 +80,8 @@
     components: { Drag, Drop, playedCard, gameover },
     data () {
       return {
-        model: null
+        model: null,
+        dragging: null
       }
     },
     created () {
@@ -98,6 +106,9 @@
       },
       handleDrop: function (data) {
         this.selectCard(data.CardName)
+      },
+      findDrop: function (data) {
+        console.log(data)
       },
       getImage: function (picName) {
         var images = require.context('../assets/', false, /\.png$/)
@@ -200,5 +211,19 @@
 
     #battlefield {
         background: radial-gradient(#ffe6b9 60%, #ab9469 105%);
+    }
+
+    .displayed {
+        display: block !important;
+    }
+
+    .phantom-card {
+        display: none;
+        background-color: #dfd;
+        margin: 10px;
+        border-radius: 4px;
+        padding: 10px;
+        width: 125px;
+        height: 50px;
     }
 </style>
