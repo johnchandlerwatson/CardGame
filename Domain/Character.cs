@@ -19,6 +19,7 @@ namespace Vue.Domain
         public abstract int Damage { get; set; }
         public abstract int Healing { get; }
         public abstract string Description { get; }
+        public int RoundsPlayed { get; set; } = 0;
 
         public abstract void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, Champion enemyChampion, List<GameAction> actions);
 

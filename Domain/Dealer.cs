@@ -17,7 +17,8 @@ namespace Vue.Domain
 
         public static List<Champion> AllChamps => new List<Champion>
         {
-            new DaveTheUnmerciful()
+            new DaveTheUnmerciful(),
+            new JoshDestoyerOfWorlds()
         };
 
         public static Champion RandomChamp()
