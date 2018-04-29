@@ -3,6 +3,7 @@ using Vue.Domain.Cards;
 using System.Linq;
 using Vue.Utility;
 using Vue.Domain.Champions;
+using System;
 
 namespace Vue.Domain
 {
@@ -16,6 +17,7 @@ namespace Vue.Domain
             champion.User = this.BasicUser();
             Champion = champion;
         }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Username { get; }
         public string CurrentDeck { get; set; }
         public List<Card> Played { get; set; } = new List<Card>();

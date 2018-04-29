@@ -7,13 +7,14 @@
     import home from './Home.vue'
     import decks from './DeckSelection.vue'
     import champs from './ChampSelection.vue'
+    import gameLobby from './GameLobby.vue'
 
     export default {
       name: 'hello',
-      components: { game, home, decks, champs },
+      components: { game, home, decks, champs, gameLobby },
       data () {
         return {
-          helloModel: { componentName: 'home', deckName: '', champName: '', username: '' }
+          helloModel: { componentName: 'home', deckName: '', champName: '', username: '', botGame: false }
         }
       }
     }

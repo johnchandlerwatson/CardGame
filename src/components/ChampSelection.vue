@@ -30,7 +30,7 @@
     },
     methods: {
       goToArena: function (champName) {
-        this.$emit('input', { componentName: 'game', deckName: this.helloModel.deckName, champName: champName, username: this.helloModel.username })
+        this.$emit('input', { componentName: 'gameLobby', deckName: this.helloModel.deckName, champName: champName, username: this.helloModel.username })
       },
       getImage: function (picName) {
         var images = require.context('../assets/', false, /\.png$/)

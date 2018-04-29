@@ -8,14 +8,50 @@ using Vue.Domain;
 using Vue.Domain.Cards;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Vue.Utility;
+using Vue.Domain.Multiplayer;
 
 namespace Vue.Controllers
 {
     [Route("api/[controller]")]
     public class GameController : Controller
     {
-        [HttpGet("{username}/{deck}/{champ}")]
-        public ContentResult Index(string username, string deck, string champ)
+        [HttpGet("{username}/{deck}/{champ}/{gameId}")]
+        public ContentResult Index(string username, string deck, string champ, Guid? gameId)
+        {
+            var model = GetModel(username, deck, champ, gameId);
+            return Content(model.ToJson(), "application/json");
+        }
+
+        private MoveModel GetModel(string username, string deck, string champ, Guid? gameId)
+        {
+            if (gameId.HasValue)
+            {
+                return PlayerGame(gameId.Value, username);
+            }
+            else 
+            {
+                return BotGame(username, deck, champ);
+            }
+        }
+
+        private MoveModel PlayerGame(Guid gameId, string username)
+        {
+            var game = GameManager.GetGame(gameId);
+            var user = username == game.User1.Username ? game.User1 : game.User2;
+            user.ResetHandCards();
+
+            var user2 = username == game.User1.Username ? game.User2 : game.User1;
+            user2.ResetHandCards();
+
+            return new MoveModel
+            {
+                User = user,
+                Enemy = user2
+            };
+        }
+
+        private MoveModel BotGame(string username, string deck, string champ)
         {
             var user = new User(username, deck, Dealer.AllChamps.First(x => x.Name == champ));
             user.ResetHandCards();
@@ -23,12 +59,11 @@ namespace Vue.Controllers
             var bot = new User("bot", Dealer.RandomDeck().Name, Dealer.RandomChamp());
             bot.ResetHandCards();
 
-            var model = new MoveModel
+            return new MoveModel
             {
                 User = user,
                 Enemy = bot
             };
-            return Content(Json(model), "application/json");
         }
         
         [HttpPost]
@@ -49,16 +84,7 @@ namespace Vue.Controllers
 
             var gameEngine = new GameEngine();
             var results = gameEngine.ExecuteMove(user, bot);
-            return Content(Json(results), "application/json");
-        }
-
-        private string Json(MoveModel model)
-        {
-            var settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects
-            };
-            return JsonConvert.SerializeObject(model, settings);
+            return Content(results.ToJson(), "application/json");
         }
     }
 }

@@ -86,11 +86,11 @@
     },
     created () {
       this.$http
-          .get('/api/Game/' + this.helloModel.username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName)
-          .then((res) => {
-            this.model = res.body
-          })
-          .catch((ex) => console.log(ex))
+        .get('/api/Game/' + this.helloModel.username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName + '/' + this.helloModel.gameId)
+        .then((res) => {
+          this.model = res.body
+        })
+      .catch((ex) => console.log(ex))
     },
     methods: {
       selectCard: function (selection) {
