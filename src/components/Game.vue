@@ -16,19 +16,19 @@
                 <div id="enemy-side" class="even-rows-container">
                     <div id="enemy-side-back" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Enemy.PlayedBack" :key="enemy.Id">
-                            <playedCard :card="enemy" :isEnemy="true"></playedCard>
+                            <playedCard :card="enemy" :class="enemy.Rarity.toLowerCase()" :isEnemy="true"></playedCard>
                         </div>                       
                     </div>
                     <div id="enemy-side-front" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Enemy.PlayedFront" :key="enemy.Id">
-                            <playedCard :card="enemy" :isEnemy="true"></playedCard>
+                            <playedCard :card="enemy" :class="enemy.Rarity.toLowerCase()" :isEnemy="true"></playedCard>
                         </div>
                     </div>
                 </div>
                 <div id="ally-side" class="even-rows-container" style="border-top: #655539 dashed;">
                     <div id="ally-side-front" class="flex-row">
                         <div class="played-card" v-for="ally in model.User.PlayedFront" :key="ally.Id">
-                            <playedCard :card="ally" :isEnemy="false"></playedCard>
+                            <playedCard :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
                             <div class="phantom-card" :class="{ displayed: dragging === 'Front' }"></div>
@@ -36,7 +36,7 @@
                     </div>
                     <div id="ally-side-back" class="flex-row">
                         <div class="played-card" v-for="ally in model.User.PlayedBack" :key="ally.Id">
-                            <playedCard :card="ally" :isEnemy="false"></playedCard>
+                            <playedCard :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
                             <div class="phantom-card" :class="{ displayed: dragging === 'Back' }"></div>
@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section">
-                <drag class="drag card ally-card" @dragstart="dragging = ally.Row" @dragend="dragging = null" v-for="ally in model.User.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
+                <drag class="drag card ally-card" :class="ally.Rarity.toLowerCase()" @dragstart="dragging = ally.Row" @dragend="dragging = null" v-for="ally in model.User.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
                     <span>{{ally.Name}}</span><br>
                     <span>Health: {{ally.Health}}</span><br>
                     <span>Damage: {{ally.Damage}}</span><br>
@@ -122,6 +122,15 @@
 <style scoped>
     body {
         padding: 0;
+    }
+
+/* Common - Grey Uncommon - Red Rare - Orange Epic - Green Legendary - Blue Mythic - Purple Godly - Gold */
+    .common{
+        background: linear-gradient(to right, #3e3e41 , #504d4d) !important
+    }
+
+    .rare{
+        background: linear-gradient(to right, #c72424 , #504d4d) !important
     }
 
     .arena {
