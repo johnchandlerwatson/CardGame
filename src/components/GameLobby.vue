@@ -10,6 +10,7 @@
 </template>
 
 <script>
+  var signalR = require('../js/signalr.js').signalR
   export default {
     name: 'gameLobby',
     props: ['helloModel'],
@@ -20,27 +21,44 @@
       }
     },
     created () {
+      connectSignalR(this)
+
       this.$http
         .get('/api/GameLobby')
         .then((res) => {
-          console.log(res)
           this.model = res.body
         })
         .catch((ex) => console.log(ex))
+
+      function connectSignalR (vue) {
+        vue.connection = new signalR.HubConnection('/gamelobby', { logger: signalR.LogLevel.Error })
+        vue.connection.on('NewGame', (gameId) => {
+          console.log(`received message of new game ${gameId}!`)
+          console.log(`the current joinGameModel gameId is : ${vue.joinGameModel.Id}`)
+          if (gameId === vue.joinGameModel.Id) {
+            vue.goToArena()
+          }
+        })
+        vue.connection.start().catch(err => console.log(err))
+      }
     },
     methods: {
       joinGame: function () {
         this.$http
-        .get('/api/GameLobby/JoinGame' + this.helloModel.username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName)
+        .get('/api/GameLobby/' + this.helloModel.username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName)
         .then((res) => {
-          console.log(res)
           this.joinGameModel = res.body
+
+          console.log('the game joined full status:' + this.joinGameModel.Full)
+          if (this.joinGameModel.Full) {
+            // alert other player we have joined
+            debugger
+            this.$http.get('/api/GameLobby/' + this.joinGameModel.Id)
+              .catch(err => console.log(err))
+            this.goToArena()
+          }
         })
         .catch((ex) => console.log(ex))
-
-        if (this.joinGameModel.Full) {
-          this.goToArena()
-        }
       },
       goToArena: function () {
         this.$emit('input', { componentName: 'game', deckName: this.helloModel.deckName, champName: this.helloModel.champName, username: this.helloModel.username, gameId: this.joinGameModel.Id })

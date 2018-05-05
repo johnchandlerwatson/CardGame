@@ -10,6 +10,13 @@ namespace Vue.Controllers
     [Route("api/[controller]")]
     public class GameLobbyController : Controller
     {
+        private readonly IGameLobbyHub _hub;
+
+        public GameLobbyController(IGameLobbyHub hub)
+        {
+            _hub = hub;
+        }
+
         [HttpGet]
         public ContentResult Index()
         {
@@ -27,15 +34,17 @@ namespace Vue.Controllers
             var game = GameManager.JoinGame(user);
             return Content(game.ToJson(), "application/json");
         }
+
+        [HttpGet("{gameId}")]
+        public ContentResult AlertClients(Guid gameId)
+        {
+            _hub.SendMessage(gameId);
+            return Content(new {Success= true}.ToJson(), "application/json");
+        }
     }
 
     public class GameLobbyModel
     {
         public int CurrentGameCount { get; set; }
-    }
-
-    public class JoinGameModel
-    {
-        public Game Game { get; set; }
     }
 }

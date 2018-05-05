@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Vue.Domain.Multiplayer;
 
 namespace Vue
 {
@@ -25,6 +26,9 @@ namespace Vue
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSignalR();
+
+            services.AddSingleton<IGameLobbyHub, GameLobbyHub>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +45,11 @@ namespace Vue
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            app.UseSignalR(routes => 
+            {
+                routes.MapHub<GameLobbyHub>("/gamelobby");
+            });
 
             app.UseMvc(routes =>
             {

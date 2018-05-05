@@ -31,7 +31,6 @@
       this.$http
           .get('/api/Selection/Decks')
           .then((res) => {
-            console.log(res)
             this.model = res.body
           })
           .catch((ex) => console.log(ex))

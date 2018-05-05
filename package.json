@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "@aspnet/signalr": "^1.0.0-preview2-final",
     "aspnet-webpack": "^2.0.3",
     "bootstrap": "^3.3.7",
     "jquery": "^3.2.1",

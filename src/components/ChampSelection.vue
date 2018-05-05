@@ -23,7 +23,6 @@
       this.$http
           .get('/api/Selection/Champs')
           .then((res) => {
-            console.log(res)
             this.model = res.body
           })
           .catch((ex) => console.log(ex))
