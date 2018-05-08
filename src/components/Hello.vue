@@ -14,7 +14,7 @@
       components: { game, home, decks, champs, gameLobby },
       data () {
         return {
-          helloModel: { componentName: 'home', deckName: '', champName: '', username: '', botGame: false }
+          helloModel: { componentName: 'home', deckName: '', champName: '', username: '', botGame: false, gameId: null }
         }
       }
     }

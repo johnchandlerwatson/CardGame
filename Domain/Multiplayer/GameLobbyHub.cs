@@ -7,6 +7,7 @@ namespace Vue.Domain.Multiplayer
     public interface IGameLobbyHub 
     {
         Task SendMessage(Guid gameId);
+        Task EndTurn(Guid gameId);
     }
     
     public class GameLobbyHub : Hub, IGameLobbyHub
@@ -21,6 +22,11 @@ namespace Vue.Domain.Multiplayer
         public async Task SendMessage(Guid gameId)
         {
             await _hubContext.Clients.All.SendAsync("NewGame", gameId.ToString());
+        }
+
+        public async Task EndTurn(Guid gameId)
+        {
+            await _hubContext.Clients.All.SendAsync("EndTurn", gameId.ToString());
         }
     }
 }

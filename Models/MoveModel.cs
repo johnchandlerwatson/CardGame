@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using Vue.Domain;
 using Vue.Domain.Cards;
 using System.Linq;
+using Vue.Domain.Multiplayer;
 
 namespace Vue.Models
 {
     public class MoveModel
     {
-        public User User { get; set; }
-        public User Enemy { get; set; }
+        public string Selection { get; set; }
+        public string Username { get; set; }
+        public Game Game { get; set; }
         public List<GameAction> Actions { get; set; } = new List<GameAction>();
         public string MoveSummary => string.Join(Environment.NewLine, Actions.Select(x => x.ActionDescription()));
-        public EndOfTurnModel EndOfTurnModel => new EndOfTurnModel 
-        {
-            User = User,
-            Enemy = Enemy,
-        };
     }
 }

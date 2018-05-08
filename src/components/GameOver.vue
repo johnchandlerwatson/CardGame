@@ -23,10 +23,10 @@
         return this.lose || this.win
       },
       win: function () {
-        return this.model.Enemy.Champion.Health <= 0
+        return this.model.Game.User2.Champion.Health <= 0
       },
       lose: function () {
-        return this.model.User.Champion.Health <= 0
+        return this.model.Game.User1.Champion.Health <= 0
       },
       gameOverMessage: function () {
         if (this.win) {

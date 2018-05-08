@@ -2,32 +2,32 @@
     <div v-if="model != null" class="arena">
         <div id="card-table">
             <div id="enemy-cards" style="height: 10%;" class="hand-section">
-                <div class="card enemy-card" v-for="enemy in model.Enemy.Hand" :key="enemy.Id">
+                <div class="card enemy-card" v-for="enemy in model.Game.User2.Hand" :key="enemy.Id">
                     <p>Enemy Card</p>
                 </div>               
             </div>
             <div id="enemy-champ-section" class="centered champ-section">
                 <div>
-                    <img class="champ" :src="getImage(model.Enemy.Champion.ChampImage)">
-                    <p>HLTH: {{model.Enemy.Champion.Health}}</p>
+                    <img class="champ" :src="getImage(model.Game.User2.Champion.ChampImage)">
+                    <p>HLTH: {{model.Game.User2.Champion.Health}}</p>
                 </div>
             </div>
             <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
                 <div id="enemy-side" class="even-rows-container">
                     <div id="enemy-side-back" class="flex-row">
-                        <div class="played-card" v-for="enemy in model.Enemy.PlayedBack" :key="enemy.Id">
+                        <div class="played-card" v-for="enemy in model.Game.User2.PlayedBack" :key="enemy.Id">
                             <playedCard :card="enemy" :isEnemy="true"></playedCard>
                         </div>                       
                     </div>
                     <div id="enemy-side-front" class="flex-row">
-                        <div class="played-card" v-for="enemy in model.Enemy.PlayedFront" :key="enemy.Id">
+                        <div class="played-card" v-for="enemy in model.Game.User2.PlayedFront" :key="enemy.Id">
                             <playedCard :card="enemy" :isEnemy="true"></playedCard>
                         </div>
                     </div>
                 </div>
                 <div id="ally-side" class="even-rows-container" style="border-top: #655539 dashed;">
                     <div id="ally-side-front" class="flex-row">
-                        <div class="played-card" v-for="ally in model.User.PlayedFront" :key="ally.Id">
+                        <div class="played-card" v-for="ally in model.Game.User1.PlayedFront" :key="ally.Id">
                             <playedCard :card="ally" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div id="ally-side-back" class="flex-row">
-                        <div class="played-card" v-for="ally in model.User.PlayedBack" :key="ally.Id">
+                        <div class="played-card" v-for="ally in model.Game.User1.PlayedBack" :key="ally.Id">
                             <playedCard :card="ally" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
@@ -46,12 +46,12 @@
             </drop>
             <div id="ally-champ-section" class="centered champ-section">
                 <div>
-                    <img class="champ" :src="getImage(model.User.Champion.ChampImage)">
-                    <p>HLTH: {{model.User.Champion.Health}}</p>
+                    <img class="champ" :src="getImage(model.Game.User1.Champion.ChampImage)">
+                    <p>HLTH: {{model.Game.User1.Champion.Health}}</p>
                 </div>
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section">
-                <drag class="drag card ally-card" @dragstart="dragging = ally.Row" @dragend="dragging = null" v-for="ally in model.User.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
+                <drag class="drag card ally-card" @dragstart="dragging = ally.Row" @dragend="dragging = null" v-for="ally in model.Game.User1.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
                     <span>{{ally.Name}}</span><br>
                     <span>Health: {{ally.Health}}</span><br>
                     <span>Damage: {{ally.Damage}}</span><br>
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+  var signalR = require('../js/signalr.js').signalR
   import { Drag, Drop } from 'vue-drag-drop'
   import playedCard from './PlayedCard.vue'
   import gameover from './GameOver.vue'
@@ -85,24 +86,44 @@
       }
     },
     created () {
+      connectSignalR(this)
+      var gameId = this.helloModel.gameId === '' ? null : this.helloModel.gameId
+      var url = `/api/Game/${this.helloModel.username}/${this.helloModel.deckName}/${this.helloModel.champName}/${gameId}`
       this.$http
-        .get('/api/Game/' + this.helloModel.username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName + '/' + this.helloModel.gameId)
+        .get(url)
         .then((res) => {
           this.model = res.body
         })
       .catch((ex) => console.log(ex))
+
+      function connectSignalR (vue) {
+        vue.connection = new signalR.HubConnection('/gamelobby', { logger: signalR.LogLevel.Error })
+        vue.connection.on('EndTurn', (gameId) => {
+          if (gameId === vue.helloModel.gameId) {
+            var url = `/api/Game/${vue.helloModel.gameId}/${vue.helloModel.username}`
+            vue.$http
+              .get(url)
+              .then((res) => {
+                vue.model = res.body
+              })
+              .catch((ex) => console.log(ex))
+          }
+        })
+        vue.connection.start().catch(err => console.log(err))
+      }
     },
     methods: {
       selectCard: function (selection) {
         event.preventDefault()
-        var enemy = this.$data.model.EndOfTurnModel.Enemy
-        var user = this.$data.model.EndOfTurnModel.User
-        var payload = { Selection: selection, Enemy: enemy, User: user }
+
+        var payload = { Selection: selection, Game: this.$data.model.Game, Username: this.helloModel.username }
         this.$http.post('/api/Game/', JSON.stringify(payload)).then((response) => {
-          this.$data.model = response.body
-        }, (response) => {
-          console.log('there was an error getting the move response')
-        })
+          if (response.body.PlayerGame) {
+            this.$data.model.Game.User1 = response.body.User
+          } else {
+            this.$data.model = response.body
+          }
+        }).catch((ex) => console.log(ex))
       },
       handleDrop: function (data) {
         this.selectCard(data.CardName)

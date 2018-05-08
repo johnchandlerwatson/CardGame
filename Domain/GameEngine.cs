@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Vue.Domain.Cards;
 using Vue.Domain.Champions;
+using Vue.Domain.Multiplayer;
 using Vue.Models;
 
 namespace Vue.Domain
 {
     public class GameEngine
     {
-        public MoveModel ExecuteMove(User user, User enemy)
+        public MoveModel ExecuteMove(User user, User enemy, Game game)
         {        
             var actions = new List<GameAction>();
             var userCardList = user.Played.ToList();
@@ -20,12 +21,9 @@ namespace Vue.Domain
 
             RemoveDeadCards(user, enemy);
             
-            return new MoveModel
-            {
-                User = user,
-                Enemy = enemy,
-                Actions = actions
-            };
+            game.User1 = user;
+            game.User2 = enemy;
+            return new MoveModel { Game = game, Actions = actions };
         }
 
         private void ExecuteChampionMove(List<Card> enemyCardList, List<Card> userCardList, Champion actorChampion, Champion enemyChampion, List<GameAction> actions)
