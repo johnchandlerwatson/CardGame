@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Vue.Domain.Multiplayer
@@ -45,6 +46,11 @@ namespace Vue.Domain.Multiplayer
         {
             game.User2 = user;
             return game;
+        }
+
+        public static List<Game> GetGames()
+        {
+            return _games.ToList();
         }
 
         public static bool AddMove(User user)
