@@ -27,6 +27,7 @@ namespace Vue.Controllers
         public ContentResult Index(string username, string deck, string champ, Guid? gameId)
         {
             var model = GetModel(username, deck, champ, gameId);
+            model.ValidateModel(username);
             return Content(model.ToJson(), "application/json");
         }
 
@@ -45,13 +46,15 @@ namespace Vue.Controllers
         private MoveModel PlayerGame(Guid gameId, string username)
         {
             var game = GameManager.GetGame(gameId);
-            game.ArrangeUsers(username);
             game.ResetHandCards();
+            var model = new MoveModel { Game = GetNewGame(game), Username = username };
+            model.ArrangeUsers(username);
+            return model;
+        }
 
-            return new MoveModel
-            {
-                Game = game
-            };
+        private Game GetNewGame(Game game)
+        {
+            return new Game { UserPair = new UserPair(game.User1, game.User2), Id = game.Id, Actions = game.Actions};
         }
 
         private MoveModel BotGame(string username, string deck, string champ)
@@ -108,9 +111,10 @@ namespace Vue.Controllers
         [HttpGet("{gameId}/{username}")]
         public ContentResult GetResults(Guid gameId, string username)
         {
-            var game = GameManager.GetGame(gameId);
-            game.ArrangeUsers(username);
-            var model = new MoveModel { Game = game, Username = username };
+            var game = GameManager.GetGame(gameId);        
+            var model = new MoveModel { Game = GetNewGame(game), Username = username };
+            model.ArrangeUsers(username);
+            model.ValidateModel(username);
             return Content(model.ToJson(), "application/json");
         }
     }

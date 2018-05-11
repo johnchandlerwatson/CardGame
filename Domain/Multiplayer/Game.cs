@@ -22,20 +22,7 @@ namespace Vue.Domain.Multiplayer
             User2HasPlayedThisTurn = false;
             Turns++;
         }
-
-        public void ArrangeUsers(string username)
-        {
-            var user  = username == User1.Username ? User1 : User2;
-            var enemy = username == User1.Username ? User2 : User1;
-            SetUserPair(user, enemy);
-        }
-
-        public void SetUserPair(User user1, User user2)
-        {
-            UserPair.User1 = user1;
-            UserPair.User2 = user2;
-        }
-
+        
         public void ResetHandCards()
         {
             UserPair.User1.ResetHandCards();
