@@ -9,21 +9,19 @@ namespace Vue.Domain
 {
     public class GameEngine
     {
-        public MoveModel ExecuteMove(User user, User enemy, Game game)
+        public GameEngineResponse ExecuteMove(User user1, User user2)
         {        
             var actions = new List<GameAction>();
-            var userCardList = user.Played.ToList();
-            var enemyCardList = enemy.Played.ToList();
+            var userCardList = user1.Played.ToList();
+            var enemyCardList = user2.Played.ToList();
 
-            ExecuteCardMoves(enemyCardList, userCardList, user, enemy, actions);
-            ExecuteChampionMove(enemyCardList, userCardList, user.Champion, enemy.Champion, actions);
-            ExecuteChampionMove(userCardList, enemyCardList, enemy.Champion, user.Champion, actions);
+            ExecuteCardMoves(enemyCardList, userCardList, user1, user2, actions);
+            ExecuteChampionMove(enemyCardList, userCardList, user1.Champion, user2.Champion, actions);
+            ExecuteChampionMove(userCardList, enemyCardList, user2.Champion, user1.Champion, actions);
 
-            RemoveDeadCards(user, enemy);
-            
-            game.User1 = user;
-            game.User2 = enemy;
-            return new MoveModel { Game = game, Actions = actions };
+            RemoveDeadCards(user1, user2);
+            var userPair = new UserPair(user1, user2);
+            return new GameEngineResponse { UserPair = userPair, Actions = actions };
         }
 
         private void ExecuteChampionMove(List<Card> enemyCardList, List<Card> userCardList, Champion actorChampion, Champion enemyChampion, List<GameAction> actions)
@@ -66,5 +64,22 @@ namespace Vue.Domain
         {
             user.Played.RemoveAll(x => x.IsDead);
         }
+    }
+
+    public class UserPair
+    {
+        public UserPair(User user1, User user2)
+        {
+            User1 = user1;
+            User2 = user2;
+        }
+        public User User1 { get; set; }
+        public User User2 { get; set; }
+    }
+
+    public class GameEngineResponse
+    {
+        public UserPair UserPair { get; set; }
+        public List<GameAction> Actions { get; set; }
     }
 }

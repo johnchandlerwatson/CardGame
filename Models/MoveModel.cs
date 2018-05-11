@@ -12,7 +12,15 @@ namespace Vue.Models
         public string Selection { get; set; }
         public string Username { get; set; }
         public Game Game { get; set; }
-        public List<GameAction> Actions { get; set; } = new List<GameAction>();
-        public string MoveSummary => string.Join(Environment.NewLine, Actions.Select(x => x.ActionDescription()));
+        public string MoveSummary => string.Join(Environment.NewLine, Game.Actions.Select(x => x.ActionDescription()));
+    }
+
+    public class EndOfMoveModel
+    {
+        public string Selection { get; set; }
+        public string Username { get; set; }
+        public UserPair UserPair { get; set; }
+        public Guid? GameId { get; set; }
+        public bool IsBotGame => GameId == null;
     }
 }

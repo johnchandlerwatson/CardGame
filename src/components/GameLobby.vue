@@ -56,7 +56,8 @@
         .catch((ex) => console.log(ex))
       },
       goToArena: function () {
-        this.$emit('input', { componentName: 'game', deckName: this.helloModel.deckName, champName: this.helloModel.champName, username: this.helloModel.username, gameId: this.joinGameModel.Id })
+        var gameId = this.joinGameModel.Id === '' ? null : this.joinGameModel.Id
+        this.$emit('input', { componentName: 'game', deckName: this.helloModel.deckName, champName: this.helloModel.champName, username: this.helloModel.username, gameId: gameId })
       }
     }
   }

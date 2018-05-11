@@ -87,8 +87,7 @@
     },
     created () {
       connectSignalR(this)
-      var gameId = this.helloModel.gameId === '' ? null : this.helloModel.gameId
-      var url = `/api/Game/${this.helloModel.username}/${this.helloModel.deckName}/${this.helloModel.champName}/${gameId}`
+      var url = `/api/Game/${this.helloModel.username}/${this.helloModel.deckName}/${this.helloModel.champName}/${this.helloModel.gameId}`
       this.$http
         .get(url)
         .then((res) => {
@@ -115,8 +114,8 @@
     methods: {
       selectCard: function (selection) {
         event.preventDefault()
-
-        var payload = { Selection: selection, Game: this.$data.model.Game, Username: this.helloModel.username }
+        var userPair = { User1: this.$data.model.Game.User1, User2: this.$data.model.Game.User2 }
+        var payload = { Selection: selection, UserPair: userPair, Username: this.helloModel.username, GameId: this.helloModel.gameId }
         this.$http.post('/api/Game/', JSON.stringify(payload)).then((response) => {
           if (response.body.PlayerGame) {
             this.$data.model.Game.User1 = response.body.User

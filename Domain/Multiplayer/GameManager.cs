@@ -36,7 +36,7 @@ namespace Vue.Domain.Multiplayer
         {
             var gameToAdd = new Game
             {
-                User1 = user1
+                UserPair = new UserPair(user1, null)
             };
             _games.Add(gameToAdd);
             return gameToAdd;
@@ -44,7 +44,7 @@ namespace Vue.Domain.Multiplayer
 
         private static Game JoinExistingGame(Game game, User user)
         {
-            game.User2 = user;
+            game.UserPair.User2 = user;
             return game;
         }
 
@@ -59,18 +59,23 @@ namespace Vue.Domain.Multiplayer
 
             if (game.User1.Id == user.Id)
             {
-                game.User1 = user;
+                game.UserPair.User1 = user;
                 game.User1HasPlayedThisTurn = true;
             }
             else
             {
-                game.User2 = user;
+                game.UserPair.User2 = user;
                 game.User2HasPlayedThisTurn = true;
             }
             var turnIsComplete = game.TurnIsComplete;
             if (turnIsComplete)
             {
                 game.EndTheTurn();
+
+                var gameEngine = new GameEngine();
+                var response = gameEngine.ExecuteMove(game.User1, game.User2);
+                game.UserPair = response.UserPair;
+                game.Actions = response.Actions;
             } 
             return turnIsComplete;
         }
