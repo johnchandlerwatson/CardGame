@@ -7,11 +7,11 @@ namespace Vue.Domain.Multiplayer
 {
     public static class GameManager
     {
-        private static ConcurrentBag<Game> _games = new ConcurrentBag<Game>();
+        private static ConcurrentDictionary<Guid, Game> _games = new ConcurrentDictionary<Guid, Game>();
 
         public static Game JoinGame(User user)
         {
-            var openGame = _games.Where(x => !x.Full).OrderBy(x => x.CreateTime).FirstOrDefault();
+            var openGame = _games.Where(x => !x.Value.Full).OrderBy(x => x.Value.CreateTime).FirstOrDefault().Value;
             if (openGame != null)
             {
                 return JoinExistingGame(openGame, user);
@@ -29,17 +29,30 @@ namespace Vue.Domain.Multiplayer
 
         public static Game GetGame(Guid gameId)
         {
-            return _games.First(x => x.Id == gameId);
+            return _games[gameId];
         }
 
         private static Game CreateGame(User user1)
         {
+            CleanseGames();
             var gameToAdd = new Game
             {
                 UserPair = new UserPair(user1, null)
             };
-            _games.Add(gameToAdd);
+            _games.TryAdd(gameToAdd.Id, gameToAdd);
             return gameToAdd;
+        }
+
+        private static void CleanseGames()
+        {
+            var completedGames = _games.Where(x => x.Value.IsOver && x.Value.SecondsSinceLastTurn >= 30).ToList();           
+            var inCompleteGames = _games.Where(x => x.Value.SecondsSinceLastTurn >= 300).ToList();
+            completedGames.AddRange(inCompleteGames);
+
+            foreach (var completedGame in completedGames)
+            {
+                _games.TryRemove(completedGame.Key, out var game);
+            }
         }
 
         private static Game JoinExistingGame(Game game, User user)
@@ -50,12 +63,12 @@ namespace Vue.Domain.Multiplayer
 
         public static List<Game> GetGames()
         {
-            return _games.ToList();
+            return _games.Values.ToList();
         }
 
-        public static bool AddMove(User user)
+        public static bool AddMove(Guid gameId, User user)
         {
-            var game = _games.First(x => x.User1.Id == user.Id || x.User2.Id == user.Id);
+            var game = _games[gameId];
 
             if (game.User1.Id == user.Id)
             {
