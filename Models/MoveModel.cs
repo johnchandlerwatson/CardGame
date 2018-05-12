@@ -13,11 +13,6 @@ namespace Vue.Models
         public string Username { get; set; }
         public Game Game { get; set; }
         public string MoveSummary => string.Join(Environment.NewLine, Game.Actions.Select(x => x.ActionDescription()));
-        public void ValidateModel(string username)
-        {
-            Console.WriteLine($"Sending model with User1 of {Game.User1.Username} to {username}");
-            if (Game.User1.Username != username) throw new Exception($"User1 should be {username} however it is {Game.User2.Username}");
-        }
 
         public void ArrangeUsers(string username)
         {

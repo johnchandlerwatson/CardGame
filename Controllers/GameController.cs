@@ -27,7 +27,6 @@ namespace Vue.Controllers
         public ContentResult Index(string username, string deck, string champ, Guid? gameId)
         {
             var model = GetModel(username, deck, champ, gameId);
-            model.ValidateModel(username);
             return Content(model.ToJson(), "application/json");
         }
 
@@ -114,7 +113,6 @@ namespace Vue.Controllers
             var game = GameManager.GetGame(gameId);        
             var model = new MoveModel { Game = GetNewGame(game), Username = username };
             model.ArrangeUsers(username);
-            model.ValidateModel(username);
             return Content(model.ToJson(), "application/json");
         }
     }

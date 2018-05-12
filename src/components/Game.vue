@@ -50,7 +50,7 @@
                     <p>HLTH: {{model.Game.User1.Champion.Health}}</p>
                 </div>
             </div>
-            <div id="ally-cards" style="height: 20%;" class="hand-section">
+            <div id="ally-cards" style="height: 20%;" class="hand-section" :class="{'disabled': disabled}">
                 <drag class="drag card ally-card" :class="ally.Rarity.toLowerCase()" @dragstart="dragging = ally.Row" @dragend="dragging = null" v-for="ally in model.Game.User1.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
                     <span>{{ally.Name}}</span><br>
                     <span>Health: {{ally.Health}}</span><br>
@@ -59,6 +59,9 @@
                     <span>Side: {{ally.Row}}</span><br>
                 </drag>               
                 <input type="text" id="card-selected" hidden>
+            </div>
+            <div v-if="disabled" class="disabled-overlay" id="disable-section">
+                <h2>Waiting for oponent's move..</h2>
             </div>
         </div>
         <div id="actions" class="action-section">
@@ -82,7 +85,8 @@
     data () {
       return {
         model: null,
-        dragging: null
+        dragging: null,
+        disabled: false
       }
     },
     created () {
@@ -104,6 +108,7 @@
               .get(url)
               .then((res) => {
                 vue.model = res.body
+                vue.disabled = false
               })
               .catch((ex) => console.log(ex))
           }
@@ -119,6 +124,7 @@
         this.$http.post('/api/Game/', JSON.stringify(payload)).then((response) => {
           if (response.body.PlayerGame) {
             this.$data.model.Game.User1 = response.body.User
+            this.disabled = true
           } else {
             this.$data.model = response.body
           }
@@ -144,7 +150,7 @@
         padding: 0;
     }
 
-/* Common - Grey Uncommon - Red Rare - Orange Epic - Green Legendary - Blue Mythic - Purple Godly - Gold */
+    /* Common - Grey Uncommon - Red Rare - Orange Epic - Green Legendary - Blue Mythic - Purple Godly - Gold */
     .common{
         background: linear-gradient(to right, #3e3e41 , #504d4d) !important
     }
@@ -254,5 +260,23 @@
         padding: 10px;
         width: 125px;
         height: 50px;
+    }
+
+    .disabled-overlay {
+        opacity: 0.7;
+        background: #626263;
+        z-index: 1000;
+        position: absolute;
+        bottom: 0;
+        height: 20%;
+        width: 85%;
+        color: white;
+        text-align: center;
+        font-size: 2em;
+        padding-top: 20px;
+    }
+
+    .disabled {
+        pointer-events: none;
     }
 </style>
