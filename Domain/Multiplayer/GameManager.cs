@@ -24,7 +24,7 @@ namespace Vue.Domain.Multiplayer
 
         public static int GameCount()
         {
-            return _games.Count;
+            return _games.Where(x => !x.Value.IsOver).Count();
         }
 
         public static Game GetGame(Guid gameId)

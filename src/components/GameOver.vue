@@ -6,7 +6,7 @@
                     <img class="gif" :src="getImage()">
                     <h1 style="font-size: 4em;">{{gameOverMessage}}</h1>
                     <div class="row">
-                        <button v-on:click="returnHome" class="btn btn-lg btn-success">Return</button>
+                        <button v-on:click="returnToLobby" class="btn btn-lg btn-success">Return</button>
                     </div>
                 </div>   
             </div>
@@ -17,7 +17,7 @@
 <script>
   export default {
     name: 'gameover',
-    props: ['model'],
+    props: ['model', 'helloModel'],
     computed: {
       gameIsOver: function () {
         return this.lose || this.win
@@ -44,8 +44,8 @@
         var images = require.context('../assets/', false, /\.gif$/)
         return images('./' + picName + '.gif')
       },
-      returnHome: function () {
-        this.$router.go()
+      returnToLobby: function () {
+        this.$emit('goToLobby')
       }
     }
   }

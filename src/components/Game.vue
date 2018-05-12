@@ -68,7 +68,7 @@
             <h4 class="centered">Actions</h4>
             <p class="actions-summary scrollable">{{model.MoveSummary}}</p>
         </div>
-        <gameover :model="model"></gameover>
+        <gameover v-on:goToLobby="goToLobby()" :model="model" :helloModel="helloModel"></gameover>
     </div>
 </template>
 
@@ -139,6 +139,9 @@
       getImage: function (picName) {
         var images = require.context('../assets/', false, /\.png$/)
         return images('./' + picName + '.png')
+      },
+      goToLobby: function () {
+        this.$emit('input', { componentName: 'gameLobby', deckName: this.helloModel.deckName, champName: this.helloModel.champName, username: this.helloModel.username })
       }
     }
   }
