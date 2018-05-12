@@ -155,8 +155,28 @@
         background: linear-gradient(to right, #3e3e41 , #504d4d) !important
     }
 
+    .uncommon{
+        background: linear-gradient(to right, #c72424 , #5f0e0e) !important
+    }
+
     .rare{
-        background: linear-gradient(to right, #c72424 , #504d4d) !important
+        background: linear-gradient(to right, #dd9613 , #5c2908) !important
+    }
+
+    .epic{
+        background: linear-gradient(to right, #266430 , #023006) !important
+    }
+
+    .legendary{
+        background: linear-gradient(to right, #1c2aec , #06012b) !important
+    }
+
+    .mythic{
+        background: linear-gradient(to right, #561d7c , #1e0225) !important
+    }
+
+    .godly{
+        background: linear-gradient(to right, #d89924 , #6b5c1b) !important
     }
 
     .arena {
