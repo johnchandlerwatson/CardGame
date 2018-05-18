@@ -49,32 +49,6 @@
         top: 0;
     }
 
-    .attack-enemy { 
-        animation: attack-enemy 0.4s both;
-        position: relative;
-        animation-delay: .5s;
-    }
-
-    .attack-ally { 
-        animation: attack-ally 0.4s both;
-        position: relative;
-        animation-delay: .5s;
-    }
-
-    @keyframes attack-enemy {
-        0%   {left:0px; top:0px;}
-        50%  {left:0px; top:-50px;}
-        75%  {left:0px; top:-75px;}
-        100% {left:0px; top:0px;}
-    }
-
-    @keyframes attack-ally {
-        0%   {left:0px; top:0px;}
-        50%  {left:0px; top:50px;}
-        75%  {left:0px; top:75px;}
-        100% {left:0px; top:0px;}
-    }
-
     .fade-enter-active, .fade-leave-active {
         transition: opacity .7s ease-out;
     }
