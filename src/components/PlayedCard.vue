@@ -1,5 +1,5 @@
 <template>
-    <div class="played-card" :class="{'attack-ally': shouldAttackAlly, 'attack-enemy': shouldAttackEnemy}">
+    <div class="played-card">
         <span class="centered">{{card.Name}}</span>
         <div class="stats">
             <p>HLTH: {{card.Health}}</p>
@@ -11,20 +11,7 @@
 <script>
   export default {
     name: 'playedCard',
-    props: ['card', 'isEnemy'],
-    data: function () {
-      return {
-        shouldAttackAlly: this.isEnemy,
-        shouldAttackEnemy: !this.isEnemy
-      }
-    },
-    created: function () { // removing class so we add back and animate again
-      var self = this
-      setTimeout(function () {
-        self.shouldAttackAlly = false
-        self.shouldAttackEnemy = false
-      }, 1500)
-    }
+    props: ['card', 'isEnemy']
   }
 </script>
 
@@ -47,31 +34,5 @@
 
     .stats > p {
         margin: 0;
-    }
-
-    .attack-enemy { 
-        animation: attack-enemy 0.4s both;
-        position: relative;
-        animation-delay: .5s;
-    }
-
-    .attack-ally { 
-        animation: attack-ally 0.4s both;
-        position: relative;
-        animation-delay: .5s;
-    }
-
-    @keyframes attack-enemy {
-        0%   {left:0px; top:0px;}
-        50%  {left:0px; top:-50px;}
-        75%  {left:0px; top:-75px;}
-        100% {left:0px; top:0px;}
-    }
-
-    @keyframes attack-ally {
-        0%   {left:0px; top:0px;}
-        50%  {left:0px; top:50px;}
-        75%  {left:0px; top:75px;}
-        100% {left:0px; top:0px;}
     }
 </style>

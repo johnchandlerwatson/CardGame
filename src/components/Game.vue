@@ -8,7 +8,7 @@
             </div>
             <div id="enemy-champ-section" class="centered champ-section">
                 <div>
-                    <img class="champ" :src="getImage(model.Game.User2.Champion.ChampImage)">
+                    <img :id="model.Game.User2.Champion.Id" class="champ" :src="getImage(model.Game.User2.Champion.ChampImage)">
                     <p>HLTH: {{model.Game.User2.Champion.Health}}</p>
                 </div>
             </div>
@@ -16,19 +16,19 @@
                 <div id="enemy-side" class="even-rows-container">
                     <div id="enemy-side-back" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Game.User2.PlayedBack" :key="enemy.Id">
-                            <playedCard :card="enemy" :class="enemy.Rarity.toLowerCase()" :isEnemy="true"></playedCard>
+                            <playedCard :id="enemy.Id" :card="enemy" :class="enemy.Rarity.toLowerCase()" :isEnemy="true"></playedCard>
                         </div>                       
                     </div>
                     <div id="enemy-side-front" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Game.User2.PlayedFront" :key="enemy.Id">
-                            <playedCard :card="enemy" :class="enemy.Rarity.toLowerCase()" :isEnemy="true"></playedCard>
+                            <playedCard :id="enemy.Id" :card="enemy" :class="enemy.Rarity.toLowerCase()" :isEnemy="true"></playedCard>
                         </div>
                     </div>
                 </div>
                 <div id="ally-side" class="even-rows-container" style="border-top: #655539 dashed;">
                     <div id="ally-side-front" class="flex-row">
                         <div class="played-card" v-for="ally in model.Game.User1.PlayedFront" :key="ally.Id">
-                            <playedCard :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
+                            <playedCard :id="ally.Id" :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
                             <div class="phantom-card" :class="{ displayed: dragging === 'Front' }"></div>
@@ -36,7 +36,7 @@
                     </div>
                     <div id="ally-side-back" class="flex-row">
                         <div class="played-card" v-for="ally in model.Game.User1.PlayedBack" :key="ally.Id">
-                            <playedCard :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
+                            <playedCard :id="ally.Id" :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
                             <div class="phantom-card" :class="{ displayed: dragging === 'Back' }"></div>
@@ -46,7 +46,7 @@
             </drop>
             <div id="ally-champ-section" class="centered champ-section">
                 <div>
-                    <img class="champ" :src="getImage(model.Game.User1.Champion.ChampImage)">
+                    <img :id="model.Game.User1.Champion.Id" class="champ" :src="getImage(model.Game.User1.Champion.ChampImage)">
                     <p>HLTH: {{model.Game.User1.Champion.Health}}</p>
                 </div>
             </div>
@@ -139,6 +139,30 @@
       getImage: function (picName) {
         var images = require.context('../assets/', false, /\.png$/)
         return images('./' + picName + '.png')
+      },
+      showAction: function (actionCard, owner, cardName) {
+        console.log(owner + '\'s ' + cardName + ' attacking someone')
+        if (owner === this.model.Game.User1.Username) {
+          actionCard.classList.add('attack-enemy')
+        } else {
+          actionCard.classList.add('attack-ally')
+        }
+      }
+    },
+    watch: {
+      'model.Game.Actions': function (val, oldVal) {
+        if (val.length > 0) {
+          console.log(val)
+          for (var i = oldVal.length; i < val.length; i++) {
+            console.log('new action')
+            if (val[i].Actor) {
+              var actionCard = document.getElementById(val[i].Actor.Id)
+              this.showAction(actionCard, val[i].Actor.User.Username, val[i].Actor.Name)
+            } else {
+              console.log('no Actor')
+            }
+          }
+        }
       }
     }
   }
@@ -177,6 +201,32 @@
 
     .godly{
         background: linear-gradient(to right, #d89924 , #6b5c1b) !important
+    }
+
+    .attack-enemy { 
+        animation: attack-enemy 0.4s both;
+        position: relative;
+        animation-delay: .5s;
+    }
+
+    .attack-ally { 
+        animation: attack-ally 0.4s both;
+        position: relative;
+        animation-delay: .5s;
+    }
+
+    @keyframes attack-enemy {
+        0%   {left:0px; top:0px;}
+        50%  {left:0px; top:-50px;}
+        75%  {left:0px; top:-75px;}
+        100% {left:0px; top:0px;}
+    }
+
+    @keyframes attack-ally {
+        0%   {left:0px; top:0px;}
+        50%  {left:0px; top:50px;}
+        75%  {left:0px; top:75px;}
+        100% {left:0px; top:0px;}
     }
 
     .arena {
