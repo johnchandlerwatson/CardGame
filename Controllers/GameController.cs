@@ -98,7 +98,7 @@ namespace Vue.Controllers
             }
             else 
             {
-                var turnIsComplete = GameManager.AddMove(user);
+                var turnIsComplete = GameManager.AddMove(model.GameId.Value, user);
                 if (turnIsComplete)
                 {
                     _hub.EndTurn(model.GameId.Value);

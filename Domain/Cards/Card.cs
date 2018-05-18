@@ -14,7 +14,6 @@ namespace Vue.Domain.Cards
         [JsonConverter(typeof(StringEnumConverter))]
         public abstract Rarity Rarity { get; }
         public abstract int Speed { get; }
-        public bool IsDead => Health <= 0;
         public bool CanHaveDuplicates => Rarity != Rarity.Legendary &&
             Rarity != Rarity.Epic &&
             Rarity != Rarity.Mythic &&

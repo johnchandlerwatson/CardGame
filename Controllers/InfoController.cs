@@ -35,13 +35,22 @@ namespace Vue.Controllers
             {
                 var user1 = UserModel(game.User1);
                 var user2 = UserModel(game.User2);
-                gameInfos.Add(new GameInfo { Id = game.Id, User1 = user1, User2 = user2 });
+                var gameInfo = new GameInfo 
+                { 
+                    Id = game.Id, 
+                    User1 = user1, 
+                    User2 = user2,
+                    IsOver = game.IsOver,
+                    LastTurnTime = game.LastTurnTime
+                };
+                gameInfos.Add(gameInfo);
             }
             return gameInfos; 
         }
 
         private UserInfo UserModel(User user)
         {
+            if (user == null) return null;
             var cards = new List<CardInfo>();
             foreach (var card in user.Played)
             {
@@ -64,6 +73,8 @@ namespace Vue.Controllers
     public class GameInfo
     {
         public Guid Id { get; set; }
+        public bool IsOver { get; set; }
+        public DateTime LastTurnTime { get; set; }
         public UserInfo User1 { get; set; }
         public UserInfo User2 { get; set; }
     }
