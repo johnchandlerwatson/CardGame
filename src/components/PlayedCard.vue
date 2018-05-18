@@ -1,6 +1,6 @@
 <template>
-    <transition name="fade" :duration="{ enter: 5000, leave: 5000 }">
-        <div class="played-card" :class="{'attack-ally': shouldAttackAlly, 'attack-enemy': shouldAttackEnemy}">
+    <transition name="fade">
+        <div class="played-card">
             <span class="centered">{{card.Name}}</span>
             <div class="stats">
                 <p>HLTH: {{card.Health}}</p>
@@ -14,20 +14,7 @@
 <script>
   export default {
     name: 'playedCard',
-    props: ['card', 'isEnemy'],
-    data: function () {
-      return {
-        shouldAttackAlly: this.isEnemy,
-        shouldAttackEnemy: !this.isEnemy
-      }
-    },
-    created: function () { // removing class so we add back and animate again
-      var self = this
-      setTimeout(function () {
-        self.shouldAttackAlly = false
-        self.shouldAttackEnemy = false
-      }, 1500)
-    }
+    props: ['card', 'isEnemy']
   }
 </script>
 
