@@ -14,5 +14,5 @@ obj/
 *.sln
 
 package-lock.json
-wwwroot/
 wwwroot/app.js
+wwwroot/static
