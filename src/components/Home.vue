@@ -20,7 +20,7 @@
               <h2 class="modal-title">PLAY THE VOID!</h2>
             </div>
             <div class="modal-body">
-              <form id="play-form">
+              <form id="play-form" v-on:submit.prevent="goToSelection">
                   <div class="form-field">
                       <label for="username">Username:</label>
                       <input v-model="username" id="username" type="text" name="username">
@@ -62,7 +62,7 @@
       showModal: function (event) {
         $('#play-modal').modal('show')
       },
-      goToSelection: function () {
+      goToSelection: function (event) {
         $('#play-modal').modal('hide')
         this.$emit('input', { componentName: 'decks', username: this.username })
       }
