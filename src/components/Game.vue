@@ -59,6 +59,7 @@
                     <span>Side: {{ally.Row}}</span><br>
                 </drag>               
                 <input type="text" id="card-selected" hidden>
+                <timer ref="timer" v-if="!isBotGame()" v-on:forceTurn="selectCard(firstCard())"></timer>
             </div>
             <div v-if="disabled" class="disabled-overlay" id="disable-section">
                 <h2>Waiting for oponent's move..</h2>
@@ -77,11 +78,12 @@
   import { Drag, Drop } from 'vue-drag-drop'
   import playedCard from './PlayedCard.vue'
   import gameover from './GameOver.vue'
+  import timer from './Timer.vue'
 
   export default {
     name: 'game',
     props: ['helloModel'],
-    components: { Drag, Drop, playedCard, gameover },
+    components: { Drag, Drop, playedCard, gameover, timer },
     data () {
       return {
         model: null,
@@ -111,6 +113,7 @@
                 vue.disabled = false
               })
               .catch((ex) => console.log(ex))
+            vue.$refs.timer.resetTimer()
           }
         })
         vue.connection.start().catch(err => console.log(err))
@@ -118,7 +121,6 @@
     },
     methods: {
       selectCard: function (selection) {
-        event.preventDefault()
         var userPair = { User1: this.$data.model.Game.User1, User2: this.$data.model.Game.User2 }
         var payload = { Selection: selection, UserPair: userPair, Username: this.helloModel.username, GameId: this.helloModel.gameId }
         this.$http.post('/api/Game/', JSON.stringify(payload)).then((response) => {
@@ -142,6 +144,12 @@
       },
       goToLobby: function () {
         this.$emit('input', { componentName: 'gameLobby', deckName: this.helloModel.deckName, champName: this.helloModel.champName, username: this.helloModel.username })
+      },
+      firstCard: function () {
+        return this.$data.model.Game.User1.Hand[0].Name
+      },
+      isBotGame: function () {
+        return this.helloModel.gameId === null
       }
     }
   }
