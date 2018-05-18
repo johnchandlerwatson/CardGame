@@ -1,11 +1,14 @@
 <template>
-    <div class="played-card" :class="{'attack-ally': shouldAttackAlly, 'attack-enemy': shouldAttackEnemy}">
-        <span class="centered">{{card.Name}}</span>
-        <div class="stats">
-            <p>HLTH: {{card.Health}}</p>
-            <p style="text-align: right;">DMG: {{card.Damage}}</p>
+    <transition name="fade" :duration="{ enter: 5000, leave: 5000 }">
+        <div class="played-card" :class="{'attack-ally': shouldAttackAlly, 'attack-enemy': shouldAttackEnemy}">
+            <span class="centered">{{card.Name}}</span>
+            <div class="stats">
+                <p>HLTH: {{card.Health}}</p>
+                <p style="text-align: right;">DMG: {{card.Damage}}</p>
+            </div>
+            <img v-if="card.IsDead" class="dead" src="../assets/skull.jpg">  
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
@@ -38,6 +41,7 @@
         padding: 10px;
         width: 125px;
         font-size: .8em;
+        position: relative;
     }
 
     .stats {
@@ -47,6 +51,15 @@
 
     .stats > p {
         margin: 0;
+    }
+
+    .dead {
+        opacity: .4;
+        position: absolute;
+        height: 100%;
+        width: 60%;
+        margin-left: 10px;
+        top: 0;
     }
 
     .attack-enemy { 
@@ -73,5 +86,13 @@
         50%  {left:0px; top:50px;}
         75%  {left:0px; top:75px;}
         100% {left:0px; top:0px;}
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .7s ease-out;
+    }
+
+    .fade-enter, .fade-leave-to {
+        transition: opacity 2s ease-out;
     }
 </style>

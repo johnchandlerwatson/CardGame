@@ -10,7 +10,9 @@ namespace Vue.Domain
     public class GameEngine
     {
         public GameEngineResponse ExecuteMove(User user1, User user2)
-        {        
+        {
+            RemoveDeadCards(user1, user2);
+
             var actions = new List<GameAction>();
             var userCardList = user1.Played.ToList();
             var enemyCardList = user2.Played.ToList();
@@ -18,8 +20,7 @@ namespace Vue.Domain
             ExecuteCardMoves(enemyCardList, userCardList, user1, user2, actions);
             ExecuteChampionMove(enemyCardList, userCardList, user1.Champion, user2.Champion, actions);
             ExecuteChampionMove(userCardList, enemyCardList, user2.Champion, user1.Champion, actions);
-
-            RemoveDeadCards(user1, user2);
+            
             var userPair = new UserPair(user1, user2);
             return new GameEngineResponse { UserPair = userPair, Actions = actions };
         }
