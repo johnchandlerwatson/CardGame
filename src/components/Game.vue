@@ -7,10 +7,7 @@
                 </div>               
             </div>
             <div id="enemy-champ-section" class="centered champ-section">
-                <div>
-                    <img :id="model.Game.User2.Champion.Id" class="champ" :src="getImage(model.Game.User2.Champion.ChampImage)">
-                    <p>HLTH: {{model.Game.User2.Champion.Health}}</p>
-                </div>
+                <champion :champ="model.Game.User2.Champion"></champion>
             </div>
             <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
                 <div id="enemy-side" class="even-rows-container">
@@ -25,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="ally-side" class="even-rows-container" style="border-top: #655539 dashed;">
+                <div id="ally-side" class="even-rows-container ally-side">
                     <div id="ally-side-front" class="flex-row">
                         <div class="played-card" v-for="ally in model.Game.User1.PlayedFront" :key="ally.Id">
                             <playedCard :id="ally.Id" :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
@@ -45,10 +42,7 @@
                 </div>
             </drop>
             <div id="ally-champ-section" class="centered champ-section">
-                <div>
-                    <img :id="model.Game.User1.Champion.Id" class="champ" :src="getImage(model.Game.User1.Champion.ChampImage)">
-                    <p>HLTH: {{model.Game.User1.Champion.Health}}</p>
-                </div>
+                <champion :champ="model.Game.User1.Champion"></champion>
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section" :class="{'disabled': disabled}">
                 <drag class="drag card ally-card" :class="ally.Rarity.toLowerCase()" @dragstart="dragging = ally.Row" @dragend="dragging = null" v-for="ally in model.Game.User1.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
@@ -79,11 +73,12 @@
   import playedCard from './PlayedCard.vue'
   import gameover from './GameOver.vue'
   import timer from './Timer.vue'
+  import champion from './Champion.vue'
 
   export default {
     name: 'game',
     props: ['helloModel'],
-    components: { Drag, Drop, playedCard, gameover, timer },
+    components: { Drag, Drop, playedCard, gameover, timer, champion },
     data () {
       return {
         model: null,
@@ -137,10 +132,6 @@
       },
       findDrop: function (data) {
         console.log(data)
-      },
-      getImage: function (picName) {
-        var images = require.context('../assets/', false, /\.png$/)
-        return images('./' + picName + '.png')
       },
       showAction: function (actionCard, owner, cardName) {
         console.log(owner + '\'s ' + cardName + ' attacking someone')
@@ -252,6 +243,10 @@
         grid-template-rows: 50% 50%;
     }
 
+    .ally-side {
+        border-top: #655539 dashed;
+    }
+
     .hand-section {
         display: flex; 
         flex-direction: row;
@@ -269,10 +264,6 @@
         height: 10%; 
         background-color: #948da0;
         border: #514863 solid;
-    }
-
-    .champ {
-        width: 25px;
     }
 
     .ally-card {
