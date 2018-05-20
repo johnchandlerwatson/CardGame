@@ -28,5 +28,29 @@ namespace Vue.Domain.Multiplayer
         {
             await _hubContext.Clients.All.SendAsync("EndTurn", gameId.ToString());
         }
+
+        public Task Subscribe(Guid gameId)
+        {
+            var connectionID = Context.ConnectionId;
+            var game = GameManager.GetGame(gameId);
+            game.SetConnectionId(connectionID);
+            return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            var connectionID = Context.ConnectionId;
+            var disconnectedGameId = GameManager.Disconnected(connectionID);
+            if (disconnectedGameId.HasValue)
+            {
+                PlayerLeft(disconnectedGameId.Value);
+            }
+            return base.OnDisconnectedAsync(exception);
+        }
+
+        public async Task PlayerLeft(Guid gameId)
+        {
+            await _hubContext.Clients.All.SendAsync("PlayerLeft", gameId.ToString());
+        }
     }
 }

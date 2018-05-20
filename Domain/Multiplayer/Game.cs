@@ -6,6 +6,8 @@ namespace Vue.Domain.Multiplayer
     public class Game
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+        public string ConnectionId { get; protected set; }
+        public string Connection2Id { get; protected set; }
         public UserPair UserPair { get; set; }
         public List<GameAction> Actions { get; set; } = new List<GameAction>();
         public bool Full => User1 != null && User2 != null;
@@ -32,6 +34,18 @@ namespace Vue.Domain.Multiplayer
         {
             UserPair.User1.ResetHandCards();
             UserPair.User2.ResetHandCards();
+        }
+
+        public void SetConnectionId(string connectionId)
+        {
+            if (ConnectionId == null)
+            {
+                ConnectionId = connectionId;
+            }
+            else 
+            {
+                Connection2Id = connectionId;
+            }
         }
     }
 }

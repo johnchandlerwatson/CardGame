@@ -19,10 +19,11 @@
     methods: {
       startTimer: function () {
         var self = this
-        window.setInterval(() => {
+        var id = window.setInterval(() => {
           self.seconds = self.seconds - 1
           if (self.seconds === 0) {
             self.$emit('forceTurn')
+            window.clearInterval(id)
             self.resetTimer()
             self.startTimer()
           } else if (self.seconds === 10) {

@@ -63,7 +63,8 @@
             <h4 class="centered">Actions</h4>
             <p class="actions-summary scrollable">{{model.MoveSummary}}</p>
         </div>
-        <gameover v-on:goToLobby="goToLobby()" :model="model" :helloModel="helloModel"></gameover>
+        <disconnected v-on:goToLobby="goToLobby()" v-if="enemyLeft"></disconnected>
+        <gameover v-on:goToLobby="goToLobby()" :model="model" :helloModel="helloModel"></gameover>  
     </div>
 </template>
 
@@ -74,16 +75,18 @@
   import gameover from './GameOver.vue'
   import timer from './Timer.vue'
   import champion from './Champion.vue'
+  import disconnected from './Disconnected.vue'
 
   export default {
     name: 'game',
     props: ['helloModel'],
-    components: { Drag, Drop, playedCard, gameover, timer, champion },
+    components: { Drag, Drop, playedCard, gameover, timer, champion, disconnected },
     data () {
       return {
         model: null,
         dragging: null,
-        disabled: false
+        disabled: false,
+        enemyLeft: false
       }
     },
     created () {
@@ -109,6 +112,12 @@
               })
               .catch((ex) => console.log(ex))
             vue.$refs.timer.resetTimer()
+          }
+        })
+        vue.connection.on('PlayerLeft', (gameId) => {
+          if (gameId === vue.helloModel.gameId) {
+            vue.enemyLeft = true
+            vue.helloModel.gameId = null
           }
         })
         vue.connection.start().catch(err => console.log(err))

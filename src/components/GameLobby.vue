@@ -47,6 +47,7 @@
         .get(url)
         .then((res) => {
           this.joinGameModel = res.body
+          this.connection.invoke('Subscribe', this.joinGameModel.Id).catch(err => console.error(err.toString()))
           if (this.joinGameModel.Full) {
             this.$http.get('/api/GameLobby/' + this.joinGameModel.Id)
               .catch(err => console.log(err))

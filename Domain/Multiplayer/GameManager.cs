@@ -32,6 +32,19 @@ namespace Vue.Domain.Multiplayer
             return _games[gameId];
         }
 
+        public static Guid? Disconnected(string connectionId)
+        {
+            var disconnectedGame = _games
+                .FirstOrDefault(x => x.Value.ConnectionId  == connectionId ||
+                                     x.Value.Connection2Id == connectionId);
+            if (disconnectedGame.Value != null)
+            {
+                _games.TryRemove(disconnectedGame.Key, out var removedGame);
+                return disconnectedGame.Value.Id;
+            }
+            return null;
+        }
+
         private static Game CreateGame(User user1)
         {
             CleanseGames();
