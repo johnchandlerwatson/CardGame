@@ -37,11 +37,12 @@
     }
 
     .champ-image {
-        width: 33px;
+        width: 30px;
         margin-top: 5px;
     }
 
     .champ-health {
         margin-bottom: 2px;
+        font-size: .8em;
     }
 </style>

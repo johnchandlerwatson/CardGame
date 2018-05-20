@@ -23,9 +23,13 @@
     .played-card {
         background: linear-gradient(to right, #6b5d5d , #504d4d);
         color: #f3eeee;
-        margin: 10px;
+        margin-top: 10px;
+        margin-right: 10px;
         border-radius: 4px;
-        padding: 10px;
+        padding-top: 8px;
+        padding-bottom: 4px;
+        padding-right: 10px;
+        padding-left: 10px;
         width: 125px;
         font-size: .8em;
         position: relative;
@@ -33,7 +37,8 @@
 
     .stats {
         display: grid;
-        grid-template-columns: 50% 50%;
+        grid-template-columns: 50% 50%;    
+        padding-top: 8px;
     }
 
     .stats > p {
