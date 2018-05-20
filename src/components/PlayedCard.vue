@@ -33,6 +33,7 @@
         width: 125px;
         font-size: .8em;
         position: relative;
+        box-shadow: black 2px 2px 4px 0px;
     }
 
     .stats {

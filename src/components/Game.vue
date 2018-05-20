@@ -7,6 +7,10 @@
                 </div>               
             </div>
             <div id="enemy-champ-section" class="centered champ-section">
+                <div class="username-section">
+                    <label for="username">Username: </label>
+                    <p>{{model.Game.User2.Username}}</p>
+                </div>
                 <champion :champ="model.Game.User2.Champion"></champion>
             </div>
             <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
@@ -42,6 +46,10 @@
                 </div>
             </drop>
             <div id="ally-champ-section" class="centered champ-section">
+                <div class="username-section">
+                    <label for="username">Username: </label>
+                    <p>{{model.Game.User1.Username}}</p>
+                </div>
                 <champion :champ="model.Game.User1.Champion"></champion>
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section" :class="{'disabled': disabled}">
@@ -292,6 +300,13 @@
         color: #f3eeee;
         margin: 10px;
         border-radius: 10px;
+        box-shadow: black 2px 2px 4px 0px;
+    }
+
+    .username-section {
+        margin-top: 10px;
+        margin-left: 10px;
+        position: absolute;
     }
 
     .selected {
