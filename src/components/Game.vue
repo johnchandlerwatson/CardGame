@@ -1,5 +1,5 @@
 <template id="game">
-    <div v-if="model != null" class="arena">
+    <div v-if="model != null" :class="[isMobile ? 'mobile-arena' : 'desktop-arena']">
         <div id="card-table">
             <div id="enemy-cards" style="height: 10%;" class="hand-section">
                 <div class="card enemy-card" v-for="enemy in model.Game.User2.Hand" :key="enemy.Id">
@@ -67,7 +67,7 @@
                 <h2>Waiting for oponent's move..</h2>
             </div>
         </div>
-        <div id="actions" class="action-section">
+        <div v-if="!isMobile" id="actions" class="action-section">
             <h4 class="centered">Actions</h4>
             <p class="actions-summary scrollable">{{model.MoveSummary}}</p>
         </div>
@@ -256,9 +256,16 @@
         100% {left:0px; top:0px;}
     }
 
-    .arena {
+    .desktop-arena {
         display: grid;
         grid-template-columns: 85% 15%;
+        height: 100%;
+        overflow-x: hidden;
+    }
+
+    .mobile-arena {
+        display: grid;
+        grid-template-columns: 100%;
         height: 100%;
         overflow-x: hidden;
     }
@@ -299,7 +306,7 @@
     }
 
         .ally-card:hover {
-            border: #c0e4e4 solid 4px;
+            border: #c3dbdb solid 4px;
         }
 
     .enemy-card {

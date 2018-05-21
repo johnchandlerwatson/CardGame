@@ -8,6 +8,7 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
 Vue.config.productionTip = false
+Vue.prototype.isMobile = (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1)
 
 /* eslint-disable no-new */
 new Vue({
