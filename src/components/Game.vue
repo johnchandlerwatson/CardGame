@@ -32,7 +32,7 @@
                             <playedCard :id="ally.Id" :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
-                            <div class="phantom-card" :class="{ displayed: dragging === 'Front' }"></div>
+                            <div class="phantom-card" :class="{ displayed: frontHover }"></div>
                         </div>
                     </div>
                     <div id="ally-side-back" class="flex-row">
@@ -40,7 +40,7 @@
                             <playedCard :id="ally.Id" :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
-                            <div class="phantom-card" :class="{ displayed: dragging === 'Back' }"></div>
+                            <div class="phantom-card" :class="{ displayed: backHover }"></div>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                 <champion :champ="model.Game.User1.Champion"></champion>
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section" :class="{'disabled': disabled}">
-                <div @click="selectCard(ally.Name)" class="card ally-card" :class="ally.Rarity.toLowerCase()" v-for="ally in model.Game.User1.Hand" :key="ally.Id">
+                <div @click="selectCard(ally.Name)" @mouseover="onHover(ally.Row)" @mouseleave="offHover()" class="card ally-card" :class="ally.Rarity.toLowerCase()" v-for="ally in model.Game.User1.Hand" :key="ally.Id">
                     <span>{{ally.Name}}</span><br>
                     <span>Health: {{ally.Health}}</span><br>
                     <span>Damage: {{ally.Damage}}</span><br>
@@ -93,7 +93,9 @@
         model: null,
         dragging: null,
         disabled: false,
-        enemyLeft: false
+        enemyLeft: false,
+        frontHover: false,
+        backHover: false
       }
     },
     created () {
@@ -132,6 +134,8 @@
     },
     methods: {
       selectCard: function (selection) {
+        this.frontHover = false
+        this.backHover = false
         var userPair = { User1: this.$data.model.Game.User1, User2: this.$data.model.Game.User2 }
         var payload = { Selection: selection, UserPair: userPair, Username: this.helloModel.username, GameId: this.helloModel.gameId }
         this.$http.post('/api/Game/', JSON.stringify(payload)).then((response) => {
@@ -159,6 +163,17 @@
       },
       isBotGame: function () {
         return this.helloModel.gameId === null
+      },
+      onHover: function (row) {
+        if (row === 'Front') {
+          this.frontHover = true
+        } else {
+          this.backHover = true
+        }
+      },
+      offHover: function () {
+        this.frontHover = false
+        this.backHover = false
       }
     },
     watch: {
@@ -283,6 +298,10 @@
         padding-left: 20px;
     }
 
+        .ally-card:hover {
+            border: #c0e4e4 solid 4px;
+        }
+
     .enemy-card {
         font-size: .6em;
     }
@@ -343,7 +362,7 @@
 
     .phantom-card {
         display: none;
-        background-color: #dfd;
+        background-color: rgb(202, 218, 202);
         margin: 10px;
         border-radius: 4px;
         padding: 10px;
