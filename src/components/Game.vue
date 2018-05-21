@@ -296,6 +296,9 @@
         height: 10%; 
         background-color: #948da0;
         border: #514863 solid;
+        display: grid;
+        grid-template-columns: 10% 60%;
+        grid-column-gap: 10%;
     }
 
     .ally-card {
@@ -325,7 +328,6 @@
     .username-section {
         margin-top: 10px;
         margin-left: 10px;
-        position: absolute;
     }
 
     .selected {

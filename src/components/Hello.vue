@@ -88,4 +88,9 @@
         justify-content: center;
         align-items: center;
     }
+
+    .label-data {
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
 </style>

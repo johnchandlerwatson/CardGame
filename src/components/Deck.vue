@@ -9,23 +9,23 @@
                             <h4 style="margin: 5px;">{{card.name}}</h4>
                         </div>
                         <div class="card-stats">
-                            <div class="card-stat">
+                            <div class="label-data">
                                 <p class="stat-label">Rarity:</p>
                                 <p class="stat">{{card.rarity}}</p>
                             </div>
-                            <div class="card-stat">
+                            <div class="label-data">
                                 <p class="stat-label">Max Health:</p>
                                 <p class="stat">{{card.maxHealth}}</p>
                             </div>
-                            <div class="card-stat">
+                            <div class="label-data">
                                 <p class="stat-label">Damage:</p>
                                 <p class="stat">{{card.damage}}</p>
                             </div>
-                            <div class="card-stat">
+                            <div class="label-data">
                                 <p class="stat-label">Speed:</p>
                                 <p class="stat">{{card.speed}}</p>
                             </div>
-                            <div class="card-stat">
+                            <div class="label-data">
                                 <p class="stat-label">Row:</p>
                                 <p class="stat">{{card.row}}</p>
                             </div>
@@ -111,12 +111,7 @@
         border-top-style: double;
         padding-top: 3px;
     }
-
-    .card-stat {
-        display: grid;
-        grid-template-columns: 50% 50%;
-    }
-        .card-stat > p {
+        .label-data > p {
             margin-bottom: 2px; 
         }
 

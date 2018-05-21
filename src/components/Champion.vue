@@ -22,7 +22,7 @@
 <style scoped>
     .champion {
         position: relative;
-        width: 15%;
+        width: 20%;
         margin: auto;
         background: linear-gradient(to right,#7d5f9a, #3d2c4e);
         border-radius: 20px;
