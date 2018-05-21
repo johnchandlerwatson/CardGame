@@ -13,7 +13,7 @@
                 </div>
                 <champion :champ="model.Game.User2.Champion"></champion>
             </div>
-            <drop id="battlefield" style="height: 50%" class="drop even-rows-container" @drop="handleDrop">
+            <div id="battlefield" style="height: 50%" class="even-rows-container">
                 <div id="enemy-side" class="even-rows-container">
                     <div id="enemy-side-back" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Game.User2.PlayedBack" :key="enemy.Id">
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-            </drop>
+            </div>
             <div id="ally-champ-section" class="centered champ-section">
                 <div class="username-section">
                     <label for="username">Username: </label>
@@ -78,7 +78,6 @@
 
 <script>
   var signalR = require('../js/signalr.js').signalR
-  import { Drag, Drop } from 'vue-drag-drop'
   import playedCard from './PlayedCard.vue'
   import gameover from './GameOver.vue'
   import timer from './Timer.vue'
@@ -88,7 +87,7 @@
   export default {
     name: 'game',
     props: ['helloModel'],
-    components: { Drag, Drop, playedCard, gameover, timer, champion, disconnected },
+    components: { playedCard, gameover, timer, champion, disconnected },
     data () {
       return {
         model: null,
@@ -143,12 +142,6 @@
             this.$data.model = response.body
           }
         }).catch((ex) => console.log(ex))
-      },
-      handleDrop: function (data) {
-        this.selectCard(data.CardName)
-      },
-      findDrop: function (data) {
-        console.log(data)
       },
       showAction: function (actionCard, owner, cardName) {
         console.log(owner + '\'s ' + cardName + ' attacking someone')
