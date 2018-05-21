@@ -371,12 +371,18 @@
 
     .phantom-card {
         display: none;
-        background-color: rgb(202, 218, 202);
+        background: radial-gradient(#828181, #cac6bd);
+        opacity: .8;
         margin: 10px;
         border-radius: 4px;
         padding: 10px;
         width: 125px;
         height: 50px;
+        -webkit-filter: blur(1.5px);
+        -moz-filter: blur(1.5px);
+        -o-filter: blur(1.5px);
+        -ms-filter: blur(1.5px);
+        filter: blur(1.5px);
     }
 
     .disabled-overlay {
