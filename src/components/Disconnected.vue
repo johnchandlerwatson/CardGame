@@ -1,6 +1,6 @@
 <template>
     <div class="disconnected centered">
-        <h1 style="padding: 20px;">The other player has disconnected :(</h1>
+        <h3 style="padding: 20px;">The other player has disconnected :(</h3>
         <button class="btn btn-success lobby-button" @click="returnToLobby()">Return to Lobby</button>
     </div>
 </template>
@@ -22,9 +22,9 @@
         position: absolute;
         top: calc(50%);
         left: calc(50%);
-        margin-left: -30%;
-        margin-top: -15%;
-        width: 45%;
+        margin-left: -40%;
+        margin-top: -40%;
+        width: 75%;
         background: white;
         border-radius: 20px;
         box-shadow: black 6px 6px 20px 2px;

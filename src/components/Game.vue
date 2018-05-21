@@ -62,9 +62,10 @@
                 </div>               
                 <input type="text" id="card-selected" hidden>
                 <timer ref="timer" v-if="!isBotGame()" v-on:forceTurn="selectCard(firstCard())"></timer>
-            </div>
-            <div v-if="disabled" class="disabled-overlay" id="disable-section">
-                <h2>Waiting for oponent's move..</h2>
+
+                <div v-if="disabled" class="disabled-overlay" id="disable-section">
+                    <h3>Waiting for oponent's move..</h3>
+                </div>
             </div>
         </div>
         <div v-if="!isMobile" id="actions" class="action-section">
@@ -283,6 +284,8 @@
         display: flex; 
         flex-direction: row;
         background-color: rgb(156, 156, 162);
+        position: relative;
+        width: 100%;
     }
 
     .flex-row {
@@ -391,8 +394,8 @@
         z-index: 1000;
         position: absolute;
         bottom: 0;
-        height: 20%;
-        width: 85%;
+        height: 100%;
+        width: 100%;
         color: white;
         text-align: center;
         font-size: 2em;
