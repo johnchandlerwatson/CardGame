@@ -1,35 +1,37 @@
 <template id="home">
-  <div id="app" class="container">
-    <img src="./../assets/logo.png">
-    <img class="gif" src="./../assets/trippy.gif">
-    <div class="hello">
-      <h2>Welcome to</h2>
-      <h1 style="font-size: 6em;">THE VOID</h1>
-      <p>{{ msg }}</p>
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <button v-on:click="showModal" class="btn btn-lg btn-success">Play!</button>
+  <div class="vertical-center">
+    <div id="app" class="container">
+      <img src="./../assets/logo.png">
+      <img class="gif" src="./../assets/trippy.gif">
+      <div class="hello">
+        <h3>Welcome to</h3>
+        <h1>THE VOID</h1>
+        <p>{{ msg }}</p>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <button v-on:click="showModal" class="btn btn-lg btn-success">Play!</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal fade" id="play-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h2 class="modal-title">PLAY THE VOID!</h2>
-            </div>
-            <div class="modal-body">
-              <form id="play-form" v-on:submit.prevent="goToSelection">
-                  <div class="form-field">
-                      <label for="username">Username:</label>
-                      <input v-model="username" id="username" type="text" name="username">
-                  </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" v-on:click="goToSelection()" class="btn btn-primary">PLAY!</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Nah</button>
+        <div class="modal fade" id="play-modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 class="modal-title">PLAY THE VOID!</h2>
+              </div>
+              <div class="modal-body">
+                <form id="play-form" v-on:submit.prevent="goToSelection">
+                    <div class="form-field">
+                        <label for="username">Username:</label>
+                        <input v-model="username" id="username" type="text" name="username">
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" v-on:click="goToSelection()" class="btn btn-primary">PLAY!</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Nah</button>
+              </div>
             </div>
           </div>
         </div>
@@ -93,5 +95,12 @@
     z-index: -1;
     left: 0;
     opacity: .15;
+  }
+
+  .vertical-center {
+    min-height: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
   }
 </style>

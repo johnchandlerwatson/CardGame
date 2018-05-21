@@ -1,6 +1,6 @@
 <template id="champs">
   <div class="container">
-      <h1>Select your champion!</h1>
+      <h2>Select your champion!</h2>
       <div v-if="model != null" class="champs-container">
           <div class="champion" v-on:click="goToArena(champ.name)" v-for="champ in model.champs" v-bind:key="champ.id">
             <img class="champ-img" :src="getImage(champ.champImage)">

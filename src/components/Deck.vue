@@ -4,7 +4,7 @@
             <button type="button" class="close deck-close" @click="closeModal()">x</button>
             <div class="basic-modal full-screen-modal">
                 <div class="deck-container">
-                    <div class="card" v-for="card in deckModel.selectedDeck.cards" v-bind:key="card.id">
+                    <div class="card card-size" v-for="card in deckModel.selectedDeck.cards" v-bind:key="card.id">
                         <div class="centered"> 
                             <h4 style="margin: 5px;">{{card.name}}</h4>
                         </div>
@@ -79,6 +79,21 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        overflow-y: auto;
+    }
+
+    /* laptop */
+    @media screen and (min-width: 600px) {
+        .card-size {
+            width: 18%;
+        }
+    }
+    
+    /* phone */
+    @media screen and (max-width: 600px) {
+        .card-size {
+            width: 46%;
+        }
     }
 
     .card {
@@ -86,7 +101,6 @@
         border-radius: 5px;
         padding: 5px;
         height: 210px;
-        width: 150px;
         margin-right: 10px;
         margin-bottom: 10px;
     }
@@ -136,5 +150,12 @@
         position: fixed;
         width: 5%;
         font-size: 3.5em;
+    }
+
+    .scrollable {
+        height: 100%;
+        overflow-y: auto;
+        top: 50px;
+        position: absolute;
     }
 </style>

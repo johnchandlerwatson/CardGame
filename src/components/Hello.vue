@@ -22,7 +22,7 @@
 <style>
     html, body {
         height: 100vh;
-        overflow-y:hidden;
+        overflow-y: hidden;
         font-family: 'East Sea Dokdo', cursive;
     }
 
@@ -35,6 +35,18 @@
 
     h1, h2, h3, h4 {
         font-family: 'Bungee', cursive;
+    }
+
+    h1 {
+        font-size: 7rem;
+    }
+
+    h2 {
+        font-size: 5rem;
+    }
+
+    h3 {
+        font-size: 3rem;
     }
 
     p, span, button, label, div {

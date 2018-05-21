@@ -1,6 +1,6 @@
 <template id="decks">
   <div class="container">
-      <h1>Select your deck!</h1>
+      <h2>Select your deck!</h2>
       <div v-if="model != null" class="decks-container">
           <div class="deck" v-on:click="openDeck(deck)" v-for="deck in model.decks" v-bind:key="deck.id">
             <h4>{{deck.name}}</h4>

@@ -53,13 +53,13 @@
                 <champion :champ="model.Game.User1.Champion"></champion>
             </div>
             <div id="ally-cards" style="height: 20%;" class="hand-section" :class="{'disabled': disabled}">
-                <drag class="drag card ally-card" :class="ally.Rarity.toLowerCase()" @dragstart="dragging = ally.Row" @dragend="dragging = null" v-for="ally in model.Game.User1.Hand" :transfer-data="{ CardName: ally.Name }" :key="ally.Id">
+                <div @click="selectCard(ally.Name)" class="card ally-card" :class="ally.Rarity.toLowerCase()" v-for="ally in model.Game.User1.Hand" :key="ally.Id">
                     <span>{{ally.Name}}</span><br>
                     <span>Health: {{ally.Health}}</span><br>
                     <span>Damage: {{ally.Damage}}</span><br>
                     <span>Rarity: {{ally.Rarity}}</span><br>
                     <span>Side: {{ally.Row}}</span><br>
-                </drag>               
+                </div>               
                 <input type="text" id="card-selected" hidden>
                 <timer ref="timer" v-if="!isBotGame()" v-on:forceTurn="selectCard(firstCard())"></timer>
             </div>
