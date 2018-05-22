@@ -4,7 +4,7 @@
             <button type="button" class="close deck-close" @click="closeModal()">x</button>
             <div class="basic-modal full-screen-modal">
                 <div class="deck-container">
-                    <div class="card card-size" v-for="card in deckModel.selectedDeck.cards" v-bind:key="card.id">
+                    <div class="deck-card card-size" v-for="card in deckModel.selectedDeck.cards" v-bind:key="card.id">
                         <div class="centered"> 
                             <h4 style="margin: 5px;">{{card.name}}</h4>
                         </div>
@@ -96,7 +96,7 @@
         }
     }
 
-    .card {
+    .deck-card {
         background-color: rgb(196, 194, 194);
         border-radius: 5px;
         padding: 5px;

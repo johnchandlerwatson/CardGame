@@ -20,10 +20,9 @@
 <style scoped>
     .disconnected {
         position: absolute;
-        top: calc(50%);
+        top: calc(30%);
         left: calc(50%);
         margin-left: -40%;
-        margin-top: -40%;
         width: 75%;
         background: white;
         border-radius: 20px;

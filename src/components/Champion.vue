@@ -27,6 +27,7 @@
         background: linear-gradient(to right,#7d5f9a, #3d2c4e);
         border-radius: 20px;
         color: #d8d8dc;
+        z-index: 2;
 
         border-style: solid;
         border-width: 2px;

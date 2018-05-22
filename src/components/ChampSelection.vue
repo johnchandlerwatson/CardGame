@@ -44,6 +44,7 @@
     .champs-container {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         margin-top: 50px;
     }
 
@@ -66,5 +67,6 @@
         font-size: 1.5em;
         cursor: pointer;
         margin-left: 20px;
+        margin-bottom: 20px;
     }
 </style>

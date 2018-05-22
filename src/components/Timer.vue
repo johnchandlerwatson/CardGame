@@ -41,9 +41,8 @@
 
 <style scoped>
     .timer {
-        font-size: 1.3em;
+        margin-right: 10px;
         margin-left: auto;
-        margin-right: 20px;
     }
 
     .normal {

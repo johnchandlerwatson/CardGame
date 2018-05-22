@@ -55,6 +55,7 @@
         display: flex;
         flex-direction: row;
         margin-top: 50px;
+        flex-wrap: wrap;
     }
 
     .deck {
@@ -71,5 +72,6 @@
         font-size: 1.5em;
         cursor: pointer;
         margin-left: 20px;
+        margin-bottom: 20px;
     }
 </style>

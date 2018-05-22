@@ -93,4 +93,52 @@
         display: grid;
         grid-template-columns: 50% 50%;
     }
+
+    .card {
+        padding: 10px;
+        background: linear-gradient(to right, #6b5d5d , #504d4d);
+        color: #f3eeee;
+        margin-left: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        box-shadow: black 2px 2px 4px 0px;
+    }
+
+    .hand-section-horizontal {
+        display: flex; 
+        flex-direction: row;
+        background-color: rgb(156, 156, 162);
+        position: relative;
+        width: 100%;
+    }
+
+    /* Common - Grey Uncommon - Red Rare - Orange Epic - Green Legendary - Blue Mythic - Purple Godly - Gold */
+    .common{
+        background: linear-gradient(to right, #3e3e41 , #504d4d) !important
+    }
+
+    .uncommon{
+        background: linear-gradient(to right, #c72424 , #5f0e0e) !important
+    }
+
+    .rare{
+        background: linear-gradient(to right, #dd9613 , #5c2908) !important
+    }
+
+    .epic{
+        background: linear-gradient(to right, #266430 , #023006) !important
+    }
+
+    .legendary{
+        background: linear-gradient(to right, #1c2aec , #06012b) !important
+    }
+
+    .mythic{
+        background: linear-gradient(to right, #561d7c , #1e0225) !important
+    }
+
+    .godly{
+        background: linear-gradient(to right, #d89924 , #6b5c1b) !important
+    }
 </style>

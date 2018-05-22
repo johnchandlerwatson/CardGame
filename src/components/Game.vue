@@ -1,7 +1,7 @@
 <template id="game">
-    <div v-if="model != null" :class="[isMobile ? 'mobile-arena' : 'desktop-arena']">
-        <div id="card-table">
-            <div id="enemy-cards" style="height: 10%;" class="hand-section">
+    <div v-if="model != null" :class="getArenaClass()">
+        <div id="card-table" :class="[isLandscape ? 'landscape-card-table' : 'normal-card-table']">
+            <div v-if="!isLandscape" id="enemy-cards" class="hand-section-horizontal">
                 <div class="card enemy-card" v-for="enemy in model.Game.User2.Hand" :key="enemy.Id">
                     <p>Enemy Card</p>
                 </div>               
@@ -13,7 +13,7 @@
                 </div>
                 <champion :champ="model.Game.User2.Champion"></champion>
             </div>
-            <div id="battlefield" style="height: 50%" class="even-rows-container">
+            <div id="battlefield" class="even-rows-container">
                 <div id="enemy-side" class="even-rows-container">
                     <div id="enemy-side-back" class="flex-row">
                         <div class="played-card" v-for="enemy in model.Game.User2.PlayedBack" :key="enemy.Id">
@@ -32,7 +32,7 @@
                             <playedCard :id="ally.Id" :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
-                            <div class="phantom-card" :class="{ displayed: frontHover }"></div>
+                            <div class="phantom-card" :class="{ displayed: hoverState.frontHover }"></div>
                         </div>
                     </div>
                     <div id="ally-side-back" class="flex-row">
@@ -40,7 +40,7 @@
                             <playedCard :id="ally.Id" :card="ally" :class="ally.Rarity.toLowerCase()" :isEnemy="false"></playedCard>
                         </div>
                         <div class="played-card">
-                            <div class="phantom-card" :class="{ displayed: backHover }"></div>
+                            <div class="phantom-card" :class="{ displayed: hoverState.backHover }"></div>
                         </div>
                     </div>
                 </div>
@@ -52,26 +52,13 @@
                 </div>
                 <champion :champ="model.Game.User1.Champion"></champion>
             </div>
-            <div id="ally-cards" style="height: 20%;" class="hand-section" :class="{'disabled': disabled}">
-                <div @click="selectCard(ally.Name)" @mouseover="onHover(ally.Row)" @mouseleave="offHover()" class="card ally-card" :class="ally.Rarity.toLowerCase()" v-for="ally in model.Game.User1.Hand" :key="ally.Id">
-                    <span>{{ally.Name}}</span><br>
-                    <span>Health: {{ally.Health}}</span><br>
-                    <span>Damage: {{ally.Damage}}</span><br>
-                    <span>Rarity: {{ally.Rarity}}</span><br>
-                    <span>Side: {{ally.Row}}</span><br>
-                </div>               
-                <input type="text" id="card-selected" hidden>
-                <timer ref="timer" v-if="!isBotGame()" v-on:forceTurn="selectCard(firstCard())"></timer>
-
-                <div v-if="disabled" class="disabled-overlay" id="disable-section">
-                    <h3>Waiting for oponent's move..</h3>
-                </div>
-            </div>
+            <handcards ref="handcards" v-on:hoverStateChange="updateHoverState" v-on:selectedCard="selectCard" v-if="!isLandscape" :model="model" :hello-model="helloModel" :disabled="disabled" :vertical="false"></handcards>
         </div>
         <div v-if="!isMobile" id="actions" class="action-section">
             <h4 class="centered">Actions</h4>
             <p class="actions-summary scrollable">{{model.MoveSummary}}</p>
         </div>
+        <handcards ref="handcards" v-on:hoverStateChange="updateHoverState" v-on:selectedCard="selectCard" :model="model" :hello-model="helloModel" :vertical="true" :disabled="disabled" v-else-if="isMobile && isLandscape"></handcards>
         <disconnected v-on:goToLobby="goToLobby()" v-if="enemyLeft"></disconnected>
         <gameover v-on:goToLobby="goToLobby()" :model="model" :helloModel="helloModel"></gameover>  
     </div>
@@ -81,22 +68,24 @@
   var signalR = require('../js/signalr.js').signalR
   import playedCard from './PlayedCard.vue'
   import gameover from './GameOver.vue'
-  import timer from './Timer.vue'
   import champion from './Champion.vue'
   import disconnected from './Disconnected.vue'
+  import handcards from './HandCards.vue'
 
   export default {
     name: 'game',
     props: ['helloModel'],
-    components: { playedCard, gameover, timer, champion, disconnected },
+    components: { playedCard, gameover, champion, disconnected, handcards },
     data () {
       return {
         model: null,
-        dragging: null,
         disabled: false,
         enemyLeft: false,
-        frontHover: false,
-        backHover: false
+        isLandscape: null,
+        hoverState: {
+          frontHover: false,
+          backHover: false
+        }
       }
     },
     created () {
@@ -108,6 +97,17 @@
           this.model = res.body
         })
       .catch((ex) => console.log(ex))
+
+      // watch for orientation changes
+      var vue = this
+      checkOrientation(vue)
+      window.onorientationchange = function () {
+        vue.isLandscape = !vue.isLandscape
+      }
+
+      function checkOrientation (vue) {
+        vue.isLandscape = window.innerWidth > window.innerHeight && vue.isMobile
+      }
 
       function connectSignalR (vue) {
         vue.connection = new signalR.HubConnection('/gamelobby', { logger: signalR.LogLevel.Error })
@@ -121,7 +121,7 @@
                 vue.disabled = false
               })
               .catch((ex) => console.log(ex))
-            vue.$refs.timer.resetTimer()
+            vue.$refs.handcards.resetTimer()
           }
         })
         vue.connection.on('PlayerLeft', (gameId) => {
@@ -135,9 +135,7 @@
     },
     methods: {
       selectCard: function (selection) {
-        this.frontHover = false
-        this.backHover = false
-        var userPair = { User1: this.$data.model.Game.User1, User2: this.$data.model.Game.User2 }
+        var userPair = { User1: this.model.Game.User1, User2: this.model.Game.User2 }
         var payload = { Selection: selection, UserPair: userPair, Username: this.helloModel.username, GameId: this.helloModel.gameId }
         this.$http.post('/api/Game/', JSON.stringify(payload)).then((response) => {
           if (response.body.PlayerGame) {
@@ -159,22 +157,19 @@
       goToLobby: function () {
         this.$emit('input', { componentName: 'gameLobby', deckName: this.helloModel.deckName, champName: this.helloModel.champName, username: this.helloModel.username })
       },
-      firstCard: function () {
-        return this.$data.model.Game.User1.Hand[0].Name
+      updateHoverState: function (hoverState) {
+        this.hoverState = hoverState
       },
-      isBotGame: function () {
-        return this.helloModel.gameId === null
-      },
-      onHover: function (row) {
-        if (row === 'Front') {
-          this.frontHover = true
+      getArenaClass: function () {
+        if (this.isMobile) {
+          if (this.isLandscape) {
+            return 'mobile-landscape-arena'
+          } else {
+            return 'mobile-portrait-arena'
+          }
         } else {
-          this.backHover = true
+          return 'desktop-arena'
         }
-      },
-      offHover: function () {
-        this.frontHover = false
-        this.backHover = false
       }
     },
     watch: {
@@ -202,33 +197,14 @@
         padding: 0;
     }
 
-    /* Common - Grey Uncommon - Red Rare - Orange Epic - Green Legendary - Blue Mythic - Purple Godly - Gold */
-    .common{
-        background: linear-gradient(to right, #3e3e41 , #504d4d) !important
+    .normal-card-table {
+        display: grid;
+        grid-template-rows: 10% 10% 50% 10% 20%
     }
 
-    .uncommon{
-        background: linear-gradient(to right, #c72424 , #5f0e0e) !important
-    }
-
-    .rare{
-        background: linear-gradient(to right, #dd9613 , #5c2908) !important
-    }
-
-    .epic{
-        background: linear-gradient(to right, #266430 , #023006) !important
-    }
-
-    .legendary{
-        background: linear-gradient(to right, #1c2aec , #06012b) !important
-    }
-
-    .mythic{
-        background: linear-gradient(to right, #561d7c , #1e0225) !important
-    }
-
-    .godly{
-        background: linear-gradient(to right, #d89924 , #6b5c1b) !important
+    .landscape-card-table {
+        display: grid;
+        grid-template-rows: 20% 60% 20%;
     }
 
     .attack-enemy { 
@@ -264,9 +240,16 @@
         overflow-x: hidden;
     }
 
-    .mobile-arena {
+    .mobile-portrait-arena {
         display: grid;
         grid-template-columns: 100%;
+        height: 100%;
+        overflow-x: hidden;
+    }
+
+    .mobile-landscape-arena {
+        display: grid;
+        grid-template-columns: 80% 20%;
         height: 100%;
         overflow-x: hidden;
     }
@@ -280,14 +263,6 @@
         border-top: #655539 dashed;
     }
 
-    .hand-section {
-        display: flex; 
-        flex-direction: row;
-        background-color: rgb(156, 156, 162);
-        position: relative;
-        width: 100%;
-    }
-
     .flex-row {
         display: flex; 
         flex-direction: row;
@@ -296,7 +271,6 @@
     }
 
     .champ-section {
-        height: 10%; 
         background-color: #948da0;
         border: #514863 solid;
         display: grid;
@@ -304,40 +278,13 @@
         grid-column-gap: 10%;
     }
 
-    .ally-card {
-        width: 150px;
-        cursor: pointer;
-        font-size: .8em;
-        padding-left: 20px;
-    }
-
-        .ally-card:hover {
-            border: #c3dbdb solid 4px;
-        }
-
     .enemy-card {
         font-size: .6em;
-    }
-
-    .card {
-        padding: 10px;
-        background: linear-gradient(to right, #6b5d5d , #504d4d);
-        color: #f3eeee;
-        margin: 10px;
-        border-radius: 10px;
-        box-shadow: black 2px 2px 4px 0px;
     }
 
     .username-section {
         margin-top: 10px;
         margin-left: 10px;
-    }
-
-    .selected {
-        background-color: #bbaaaa;
-        border-color: #a5a5de;
-        border-width: 5px;
-        border-style: groove;
     }
 
     .action-section {
@@ -386,23 +333,5 @@
         -o-filter: blur(1.5px);
         -ms-filter: blur(1.5px);
         filter: blur(1.5px);
-    }
-
-    .disabled-overlay {
-        opacity: 0.7;
-        background: #626263;
-        z-index: 1000;
-        position: absolute;
-        bottom: 0;
-        height: 100%;
-        width: 100%;
-        color: white;
-        text-align: center;
-        font-size: 2em;
-        padding-top: 20px;
-    }
-
-    .disabled {
-        pointer-events: none;
     }
 </style>
