@@ -1,7 +1,7 @@
 <template id="gameLobby">
   <div class="container game-lobby">
       <div id="top-area">
-        <h1>Game Lobby</h1>
+        <h2>Game Lobby</h2>
         <p>Current Games: {{model.CurrentGameCount}}</p>
         <button class="btn btn-primary" @click="joinGame()">Multiplayer Game</button>
         <button class="btn btn-primary" @click="goToArena()">Bot Game</button>
@@ -91,7 +91,7 @@
 <style scoped>
     .game-lobby {
       display: grid;
-      grid-template-rows: 0fr 42% 57%;
+      grid-template-rows: 0fr 40% 60%;
       height: 100%;
     }
 
