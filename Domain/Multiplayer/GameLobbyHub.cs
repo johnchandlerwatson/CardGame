@@ -52,5 +52,12 @@ namespace Vue.Domain.Multiplayer
         {
             await _hubContext.Clients.All.SendAsync("PlayerLeft", gameId.ToString());
         }
+
+        public async Task SendChatMessage(string user, string message)
+        {
+            var text = $"{user} : {message}";
+            ChatManager.AddMessage(text);
+            await Clients.All.SendAsync("ReceiveMessage", text);
+        }
     }
 }

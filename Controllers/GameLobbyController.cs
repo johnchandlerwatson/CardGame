@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Vue.Domain;
@@ -22,7 +23,8 @@ namespace Vue.Controllers
         {
             var model = new GameLobbyModel
             {
-                CurrentGameCount = GameManager.GameCount()
+                CurrentGameCount = GameManager.GameCount(),
+                Messages = ChatManager.GetMessages()
             };
             return Content(model.ToJson(), "application/json");
         }
@@ -46,5 +48,6 @@ namespace Vue.Controllers
     public class GameLobbyModel
     {
         public int CurrentGameCount { get; set; }
+        public List<string> Messages { get; set; }
     }
 }

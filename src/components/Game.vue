@@ -175,14 +175,15 @@
       }
     },
     watch: {
-      'model.Game.Actions': function (val, oldVal) {
-        if (val.length > 0) {
-          console.log(val)
-          for (var i = oldVal.length; i < val.length; i++) {
+      'model.Game.Actions': function (actions, previousActions) {
+        if (actions.length > 0) {
+          console.log(actions)
+          for (var i = previousActions.length; i < actions.length; i++) {
+            var action = actions[i]
             console.log('new action')
-            if (val[i].Actor) {
-              var actionCard = document.getElementById(val[i].Actor.Id)
-              this.showAction(actionCard, val[i])
+            if (action.Actor) {
+              var actionCard = document.getElementById(action.Actor.Id)
+              this.showAction(actionCard, action)
             } else {
               console.log('no Actor')
             }
