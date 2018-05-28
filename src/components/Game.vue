@@ -146,8 +146,10 @@
           }
         }).catch((ex) => console.log(ex))
       },
-      showAction: function (actionCard, owner, cardName) {
-        console.log(owner + '\'s ' + cardName + ' attacking someone')
+      showAction: function (actionCard, action) {
+        var owner = action.Actor.User.Username
+        var attackedCard = document.getElementById(action.DamagedCharacters[0].Id)
+        console.log(owner + '\'s ' + action.Actor.Name + ' attacking ' + attackedCard.id)
         if (owner === this.model.Game.User1.Username) {
           actionCard.classList.add('attack-enemy')
         } else {
@@ -180,7 +182,7 @@
             console.log('new action')
             if (val[i].Actor) {
               var actionCard = document.getElementById(val[i].Actor.Id)
-              this.showAction(actionCard, val[i].Actor.User.Username, val[i].Actor.Name)
+              this.showAction(actionCard, val[i])
             } else {
               console.log('no Actor')
             }
