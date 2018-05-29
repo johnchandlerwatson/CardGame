@@ -8,21 +8,20 @@ namespace Vue.Domain.Multiplayer
     {
         private static List<ChatMessage> _messages { get; set; } = new List<ChatMessage>();
 
-        public static void AddMessage(string message)
+        public static void AddMessage(ChatMessage message)
         {
-            var chatMessage = new ChatMessage(message);
-            _messages.Add(chatMessage);
+            _messages.Add(message);
         }
 
-        public static List<string> GetMessages()
+        public static List<ChatMessage> GetMessages()
         {
             DeleteOldMessages();
-            return _messages.OrderByDescending(x => x.DateSent).Select(x => x.Message).ToList();
+            return _messages.OrderByDescending(x => x.DateSent).ToList();        
         }
 
         private static void DeleteOldMessages()
         {
-            _messages.RemoveAll(x => x.DateSent < DateTime.Now.AddDays(-2));
+            _messages.RemoveAll(x => x.DateSent < DateTime.UtcNow.AddDays(-2));
         }
     }
 
@@ -31,7 +30,7 @@ namespace Vue.Domain.Multiplayer
         public ChatMessage(string message)
         {
             Message = message;
-            DateSent = DateTime.Now;
+            DateSent = DateTime.UtcNow;
         }
         public string Message { get; set; }
         public DateTime DateSent { get; set; }

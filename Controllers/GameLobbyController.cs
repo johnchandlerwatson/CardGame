@@ -8,7 +8,7 @@ using Vue.Utility;
 
 namespace Vue.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class GameLobbyController : Controller
     {
         private readonly IGameLobbyHub _hub;
@@ -18,13 +18,13 @@ namespace Vue.Controllers
             _hub = hub;
         }
 
-        [HttpGet]
+        [HttpGet("{offset}")]
         public ContentResult Index()
         {
             var model = new GameLobbyModel
             {
                 CurrentGameCount = GameManager.GameCount(),
-                Messages = ChatManager.GetMessages()
+                Messages = GetMessageModels()
             };
             return Content(model.ToJson(), "application/json");
         }
@@ -43,11 +43,33 @@ namespace Vue.Controllers
             _hub.SendMessage(gameId);
             return Content(new {Success= true}.ToJson(), "application/json");
         }
+
+        private List<ChatMessageModel> GetMessageModels()
+        {
+            var models = new List<ChatMessageModel>();
+            foreach (var message in ChatManager.GetMessages())
+            {
+                var model = new ChatMessageModel(message);
+                models.Add(model);
+            }
+            return models;
+        }
     }
 
     public class GameLobbyModel
     {
         public int CurrentGameCount { get; set; }
-        public List<string> Messages { get; set; }
+        public List<ChatMessageModel> Messages { get; set; }
+    }
+
+    public class ChatMessageModel 
+    {
+        public ChatMessageModel(ChatMessage message)
+        {
+            this.message = message.Message;
+            date = message.DateSent;
+        }
+        public string message { get; }
+        public DateTime date { get; set; }
     }
 }

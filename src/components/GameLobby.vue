@@ -6,7 +6,8 @@
         <button class="btn btn-primary" @click="joinGame()">Multiplayer Game</button>
         <button class="btn btn-primary" @click="goToArena()">Bot Game</button>
         <img class="loading" v-show="(this.joinGameModel.Id != '')" src="../assets/loading.gif">
-
+      </div>
+      <div id="bottom-area">
         <div id="chat-area" class="centered">
           <h3>Chat</h3>
           <form id="chat-input" v-on:submit.prevent="submitChat">
@@ -14,15 +15,19 @@
             <button @click="submitChat" id="submit-chat" class="btn btn-success">Submit</button>
           </form>
         </div>
-      </div>
-      <div class="messages">
-        <p v-for="message in model.Messages" :key="message.Id">{{message}}</p>
+        <div class="messages">
+          <div class="message" v-for="chatMessage in model.Messages" :key="chatMessage.Id">
+            <p>{{chatMessage.message}}</p>
+            <p class="date-sent">{{formatDate(chatMessage.date)}}</p>
+          </div>
+        </div>
       </div>
   </div>
 </template>
 
 <script>
   var signalR = require('../js/signalr.js').signalR
+  var moment = require('moment')
   export default {
     name: 'gameLobby',
     props: ['helloModel'],
@@ -36,8 +41,9 @@
     created () {
       connectSignalR(this)
 
+      var offset = new Date().getTimezoneOffset()
       this.$http
-        .get('/api/GameLobby')
+        .get('/api/GameLobby/Index/' + offset)
         .then((res) => {
           this.model = res.body
         })
@@ -51,8 +57,7 @@
           }
         })
         vue.connection.on('ReceiveMessage', (message) => {
-          var msg = message.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-          vue.model.Messages.unshift(msg)
+          vue.model.Messages.unshift(message)
         })
         vue.connection.start().catch(err => console.log(err))
       }
@@ -66,7 +71,7 @@
           this.joinGameModel = res.body
           this.connection.invoke('Subscribe', this.joinGameModel.Id).catch(err => console.error(err.toString()))
           if (this.joinGameModel.Full) {
-            this.$http.get('/api/GameLobby/' + this.joinGameModel.Id)
+            this.$http.get('/api/GameLobby/AlertClients/' + this.joinGameModel.Id)
               .catch(err => console.log(err))
             this.goToArena()
           }
@@ -82,6 +87,17 @@
           this.connection.invoke('SendChatMessage', this.helloModel.username, this.chat).catch(err => console.error(err.toString()))
           this.chat = ''
         }
+      },
+      formatDate: function (date) {
+        if (date === undefined) {
+          return ''
+        }
+        // strip off timezone
+        if (date.indexOf('Z') > 0) {
+          date = date.substring(0, date.indexOf('Z'))
+        }
+        var appliedTimeZone = moment.utc(date).utcOffset(moment().utcOffset()).calendar()
+        return appliedTimeZone
       }
     }
   }
@@ -91,7 +107,7 @@
 <style scoped>
     .game-lobby {
       display: grid;
-      grid-template-rows: 0fr 40% 60%;
+      grid-template-rows: 0fr 25% 60%;
       height: 100%;
     }
 
@@ -105,7 +121,20 @@
       padding: 10px;
       margin-top: 10px;
       overflow-y: auto;
+      overflow-x: hidden;
+      width: 92vw;
       height: 95%;
+    }
+
+    .message {
+      display: grid;
+      grid-template-columns: 70% 30%;
+    }
+
+    .date-sent {
+      font-size: .7em; 
+      text-align: right;
+      color: #6d6969;
     }
 
     .chat-input {

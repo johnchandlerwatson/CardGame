@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Vue.Controllers;
 
 namespace Vue.Domain.Multiplayer
 {
@@ -56,8 +57,10 @@ namespace Vue.Domain.Multiplayer
         public async Task SendChatMessage(string user, string message)
         {
             var text = $"{user} : {message}";
-            ChatManager.AddMessage(text);
-            await Clients.All.SendAsync("ReceiveMessage", text);
+            var chatMessage = new ChatMessage(text);
+            ChatManager.AddMessage(chatMessage);
+            var model = new ChatMessageModel(chatMessage);
+            await Clients.All.SendAsync("ReceiveMessage", model);
         }
     }
 }
