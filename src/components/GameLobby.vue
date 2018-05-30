@@ -17,8 +17,8 @@
         </div>
         <div class="messages">
           <div class="message" v-for="chatMessage in model.Messages" :key="chatMessage.Id">
-            <p>{{chatMessage.message}}</p>
-            <p class="date-sent">{{formatDate(chatMessage.date)}}</p>
+            <span class="chat-text">{{chatMessage.message}}</span>
+            <span class="date-sent">{{formatDate(chatMessage.date)}}</span>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@
         if (date.indexOf('Z') > 0) {
           date = date.substring(0, date.indexOf('Z'))
         }
-        var appliedTimeZone = moment.utc(date).utcOffset(moment().utcOffset()).calendar()
+        var appliedTimeZone = moment.utc(date).local().calendar()
         return appliedTimeZone
       }
     }
@@ -122,13 +122,13 @@
       margin-top: 10px;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 92vw;
+      width: 100%;
       height: 95%;
     }
 
     .message {
       display: grid;
-      grid-template-columns: 70% 30%;
+      grid-template-columns: 75% 25%;
     }
 
     .date-sent {
@@ -140,5 +140,18 @@
     .chat-input {
       border: #797979 solid 1px;
       border-radius: 4px;
+    }
+
+    .chat-text {    
+      background: #e5e8fb8f;
+      width: max-content;
+      max-width: 100%;
+      border-radius: 5px;
+      padding-left: 7px;
+      padding-right: 7px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      margin-bottom: 8px;
+      box-shadow: #a5a7c1bd 0.5px 0.5px 1px 1px;
     }
 </style>
