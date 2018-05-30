@@ -92,12 +92,12 @@
         if (date === undefined) {
           return ''
         }
-        // strip off timezone
+        // strip off timezone offset
         if (date.indexOf('Z') > 0) {
           date = date.substring(0, date.indexOf('Z'))
         }
-        var appliedTimeZone = moment.utc(date).local().calendar()
-        return appliedTimeZone
+        var localTime = moment.utc(date).local().calendar()
+        return localTime
       }
     }
   }
