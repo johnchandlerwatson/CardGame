@@ -64,7 +64,7 @@
     },
     methods: {
       joinGame: function () {
-        var url = '/api/GameLobby/' + this.helloModel.username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName
+        var url = '/api/GameLobby/JoinGame/' + this.helloModel.username + '/' + this.helloModel.deckName + '/' + this.helloModel.champName
         this.$http
         .get(url)
         .then((res) => {
