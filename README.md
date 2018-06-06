@@ -26,8 +26,9 @@
 ## Deploy
 * dotnet publish -c Release
 * docker build -t cards ./bin/release/netcoreapp2.0/publish
-* docker tag cards registry.heroku.com/heart-of-the-cards/web
-* docker push registry.heroku.com/heart-of-the-cards/web
+* docker tag cards registry.heroku.com/thevoidcardgame/web
+* docker push registry.heroku.com/thevoidcardgame/web
+* heroku container:release web --app thevoidcardgame
 
 (you might need to login)
 * heroku login
