@@ -11,8 +11,7 @@ namespace Vue.Domain
         public static List<IDeck> AllDecks => new List<IDeck>
         {
             new HumanDeck(),
-            new DaveDeck(),
-            new JoshDeck()
+            new GoblinDeck()
         };
 
         public static List<Champion> AllChamps => new List<Champion>
@@ -60,6 +59,7 @@ namespace Vue.Domain
         public static List<Card> GetRandomHand(User user)
         {
             var hand = new List<Card>();
+            var tries = 0;
             for (var i = 0; i < 3; i++)
             {
                 Card cardToAdd = null;
@@ -69,9 +69,14 @@ namespace Vue.Domain
                     cardToAdd = AddCardIfAllowed(hand, randomCard, user.Played);
                 }
 
-                if (cardToAdd == null)
+                if (tries > 5) //no infinite loop, just return what we can
+                {
+                    return hand;
+                }
+                else if (cardToAdd == null)
                 {
                     i = i - 1; //try again
+                    tries++;
                 }
                 else 
                 {

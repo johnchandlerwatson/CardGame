@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Vue.Utility;
 
 namespace Vue.Domain.Cards
 {
@@ -25,7 +26,8 @@ namespace Vue.Domain.Cards
             if (Targets == Row.Both) return enemyCards;
             var cardsToAttack = enemyCards.Where(x => x.Row == Targets).ToList();
             if (cardsToAttack.Any()) return cardsToAttack;
-            return enemyCards.Where(x => x.Row != Targets).ToList();
+            var correctCards =  enemyCards.Where(x => x.Row != Targets).ToList();
+            return correctCards.Shuffle();
         }
     }
 

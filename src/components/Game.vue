@@ -146,16 +146,6 @@
           }
         }).catch((ex) => console.log(ex))
       },
-      showAction: function (actionCard, action) {
-        var owner = action.Actor.User.Username
-        var attackedCard = document.getElementById(action.DamagedCharacters[0].Id)
-        console.log(owner + '\'s ' + action.Actor.Name + ' attacking ' + attackedCard.id)
-        if (owner === this.model.Game.User1.Username) {
-          actionCard.classList.add('attack-enemy')
-        } else {
-          actionCard.classList.add('attack-ally')
-        }
-      },
       goToLobby: function () {
         this.$emit('input', { componentName: 'gameLobby', deckName: this.helloModel.deckName, champName: this.helloModel.champName, username: this.helloModel.username })
       },
@@ -171,23 +161,6 @@
           }
         } else {
           return 'desktop-arena'
-        }
-      }
-    },
-    watch: {
-      'model.Game.Actions': function (actions, previousActions) {
-        if (actions.length > 0) {
-          console.log(actions)
-          for (var i = previousActions.length; i < actions.length; i++) {
-            var action = actions[i]
-            console.log('new action')
-            if (action.Actor) {
-              var actionCard = document.getElementById(action.Actor.Id)
-              this.showAction(actionCard, action)
-            } else {
-              console.log('no Actor')
-            }
-          }
         }
       }
     }

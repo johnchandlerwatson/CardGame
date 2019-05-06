@@ -26,6 +26,7 @@ namespace Vue.Domain
 
         public Character Attack(Character character)
         {
+            if (character == null) return null;
             character.Health = character.Health - Damage;
             return character;
         }
@@ -33,6 +34,7 @@ namespace Vue.Domain
         public List<Character> Attack(List<Card> characters)
         {
             var attackedCards = new List<Character>();
+            if (characters == null) return attackedCards;
             foreach (var cardToAttack in characters)
             {
                 attackedCards.Add(Attack(cardToAttack));

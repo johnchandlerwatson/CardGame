@@ -13,7 +13,7 @@ namespace Vue.Domain.Cards
         public override int Damage { get; set; } = 4;
         public override int Healing => 0;
         public override int Speed => 1;
-        public override int MaxHealth => 20;
+        public override int MaxHealth => 15;
         public override string Description => "Attacks two enemies in the front row";
 
         public override void ApplyMove(List<Card> enemyCards, List<Card> friendlyCards, Champion enemyChamp, List<GameAction> actions)

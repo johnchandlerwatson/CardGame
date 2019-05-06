@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Vue.Domain;
@@ -20,6 +21,20 @@ namespace Vue.Utility
                 TypeNameHandling = TypeNameHandling.Objects
             };
             return JsonConvert.SerializeObject(model, settings);
+        }
+
+        public static List<T> Shuffle<T>(this List<T> list)  
+        {  
+            var random = new Random();
+            var count = list.Count;
+            while (count > 1) {  
+                count--;  
+                var next = random.Next(count + 1);  
+                T value = list[next];  
+                list[next] = list[count];  
+                list[count] = value;  
+            }
+            return list;
         }
     }
 }

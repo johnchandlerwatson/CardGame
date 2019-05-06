@@ -9,7 +9,7 @@ namespace Vue.Domain
 {
     public class GameAction
     {
-        public GameAction(Character actor, List<Character> damagedCharacters, List<Character> healedCards)
+        public GameAction(Character actor, List<Character> damagedCharacters, List<Character> healedCards = null)
         {
             Target = damagedCharacters?.FirstOrDefault()?.User;
             ActorUser = actor.User;
